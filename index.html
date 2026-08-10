@@ -104,6 +104,8 @@ select{min-width:170px;cursor:pointer;appearance:none;
   padding-bottom:14px;border-bottom:1px solid var(--line-2)}
 .up-datebar .fld label{color:var(--cyan-d)}
 .up-slots{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.up-multi{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;background:var(--cyan-l);border:1px dashed var(--cyan);border-radius:var(--r-s);padding:11px 14px}
+.up-multi .up-multi-hint{font-size:12px;color:var(--cyan-d);font-weight:600;flex:1;min-width:180px}
 @media(max-width:640px){.up-slots{grid-template-columns:1fr}}
 .slot{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:var(--r-s);
   padding:12px 14px;background:var(--card-2);transition:.15s;cursor:pointer;position:relative}
@@ -247,6 +249,41 @@ select{min-width:170px;cursor:pointer;appearance:none;
 .pipcard-cond{display:flex;gap:8px}
 .pipcard-cond span{flex:1;text-align:center;font-size:11px;font-weight:800;padding:5px;border-radius:6px;background:var(--idle-bg);color:var(--mut)}
 .pipcard-cond span.hit{background:var(--bad-bg);color:var(--bad)}
+
+/* PIP tags + clickable badge */
+.pip-clickable{display:inline-flex;align-items:center;gap:6px;cursor:pointer;padding:2px;border-radius:8px;transition:.12s}
+.pip-clickable:hover{background:var(--line-2)}
+.pip-info{font-size:12px;color:var(--mut-2);font-weight:800}
+.tagpill{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:6px;font-size:11px;font-weight:800;color:#fff}
+.tagpill.tA{background:#8a63d2} .tagpill.tB{background:#d98a10} .tagpill.tC{background:#d64545}
+.pipcard-tags{margin-bottom:11px;display:flex;flex-direction:column;gap:5px}
+.ptag{font-size:11px;font-weight:700;padding:5px 9px;border-radius:7px;border-left:3px solid}
+.ptag.tA{background:#f3effc;border-color:#8a63d2;color:#5b3aa0}
+.ptag.tB{background:var(--warn-bg);border-color:#d98a10;color:#9a6207}
+.ptag.tC{background:var(--bad-bg);border-color:#d64545;color:#a52929}
+.pipcard-tap{font-size:11px;color:var(--cyan-d);font-weight:700;margin-top:2px;cursor:pointer}
+.pipcard-week{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;padding-top:8px;border-top:1px solid var(--line-2)}
+.pipcard-week b.okc{color:var(--ok)} .pipcard-week b.badc{color:var(--bad)}
+
+/* PIP detail dialog */
+.pipdlg-overlay{position:fixed;inset:0;z-index:300;background:rgba(29,35,43,.55);display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(3px)}
+.pipdlg{background:#fff;border-radius:18px;max-width:440px;width:100%;padding:26px 24px;box-shadow:var(--shadow-l);max-height:85vh;overflow:auto}
+.pipdlg-badge{display:inline-block;font-family:var(--f-disp);font-size:14px;padding:5px 14px;border-radius:20px;margin-bottom:10px}
+.pipdlg-badge.l1{background:var(--warn-bg);color:var(--warn)}
+.pipdlg-badge.l2{background:var(--bad-bg);color:var(--bad)}
+.pipdlg-clear{width:56px;height:56px;border-radius:50%;background:var(--ok-bg);color:var(--ok);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;margin-bottom:10px}
+.pipdlg h3{font-family:var(--f-disp);font-size:20px;margin-bottom:4px}
+.pipdlg-sub{font-size:13px;color:var(--mut);font-weight:500;margin-bottom:18px;line-height:1.5}
+.pipdlg-tags{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.pipdlg-tag{border:1px solid var(--line);border-radius:12px;padding:14px;border-left-width:4px}
+.pipdlg-tag.tA{border-left-color:#8a63d2} .pipdlg-tag.tB{border-left-color:#d98a10} .pipdlg-tag.tC{border-left-color:#d64545}
+.pdt-head{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.pdt-badge{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0}
+.pdt-badge.tA{background:#8a63d2} .pdt-badge.tB{background:#d98a10} .pdt-badge.tC{background:#d64545}
+.pdt-head b{font-size:14px}
+.pdt-why{font-size:12.5px;color:var(--ink-2);font-weight:500;margin-bottom:9px;line-height:1.5}
+.pdt-clear{font-size:12.5px;color:var(--ok);font-weight:700;background:var(--ok-bg);padding:9px 11px;border-radius:8px;line-height:1.5}
+.pipdlg-close{width:100%;margin-top:4px}
 .histlist{display:flex;flex-direction:column;gap:2px}
 .histrow{display:flex;align-items:center;gap:14px;padding:9px 4px;border-bottom:1px solid var(--line-2)}
 .histrow:last-child{border-bottom:0}
@@ -405,6 +442,27 @@ select{min-width:170px;cursor:pointer;appearance:none;
 .admin-only{display:none}
 body.is-admin .admin-only{display:block}
 body.is-admin .admin-only.inl{display:inline-flex}
+/* When logged in as an FM, hide the role toggle and the preview-as picker entirely */
+body.locked-fm #roleToggle{display:none}
+body.locked-fm .fmv-preview-row{display:none !important}
+/* Login overlay */
+#loginGate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(160deg,var(--cream,#fbf7ef),#eef3f6);padding:20px}
+#loginGate.hidden{display:none}
+.login-card{width:100%;max-width:380px;background:#fff;border-radius:20px;padding:32px 28px;
+  box-shadow:0 20px 60px rgba(0,0,0,.14);border:1px solid rgba(0,0,0,.05)}
+.login-card h2{margin:0 0 4px;font-family:'Archivo Black',system-ui,sans-serif;font-size:22px}
+.login-card .sub{margin:0 0 22px;color:#6b7280;font-size:13px}
+.login-card label{display:block;font-size:12px;font-weight:600;color:#374151;margin:14px 0 6px}
+.login-card input{width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid #d1d5db;border-radius:11px;font-size:15px}
+.login-card input:focus{outline:none;border-color:var(--cyan,#06b6d4);box-shadow:0 0 0 3px rgba(6,182,212,.15)}
+.login-card button{width:100%;margin-top:20px;padding:13px;border:none;border-radius:11px;cursor:pointer;
+  background:var(--cyan,#06b6d4);color:#fff;font-size:15px;font-weight:700}
+.login-card button:disabled{opacity:.6;cursor:default}
+.login-err{margin-top:14px;color:#b91c1c;font-size:13px;min-height:18px;text-align:center}
+.login-logo{width:44px;height:44px;border-radius:12px;object-fit:contain;margin-bottom:14px;display:block}
+#logoutBtn{display:none}
+body.is-authed #logoutBtn{display:inline-flex}
 body.is-fm .fm-hide{display:none}
 
 /* ============================================================
@@ -564,6 +622,21 @@ body.is-fm .admin-view{display:none}   /* hide the admin plan/phases when FM */
 </style>
 </head><body class="is-admin">
 
+<!-- LOGIN GATE (shown until authenticated) -->
+<div id="loginGate">
+  <div class="login-card">
+    <img id="loginLogo" class="login-logo" alt="Mr. Goli Soda">
+    <h2>Day Plan</h2>
+    <p class="sub">Sign in to continue</p>
+    <label for="loginEmail">Login ID</label>
+    <input id="loginEmail" type="text" autocomplete="username" placeholder="yourname@mrgolisoda.com" autocapitalize="off" spellcheck="false">
+    <label for="loginPass">Password</label>
+    <input id="loginPass" type="password" autocomplete="current-password" placeholder="••••••••">
+    <button id="loginBtn">Sign in</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
 <!-- TOP BAR -->
 <div class="topbar">
   <div class="topbar-in">
@@ -579,6 +652,7 @@ body.is-fm .admin-view{display:none}   /* hide the admin plan/phases when FM */
       <button data-role="fm">FM view</button>
       <button data-role="admin" class="on">Admin</button>
     </div>
+    <button class="btn btn-ghost btn-sm inl" id="logoutBtn" style="margin-left:10px;font-size:12px">Sign out</button>
   </div>
 </div>
 
@@ -833,7 +907,7 @@ const SB_HEADERS={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type
 /* Pull one key's value + updated_at. Returns {value,updatedAt} or null. */
 async function sbGet(k){
   try{
-    const r=await fetch(SB_URL+'/app_state?key=eq.'+encodeURIComponent(k)+'&select=value,updated_at',{headers:SB_HEADERS});
+    const r=await fetch(SB_URL+'/app_state?key=eq.'+encodeURIComponent(k)+'&select=value,updated_at',{headers:sbAuthHeaders()});
     if(!r.ok)throw new Error('HTTP '+r.status);
     const rows=await r.json();
     if(!rows.length)return null;
@@ -846,7 +920,7 @@ async function sbSet(k,v){
     const body=JSON.stringify([{key:k,value:v,updated_at:new Date().toISOString()}]);
     const r=await fetch(SB_URL+'/app_state?on_conflict=key',{
       method:'POST',
-      headers:{...SB_HEADERS,'Prefer':'resolution=merge-duplicates,return=minimal'},
+      headers:{...sbAuthHeaders(),'Prefer':'resolution=merge-duplicates,return=minimal'},
       body
     });
     if(!r.ok)throw new Error('HTTP '+r.status);
@@ -856,9 +930,61 @@ async function sbSet(k,v){
 /* Delete one key (used by reset-all). */
 async function sbDel(k){
   try{
-    await fetch(SB_URL+'/app_state?key=eq.'+encodeURIComponent(k),{method:'DELETE',headers:SB_HEADERS});
+    await fetch(SB_URL+'/app_state?key=eq.'+encodeURIComponent(k),{method:'DELETE',headers:sbAuthHeaders()});
     return true;
   }catch(e){SB_OK=false;return false;}
+}
+
+/* ============================================================
+   SUPABASE AUTH (real accounts; role = admin | fm)
+   ============================================================ */
+const SB_AUTH=SB_URL.replace('/rest/v1','')+'/auth/v1';
+const AUTH={token:null, role:null, fmName:null, email:null};
+const AUTH_STORE='safc_auth_session';
+/* Headers carrying the logged-in user's token (falls back to anon pre-login). */
+function sbAuthHeaders(){
+  const t=AUTH.token||SB_KEY;
+  return {'apikey':SB_KEY,'Authorization':'Bearer '+t,'Content-Type':'application/json'};
+}
+/* Sign in with email+password. Returns {ok} or {ok:false,msg}. */
+async function authLogin(email,password){
+  try{
+    const r=await fetch(SB_AUTH+'/token?grant_type=password',{
+      method:'POST',
+      headers:{'apikey':SB_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({email:email.trim().toLowerCase(),password})
+    });
+    const data=await r.json();
+    if(!r.ok||!data.access_token){
+      return {ok:false,msg:(data&&(data.msg||data.error_description||data.error))||'Login failed'};
+    }
+    AUTH.token=data.access_token; AUTH.email=email.trim().toLowerCase();
+    const p=await fetch(SB_URL+'/profiles?select=role,fm_name,display_name',{headers:sbAuthHeaders()});
+    const rows=await p.json();
+    if(!Array.isArray(rows)||!rows.length){return {ok:false,msg:'No profile for this account'};}
+    AUTH.role=rows[0].role; AUTH.fmName=rows[0].fm_name;
+    try{localStorage.setItem(AUTH_STORE,JSON.stringify({token:AUTH.token,role:AUTH.role,fmName:AUTH.fmName,email:AUTH.email,ts:Date.now()}));}catch(e){}
+    return {ok:true};
+  }catch(e){return {ok:false,msg:'Network error — check connection'};}
+}
+/* Restore a saved session on page load; verifies the token still works. */
+async function authRestore(){
+  let s=null; try{s=JSON.parse(localStorage.getItem(AUTH_STORE)||'null');}catch(e){}
+  if(!s||!s.token)return false;
+  AUTH.token=s.token; AUTH.role=s.role; AUTH.fmName=s.fmName; AUTH.email=s.email;
+  try{
+    const p=await fetch(SB_URL+'/profiles?select=role,fm_name',{headers:sbAuthHeaders()});
+    if(!p.ok){authLogout(true);return false;}
+    const rows=await p.json();
+    if(!Array.isArray(rows)||!rows.length){authLogout(true);return false;}
+    AUTH.role=rows[0].role; AUTH.fmName=rows[0].fm_name;
+    return true;
+  }catch(e){return false;}
+}
+function authLogout(silent){
+  AUTH.token=null; AUTH.role=null; AUTH.fmName=null; AUTH.email=null;
+  try{localStorage.removeItem(AUTH_STORE);}catch(e){}
+  if(!silent)location.reload();
 }
 
 /* ============================================================
@@ -883,7 +1009,7 @@ const STATE={
   eodActivity:null,
   // --- PIP engine ---
   pipDays:{},         // dateISO -> { [fm]: {talkMins, noteMiss:bool, remMiss:bool, shotMiss:bool} }
-  pipCfg:{dailyMin:240, streakDays:3, warnPerWeek:6}, // editable thresholds
+  pipCfg:{dailyMin:240, streakDays:3, warnPerWeek:6, windowDays:14}, // editable thresholds
   dayActivity:{},     // dateISO -> full activity map (for redrawing review per date)
   coverage:{},        // dateISO -> {all:rows, call:rows, status:rows, wa:rows, note:rows}
 };
@@ -905,10 +1031,9 @@ async function persist(){
     sbSet('buckets',STATE.buckets),sbSet('plans',STATE.plans),
     sbSet('pipDays',STATE.pipDays),sbSet('pipCfg',STATE.pipCfg),
     sbSet('dayActivity',STATE.dayActivity),sbSet('coverage',STATE.coverage)
-  ]).then(()=>{if(!SB_OK)toast('Saved locally — cloud sync unavailable','bad');});
+  ]).then(()=>{if(!SB_OK&&typeof toast==='function')toast('Saved locally — cloud sync unavailable','bad');});
 }
 async function loadState(){
-  // 1) local cache first (instant, works offline)
   const bk=await idbGet('buckets');if(bk)STATE.buckets=bk;
   // migrate an old single-bucket store if present
   const oldB=await idbGet('bucket');if(oldB&&oldB.date&&!STATE.buckets[oldB.date])STATE.buckets[oldB.date]=oldB;
@@ -919,8 +1044,8 @@ async function loadState(){
   const cv=await idbGet('coverage');if(cv)STATE.coverage=cv;
   const localTs=(await idbGet('_ts'))||0;
 
-  // 2) overlay cloud copies that are newer than our last local write,
-  //    so plans/data other users saved show up here too.
+  // overlay cloud copies that are newer than our last local write,
+  // so plans/data other users saved show up here too.
   try{
     const rows=await Promise.all(SYNC_KEYS.map(k=>sbGet(k)));
     let pulledNewer=false;
@@ -928,8 +1053,6 @@ async function loadState(){
       const row=rows[i];
       if(!row||row.value==null)return;
       const cloudTs=row.updatedAt?Date.parse(row.updatedAt):0;
-      // take cloud when it's strictly newer than our local snapshot,
-      // or when we have nothing local at all for this key.
       const haveLocal=(k==='buckets'&&bk)||(k==='plans'&&p)||(k==='pipDays'&&pd)||
                       (k==='pipCfg'&&pc)||(k==='dayActivity'&&da)||(k==='coverage'&&cv);
       if(!haveLocal || cloudTs>localTs){
@@ -938,8 +1061,6 @@ async function loadState(){
         pulledNewer=true;
       }
     });
-    // if we adopted anything from the cloud, refresh the local cache so
-    // the next comparison is against the merged state.
     if(pulledNewer){
       await idbSet('buckets',STATE.buckets);await idbSet('plans',STATE.plans);
       await idbSet('pipDays',STATE.pipDays);await idbSet('pipCfg',STATE.pipCfg);
@@ -1220,70 +1341,106 @@ function aggAllRange(from,to){
 
 /* Evaluate one FM across all stored history.
    Returns {level:0|1|2, hitsA:[dates], weeksB:[wk], weeksC:[{wk,marks}], detail} */
+/* ============================================================
+   PIP EVALUATION — three independent tags, symmetric (raise & clear)
+   Window: only the last `windowDays` (default 14) of stored data counts.
+   Tag A "3 days under target": talk<240 for `streakDays` consecutive days.
+       CLEARS when the most-recent `streakDays` consecutive days each have
+       talk>=240 AND zero warnings (stricter recovery).
+   Tag B "weekly avg under 240": current week's avg talk < 240.
+       CLEARS when the current week's avg >= 240.
+   Tag C "6+ warnings in a week": current week has >= warnPerWeek warning-marks.
+       CLEARS when the current week has < warnPerWeek warnings.
+   Level = number of currently-ACTIVE tags: 1 => PIP1, 2+ => PIP2, 0 => clear.
+   ============================================================ */
 function evalPip(fm){
   const cfg=STATE.pipCfg;
-  const dates=pipDatesSorted().filter(d=>STATE.pipDays[d][fm]); // days this FM has data
-  const firings=[]; // each element = a distinct condition-firing (for escalation count)
+  const windowDays=cfg.windowDays||14;
+  // reference "today" = latest stored date overall (so it works on historical data too)
+  const allDates=pipDatesSorted();
+  if(!allDates.length)return emptyPip(fm);
+  const refISO=allDates[allDates.length-1];
+  const winStart=shiftISO(refISO, -(windowDays-1));
+  // this FM's days within the window, chronological
+  const dates=allDates.filter(d=>d>=winStart && STATE.pipDays[d] && STATE.pipDays[d][fm]);
+  if(!dates.length)return emptyPip(fm);
 
-  // ---- Condition A: consecutive days under dailyMin ----
-  // walk consecutive stored days (by calendar adjacency)
-  let run=0, runDates=[], hitsA=[];
+  const rec=d=>STATE.pipDays[d][fm];
+  const isCleanDay=d=>{const r=rec(d);return r && r.talkMins>=cfg.dailyMin && warnMarksForDay(r)===0;};
+
+  // ----- current week (the week containing refISO) -----
+  const curWk=weekStartISO(refISO);
+  const wkDates=dates.filter(d=>weekStartISO(d)===curWk);
+  const wkTalks=wkDates.map(d=>rec(d).talkMins);
+  const wkAvg = wkTalks.length ? Math.round(wkTalks.reduce((a,b)=>a+b,0)/wkTalks.length) : null;
+  const wkWarns = wkDates.reduce((a,d)=>a+warnMarksForDay(rec(d)),0);
+
+  // ----- TAG A: 3 consecutive days under target (within window) -----
+  // active if the most recent `streakDays` consecutive calendar days are all under.
+  // recovered if the most recent `streakDays` consecutive days are all clean.
+  const tagA_active = hasConsecutive(dates, cfg.streakDays, d=>rec(d).talkMins<cfg.dailyMin);
+  const tagA_recovered = hasConsecutiveRecent(dates, cfg.streakDays, isCleanDay);
+  // A is ON if there's a recent under-streak AND not yet a clean recovery streak after it
+  const tagA = tagA_active && !tagA_recovered;
+
+  // ----- TAG B: current week average under 240 -----
+  const tagB = (wkAvg!==null && wkDates.length>0 && wkAvg<cfg.dailyMin);
+
+  // ----- TAG C: 6+ warnings in current week -----
+  const tagC = (wkWarns>=cfg.warnPerWeek);
+
+  // build active tag list
+  const tags=[];
+  if(tagA)tags.push({
+    id:'A', label:'Tag A · 3 days under target',
+    why:`Talk time was below ${cfg.dailyMin} min for ${cfg.streakDays} days running.`,
+    clear:`Clear it: hit ${cfg.dailyMin}+ min talk time for ${cfg.streakDays} days in a row, with no missed notes or reminders on those days.`
+  });
+  if(tagB)tags.push({
+    id:'B', label:'Tag B · weekly average low',
+    why:`This week's average talk time is ${wkAvg} min — below ${cfg.dailyMin}.`,
+    clear:`Clear it: bring this week's average talk time up to ${cfg.dailyMin}+ min.`
+  });
+  if(tagC)tags.push({
+    id:'C', label:`Tag C · ${cfg.warnPerWeek}+ warnings this week`,
+    why:`You have ${wkWarns} warning-marks this week (missed notes / reminders / screenshots).`,
+    clear:`Clear it: keep this week's warnings under ${cfg.warnPerWeek} — make notes and reminders on every planned lead.`
+  });
+
+  const level=Math.min(2, tags.length);
+  return {
+    fm, level, tags,
+    daysTracked:dates.length, windowDays,
+    wkAvg, wkWarns, wkDays:wkDates.length,
+    // legacy fields some UI still reads:
+    talkFlag:(tagA||tagB), warnFlag:tagC,
+    reasons:tags.map(t=>t.label),
+  };
+}
+function emptyPip(fm){return {fm,level:0,tags:[],daysTracked:0,windowDays:(STATE.pipCfg.windowDays||14),wkAvg:null,wkWarns:0,wkDays:0,talkFlag:false,warnFlag:false,reasons:[]};}
+
+/* is there ANY run of `n` consecutive calendar days in `dates` all passing test? */
+function hasConsecutive(dates, n, test){
+  let run=0;
   for(let i=0;i<dates.length;i++){
-    const d=dates[i];
-    const rec=STATE.pipDays[d][fm];
-    const under=rec.talkMins<cfg.dailyMin;
-    // adjacency check: is d exactly 1 day after previous stored date?
-    let adjacent=false;
-    if(i>0){
-      const prev=new Date(dates[i-1]); const cur=new Date(d);
-      adjacent=Math.round((cur-prev)/86400000)===1;
-    }
-    if(under){
-      if(adjacent||run===0){run++;runDates.push(d);}
-      else {run=1;runDates=[d];}
-    } else {run=0;runDates=[];}
-    if(run>=cfg.streakDays){hitsA.push([...runDates]);}
+    const pass=test(dates[i]);
+    const adjacent = i>0 && Math.round((new Date(dates[i])-new Date(dates[i-1]))/86400000)===1;
+    if(pass){ run = (adjacent||run===0)?run+1:1; if(run>=n)return true; }
+    else run=0;
   }
-  // dedupe overlapping A-hits into distinct firings (one per completed streak window)
-  const aFirings=hitsA.length; // number of times the streak threshold was reached
-
-  // ---- Condition B & C: per Mon–Sun week ----
-  const weeks={};
-  for(const d of dates){
-    const wk=weekStartISO(d);
-    (weeks[wk]=weeks[wk]||[]).push(d);
+  return false;
+}
+/* are the MOST RECENT `n` consecutive stored days all passing test?
+   (used for recovery — must be the latest days, not any old streak) */
+function hasConsecutiveRecent(dates, n, test){
+  if(dates.length<n)return false;
+  const last=dates.slice(-n);
+  // must be calendar-consecutive and all pass
+  for(let i=0;i<last.length;i++){
+    if(!test(last[i]))return false;
+    if(i>0 && Math.round((new Date(last[i])-new Date(last[i-1]))/86400000)!==1)return false;
   }
-  const weeksB=[], weeksC=[];
-  for(const wk of Object.keys(weeks).sort()){
-    const ds=weeks[wk];
-    const talks=ds.map(d=>STATE.pipDays[d][fm].talkMins);
-    const avg=talks.reduce((a,b)=>a+b,0)/talks.length;
-    if(avg<cfg.dailyMin)weeksB.push({wk,avg:Math.round(avg),days:ds.length});
-    const marks=ds.reduce((a,d)=>a+warnMarksForDay(STATE.pipDays[d][fm]),0);
-    if(marks>=cfg.warnPerWeek)weeksC.push({wk,marks});
-  }
-
-  // ---- Escalation model ----
-  // A and B are the SAME underlying failure (talk-time), so they collapse into
-  // ONE flag if either fires. C (warnings) is a DIFFERENT failure. PIP level =
-  // number of distinct failure dimensions: 1 dimension = PIP 1, 2 = PIP 2.
-  const talkFlag = (aFirings>0 || weeksB.length>0);   // dimension 1: talk-time
-  const warnFlag = (weeksC.length>0);                  // dimension 2: discipline
-  const dimensions = (talkFlag?1:0) + (warnFlag?1:0);
-  const level = Math.min(2, dimensions);
-
-  // reason for the CURRENT state
-  const reasons=[];
-  if(talkFlag){
-    const bits=[];
-    if(aFirings)bits.push(cfg.streakDays+'+ days under '+cfg.dailyMin+'m');
-    if(weeksB.length)bits.push('weekly avg under '+cfg.dailyMin+'m');
-    reasons.push('Talk-time: '+bits.join(' & '));
-  }
-  if(warnFlag)reasons.push('Discipline: '+cfg.warnPerWeek+'+ warnings in a week');
-
-  return {fm, level, aFirings, hitsA, weeksB, weeksC,
-          talkFlag, warnFlag, dimensions, reasons, daysTracked:dates.length};
+  return true;
 }
 
 /* PIP status for ALL fms who have any history */
@@ -1328,9 +1485,14 @@ const FMV={filter:'all', tab:'plan'}; // tab: plan | progress | result
 function renderFMMobile(){
   const host=$('#fmView');
   const fms = STATE.bucket ? STATE.bucket.fms : [];
-  // No login yet (pre-Supabase): if no FM chosen, default to the first available so
-  // the tabs are usable. A "preview as" picker lets admin check each FM's view.
-  if(!STATE.sel.fm && fms.length)STATE.sel.fm=fms[0];
+  const lockedFM = (AUTH.role==='fm') ? (AUTH.fmName||null) : null;
+  if(lockedFM){
+    // A logged-in FM is always pinned to their own name, regardless of the bucket.
+    STATE.sel.fm = lockedFM;
+  }else if(!STATE.sel.fm && fms.length){
+    // Admin previewing with nothing chosen: default to first available.
+    STATE.sel.fm=fms[0];
+  }
   const fm=STATE.sel.fm;
 
   if(!fm){
@@ -1346,8 +1508,9 @@ function renderFMMobile(){
   const plan=currentPlan();
   const totalLeads=STAGES.reduce((a,st)=>a+byStage[st.id].length,0);
 
-  // "preview as" FM picker — temporary until Supabase login identifies the FM
-  const previewPicker = fms.length>1 ? `<select class="fmv-whoami" id="fmvWho">${fms.map(f=>`<option value="${esc(f)}" ${f===fm?'selected':''}>${esc(f)}</option>`).join('')}</select>` : '';
+  // "preview as" FM picker — ADMIN ONLY (lets admin inspect each FM's view).
+  // A logged-in FM never sees this; they're locked to their own name.
+  const previewPicker = (AUTH.role!=='fm' && fms.length>1) ? `<select class="fmv-whoami" id="fmvWho">${fms.map(f=>`<option value="${esc(f)}" ${f===fm?'selected':''}>${esc(f)}</option>`).join('')}</select>` : '';
 
   // header (constant across tabs)
   let html=`<div class="fmv-head">
@@ -1663,10 +1826,13 @@ function fmPipBannerData(fm){
   if(!dates.length)return null;
   const r=evalPip(fm);
   if(r.level===0)return null;
+  // list the active tag labels + the clearing instruction for each
+  const tagLine=r.tags.map(t=>t.label).join(' · ');
+  const clearLine=r.tags.map(t=>t.clear.replace(/^Clear it: /,'')).join(' ');
   return {
     cls:r.level===2?'p2':'p1', icon:r.level===2?'⛔':'⚠',
-    title:r.level===2?'You are under PIP 2':'You are under PIP 1',
-    msg:(r.level===2?'Multiple targets missed. Hit today\'s target — further shortfalls may have serious consequences.':'Below the required standard. Complete today\'s target to avoid escalation.')
+    title:`You are under PIP ${r.level} — ${tagLine}`,
+    msg:`To clear: ${clearLine}`
   };
 }
 
@@ -2167,6 +2333,10 @@ function buildUploader(cfg){
         <div class="up-status" id="${pfx}_upStatus"></div>
       </div>
     </div>
+    <div class="up-multi">
+      <button class="btn btn-primary btn-sm" id="${pfx}_multiBtn">⬆ Add all 5 at once</button>
+      <span class="up-multi-hint">Select all your report files together — they'll sort into the right slots automatically.</span>
+    </div>
     <div class="up-slots" id="${pfx}_slots">
       ${REPORT_SLOTS.map(s=>{
         const req = cfg.requireAll || (pfx==='plan'&&s.id==='all');
@@ -2190,6 +2360,42 @@ function buildUploader(cfg){
   dateEl.value=store.date;
   dateEl.addEventListener('change',()=>{
     changeSelectedDate(dateEl.value, pfx);
+  });
+
+  // "Add all 5 at once" — multi-select input; each file auto-routed by detectSlot
+  const multiInput=document.createElement('input');
+  multiInput.type='file';multiInput.accept='.csv';multiInput.multiple=true;multiInput.style.display='none';
+  document.body.appendChild(multiInput);
+  const multiBtn=$('#'+pfx+'_multiBtn');
+  if(multiBtn)multiBtn.addEventListener('click',()=>multiInput.click());
+  multiInput.addEventListener('change',async()=>{
+    const files=[...multiInput.files];multiInput.value='';
+    if(!files.length)return;
+    let ok=0,skip=0,allText=null,allName=null;
+    // Read + detect every file. Hold the ALLREPORT aside so its bucket-build
+    // (which re-renders the uploader) happens AFTER all slots are populated.
+    for(const f of files){
+      let text;
+      try{text=await readFile(f);}catch(e){skip++;continue;}
+      const detected=detectSlot(f.name,text);
+      if(!detected){skip++;toast('Couldn\'t identify "'+f.name.slice(0,22)+'" — skipped','bad');continue;}
+      if(detected==='all'&&cfg.phase==='plan'){allText=text;allName=f.name;}
+      store.files[detected]={name:f.name,text};
+      paintSlot(cfg,detected);
+      const rows=Math.max(0,parseCSV(text).length-1);
+      (STATE.coverage[store.date]=STATE.coverage[store.date]||{})[detected]=rows;
+      ok++;
+    }
+    // Now build the bucket once (this re-renders, but all slots are already set)
+    if(allText){
+      try{
+        ingestBucket(allText);
+        fillFMSelect();renderPlan();updateFooter();
+      }catch(err){toast(err.message||'Bad ALLREPORT','bad');delete store.files.all;paintSlot(cfg,'all');}
+    }
+    await persist();
+    updateUpStatus(cfg);
+    toast(ok+' file'+(ok===1?'':'s')+' sorted into slots'+(skip?' · '+skip+' skipped':''),'ok');
   });
 
   // one hidden input reused per slot click
@@ -2218,8 +2424,13 @@ async function acceptFile(cfg,file,slotHint){
   try{text=await readFile(file);}catch(e){toast('Could not read '+file.name,'bad');return;}
   // auto-detect true slot; if it disagrees with the one clicked, trust detection
   const detected=detectSlot(file.name,text)||slotHint;
-  if(detected!==slotHint){
-    toast('Filed “'+file.name.slice(0,22)+'…” as '+SLOT_BY_ID[detected].label,'ok');
+  if(!detected){
+    // couldn't tell what this file is (multi-upload with an unrecognised file)
+    toast('Couldn\'t identify "'+file.name.slice(0,26)+'" — skipped','bad');
+    throw new Error('undetected');
+  }
+  if(slotHint && detected!==slotHint){
+    toast('Filed "'+file.name.slice(0,22)+'…" as '+SLOT_BY_ID[detected].label,'ok');
   }
   cfg.store.files[detected]={name:file.name,text};
   paintSlot(cfg,detected);
@@ -2473,7 +2684,8 @@ function renderPip(){
     <div class="cfg-row">
       <div class="fld"><label>Daily minimum (min)</label><input type="number" min="1" id="cfgDaily" value="${cfg.dailyMin}"></div>
       <div class="fld"><label>Consecutive days (Condition A)</label><input type="number" min="1" id="cfgStreak" value="${cfg.streakDays}"></div>
-      <div class="fld"><label>Warnings / week (Condition C)</label><input type="number" min="1" id="cfgWarn" value="${cfg.warnPerWeek}"></div>
+      <div class="fld"><label>Warnings / week (Tag C)</label><input type="number" min="1" id="cfgWarn" value="${cfg.warnPerWeek}"></div>
+      <div class="fld"><label>Window (days looked back)</label><input type="number" min="7" id="cfgWindow" value="${cfg.windowDays||14}"></div>
       <button class="btn btn-primary btn-sm" id="cfgSave">Apply</button>
     </div>
     <div class="cfg-legend">
@@ -2518,20 +2730,23 @@ function renderPip(){
       const marks=warnMarksForDay(rec);
       return `<span class="daychip ${under?'under':'ok'}" title="${d}: ${rec.talkMins}m${marks?', '+marks+' warn':''}">${rec.talkMins}</span>`;
     }).join('');
+    // active tag pills (A/B/C)
+    const tagPills = r.tags.length
+      ? r.tags.map(t=>`<span class="tagpill t${t.id}">${t.id}</span>`).join('')
+      : '';
     html+=`<div class="pipcard l${r.level}">
       <div class="pipcard-hd">
         <span class="pipcard-fm">${esc(r.fm)}</span>
-        ${pipLevelChip(r.level)}
+        <span class="pip-clickable" data-pipdetail="${esc(r.fm)}">${pipLevelChip(r.level)}${tagPills}${r.level?'<span class="pip-info">ⓘ</span>':''}</span>
       </div>
-      ${r.reasons.length?`<div class="pipcard-why">${r.reasons.map(x=>'<span>'+esc(x)+'</span>').join('')}</div>`:'<div class="pipcard-why clear">No conditions triggered</div>'}
+      ${r.tags.length
+        ? `<div class="pipcard-tags">${r.tags.map(t=>`<div class="ptag t${t.id}"><b>${esc(t.label)}</b></div>`).join('')}<div class="pipcard-tap" data-pipdetail="${esc(r.fm)}">Tap the badge for how to clear →</div></div>`
+        : '<div class="pipcard-why clear">✓ No active flags — performing to standard</div>'}
       <div class="pipcard-days">
-        <div class="pd-lbl">Talk mins by day (red = under ${cfg.dailyMin})</div>
+        <div class="pd-lbl">Talk mins by day · last ${r.windowDays}d window (red = under ${cfg.dailyMin})</div>
         <div class="pd-strip">${dayChips}</div>
       </div>
-      <div class="pipcard-cond">
-        <span class="${r.talkFlag?'hit':''}" title="Streak and/or weekly average under ${cfg.dailyMin}m">Talk-time ${r.talkFlag?'✗':'✓'}</span>
-        <span class="${r.warnFlag?'hit':''}" title="${cfg.warnPerWeek}+ warning-marks in a week">Discipline ${r.warnFlag?'✗':'✓'}</span>
-      </div>
+      <div class="pipcard-week">This week: avg <b class="${(r.wkAvg!==null&&r.wkAvg<cfg.dailyMin)?'badc':'okc'}">${r.wkAvg!==null?r.wkAvg+'m':'—'}</b> · <b class="${r.wkWarns>=cfg.warnPerWeek?'badc':'okc'}">${r.wkWarns}</b> warnings</div>
     </div>`;
   }
   html+=`</div></div></div>`;
@@ -2556,14 +2771,46 @@ function renderPip(){
     if(!confirm('Remove '+el.dataset.delday+' from history?'))return;
     delete STATE.pipDays[el.dataset.delday];await persist();renderPip();toast('Day removed');
   }));
+  // clickable PIP badge → detail dialog
+  $$('#pipBody [data-pipdetail]').forEach(el=>el.addEventListener('click',()=>showPipDetail(el.dataset.pipdetail)));
+}
+
+/* Detail popup: what each active tag means + how to clear it */
+function showPipDetail(fm){
+  const r=evalPip(fm);
+  const cfg=STATE.pipCfg;
+  let inner;
+  if(!r.level){
+    inner=`<div class="pipdlg-clear">✓</div>
+      <h3>${esc(fm)} — Clear</h3>
+      <p class="pipdlg-sub">No active flags. Performing to standard over the last ${r.windowDays} days.</p>`;
+  }else{
+    inner=`<div class="pipdlg-badge l${r.level}">PIP ${r.level}</div>
+      <h3>${esc(fm)}</h3>
+      <p class="pipdlg-sub">${r.tags.length} active flag${r.tags.length>1?'s':''}. Each clears only when that specific problem is fixed. Only the last ${r.windowDays} days count.</p>
+      <div class="pipdlg-tags">
+        ${r.tags.map(t=>`<div class="pipdlg-tag t${t.id}">
+          <div class="pdt-head"><span class="pdt-badge t${t.id}">${t.id}</span><b>${esc(t.label)}</b></div>
+          <div class="pdt-why">${esc(t.why)}</div>
+          <div class="pdt-clear">✓ ${esc(t.clear)}</div>
+        </div>`).join('')}
+      </div>`;
+  }
+  const dlg=document.createElement('div');
+  dlg.className='pipdlg-overlay';
+  dlg.innerHTML=`<div class="pipdlg">${inner}<button class="btn btn-primary pipdlg-close">Got it</button></div>`;
+  dlg.addEventListener('click',e=>{if(e.target===dlg||e.target.closest('.pipdlg-close'))dlg.remove();});
+  document.body.appendChild(dlg);
 }
 function wirePipCfg(){
   const s=$('#cfgSave');if(!s)return;
   s.addEventListener('click',async()=>{
     const d=parseInt($('#cfgDaily').value,10),st=parseInt($('#cfgStreak').value,10),w=parseInt($('#cfgWarn').value,10);
+    const wd=parseInt($('#cfgWindow').value,10);
     if(d>0)STATE.pipCfg.dailyMin=d;
     if(st>0)STATE.pipCfg.streakDays=st;
     if(w>0)STATE.pipCfg.warnPerWeek=w;
+    if(wd>=7)STATE.pipCfg.windowDays=wd;
     await persist();renderPip();toast('Thresholds applied','ok');
   });
 }
@@ -2744,11 +2991,61 @@ async function boot(){
       recordPipDay(store.date,STATE.eodActivity); await persist();
       toast('Day scored & saved to history','ok');updateFooter();renderReview('eod');}});
 
-  // initial role = admin (upload-capable). FMs will flip to FM view.
-  setRole('admin');
+  // Role comes from the logged-in account — NOT hardcoded.
+  applyAuthRole();
   updateFooter();
 }
-boot();
+
+/* Apply the logged-in user's role to the UI. */
+function applyAuthRole(){
+  document.body.classList.add('is-authed');
+  if(AUTH.role==='fm'){
+    // Lock this session to the FM's own view and name.
+    document.body.classList.add('locked-fm');
+    if(AUTH.fmName)STATE.sel.fm=AUTH.fmName;   // force their name
+    STATE.previewFM=AUTH.fmName||null;
+    setRole('fm');
+  }else{
+    // admin: full app, exactly as before
+    document.body.classList.remove('locked-fm');
+    setRole('admin');
+  }
+}
+
+/* ---------- Login gate wiring ---------- */
+function wireLogin(){
+  const gate=$('#loginGate'), emailEl=$('#loginEmail'), passEl=$('#loginPass'),
+        btn=$('#loginBtn'), err=$('#loginErr');
+  async function doLogin(){
+    err.textContent=''; btn.disabled=true; btn.textContent='Signing in…';
+    const res=await authLogin(emailEl.value, passEl.value);
+    if(!res.ok){
+      err.textContent=res.msg||'Login failed';
+      btn.disabled=false; btn.textContent='Sign in';
+      return;
+    }
+    gate.classList.add('hidden');
+    await boot();               // only boot the app AFTER successful login
+  }
+  btn.addEventListener('click',doLogin);
+  passEl.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+  emailEl.addEventListener('keydown',e=>{if(e.key==='Enter')passEl.focus();});
+  const lo=$('#logoutBtn'); if(lo)lo.addEventListener('click',()=>authLogout(false));
+}
+
+/* Entry point: try to restore a session; if valid, skip the login screen. */
+async function start(){
+  wireLogin();
+  const ok=await authRestore();
+  if(ok){
+    $('#loginGate').classList.add('hidden');
+    await boot();
+  }else{
+    $('#loginGate').classList.remove('hidden');
+    const e=$('#loginEmail'); if(e)e.focus();
+  }
+}
+start();
 </script>
 </body>
 </html>
