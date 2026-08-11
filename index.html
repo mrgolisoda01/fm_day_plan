@@ -221,6 +221,18 @@ select{min-width:170px;cursor:pointer;appearance:none;
 .cfg-legend{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--mut);font-weight:600;background:var(--card-2);border:1px solid var(--line);border-radius:var(--r-s);padding:12px 15px}
 .cfg-legend b{color:var(--ink);font-family:var(--f-disp);font-size:11px;margin-right:4px}
 .cfg-legend .cfg-esc{margin-top:4px;padding-top:8px;border-top:1px solid var(--line-2);color:var(--warn);font-weight:700}
+.srule-min{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;background:var(--cyan-l);border:1px solid var(--cyan);border-radius:var(--r-s);padding:12px 14px}
+.srule-min label{font-size:12px;font-weight:800;color:var(--cyan-d)}
+.srule-min input{width:120px;font-size:14px;font-weight:700}
+.srule-table{border:1px solid var(--line);border-radius:var(--r-s);overflow:hidden;margin-bottom:14px}
+.srule-hd,.srule-row{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:10px;align-items:center;padding:9px 14px}
+.srule-hd{background:var(--card-2);font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--mut);border-bottom:1px solid var(--line)}
+.srule-row{border-bottom:1px solid var(--line-2)}
+.srule-row:last-child{border-bottom:0}
+.srule-row .srn{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+.srule-row .srdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.srule-row input{width:100%;min-height:36px;font-size:13px;font-weight:700}
+.srule-actions{display:flex;gap:10px}
 .pip-summary{display:flex;gap:12px}
 .pip-sum{flex:1;background:var(--card-2);border:1px solid var(--line);border-radius:var(--r-s);padding:15px;text-align:center}
 .pip-sum .v{font-family:var(--f-disp);font-size:28px;display:block;line-height:1}
@@ -442,7 +454,7 @@ select{min-width:170px;cursor:pointer;appearance:none;
 .admin-only{display:none}
 body.is-admin .admin-only{display:block}
 body.is-admin .admin-only.inl{display:inline-flex}
-/* When logged in as an FM, hide the role toggle and the preview-as picker entirely */
+/* When logged in as an FM, hide the role toggle and preview-as picker entirely */
 body.locked-fm #roleToggle{display:none}
 body.locked-fm .fmv-preview-row{display:none !important}
 /* Login overlay */
@@ -490,6 +502,12 @@ body.is-fm .admin-view{display:none}   /* hide the admin plan/phases when FM */
 .fmv-preview-row{display:flex;align-items:center;gap:9px;margin-top:10px;background:var(--cream);border:1px solid var(--cream-d);border-radius:9px;padding:8px 12px}
 .fmv-preview-lbl{font-size:11px;font-weight:800;color:var(--ink-2);white-space:nowrap}
 .fmv-whoami{flex:1;font-family:var(--f-body);font-size:13px;font-weight:700;color:var(--ink);background:#fff;border:1.5px solid var(--cream-d);border-radius:7px;padding:7px 10px;outline:none;min-height:36px}
+.fmv-sortbar{display:flex;align-items:center;gap:7px;padding:10px 16px 2px;overflow-x:auto;scrollbar-width:none}
+.fmv-sortbar::-webkit-scrollbar{display:none}
+.fmv-sortlbl{font-size:11px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.4px;flex-shrink:0}
+.fmv-sortbtn{flex-shrink:0;border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;color:var(--ink-2);cursor:pointer;transition:.13s;white-space:nowrap}
+.fmv-sortbtn.on{background:var(--cyan);color:#fff;border-color:var(--cyan)}
+.fmv-sortdir{flex-shrink:0;border:1.5px solid var(--cyan);background:var(--cyan-l);color:var(--cyan-d);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap}
 
 /* FM review (progress/result) */
 .fmv-review{padding-top:2px}
@@ -885,8 +903,30 @@ const STAGES=[
 ];
 const STAGE_BY_ID=Object.fromEntries(STAGES.map(s=>[s.id,s]));
 
-/* ---- Plan gate: every FM must plan at least this many minutes of work ---- */
-const MIN_PLAN_MINS=240;
+/* ---- Plan gate: every FM must plan at least this many minutes of work ----
+   Editable in admin Stage Rules; mutable so edits reflect everywhere. ---- */
+let MIN_PLAN_MINS=240;
+/* capture the factory defaults so a "reset" is possible */
+const STAGE_DEFAULTS=Object.fromEntries(STAGES.map(s=>[s.id,{min:s.min,share:s.share}]));
+const MIN_PLAN_DEFAULT=240;
+/* apply a saved rules config onto the live STAGES + gate */
+function applyStageRules(cfg){
+  if(!cfg)return;
+  if(cfg.minPlan && cfg.minPlan>0)MIN_PLAN_MINS=cfg.minPlan;
+  if(cfg.stages){
+    for(const st of STAGES){
+      const o=cfg.stages[st.id];
+      if(o){
+        if(o.min!=null && o.min>=0)st.min=o.min;
+        if(o.share!=null && o.share>=0)st.share=o.share;
+        st.ruleTxt = st.share===1 ? ('× '+st.min+'m') : (Math.round(st.share*100)+'% × '+st.min+'m');
+      }
+    }
+  }
+}
+function currentStageRules(){
+  return {minPlan:MIN_PLAN_MINS, stages:Object.fromEntries(STAGES.map(s=>[s.id,{min:s.min,share:s.share}]))};
+}
 function stageOf(status){
   const s=clean(status);
   for(const st of STAGES) if(st.match(s)) return st.id;
@@ -895,16 +935,19 @@ function stageOf(status){
 
 /* ============================================================
    SUPABASE (shared cloud store, no external library)
-   Mirrors the six top-level STATE keys into a single key-value
+   Mirrors the top-level STATE keys into a single key-value
    table `app_state (key text primary key, value jsonb,
-   updated_at timestamptz)`. Local IndexedDB is kept as an
-   offline cache; on load we take whichever copy is newer.
+   updated_at timestamptz)`. Local IndexedDB is an offline
+   cache; on load we take whichever copy is newer.
    ============================================================ */
 const SB_URL='https://bhzgtqlmzdzmhqdualvj.supabase.co/rest/v1';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJoemd0cWxtemR6bWhxZHVhbHZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4MDMxNDUsImV4cCI6MjA5ODM3OTE0NX0.IheiOvNFs_1Mwmv-bX7SgjekLGd_3hLyGsdTujAY6OE';
 let SB_OK=true;
-const SB_HEADERS={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
-/* Pull one key's value + updated_at. Returns {value,updatedAt} or null. */
+/* Sign-in aware headers (defined in the AUTH block below). */
+function sbAuthHeaders(){
+  const t=(typeof AUTH!=='undefined'&&AUTH.token)?AUTH.token:SB_KEY;
+  return {'apikey':SB_KEY,'Authorization':'Bearer '+t,'Content-Type':'application/json'};
+}
 async function sbGet(k){
   try{
     const r=await fetch(SB_URL+'/app_state?key=eq.'+encodeURIComponent(k)+'&select=value,updated_at',{headers:sbAuthHeaders()});
@@ -914,7 +957,6 @@ async function sbGet(k){
     return {value:rows[0].value,updatedAt:rows[0].updated_at};
   }catch(e){SB_OK=false;return null;}
 }
-/* Upsert one key. Stamps updated_at so other clients can compare. */
 async function sbSet(k,v){
   try{
     const body=JSON.stringify([{key:k,value:v,updated_at:new Date().toISOString()}]);
@@ -927,7 +969,6 @@ async function sbSet(k,v){
     return true;
   }catch(e){SB_OK=false;return false;}
 }
-/* Delete one key (used by reset-all). */
 async function sbDel(k){
   try{
     await fetch(SB_URL+'/app_state?key=eq.'+encodeURIComponent(k),{method:'DELETE',headers:sbAuthHeaders()});
@@ -941,12 +982,6 @@ async function sbDel(k){
 const SB_AUTH=SB_URL.replace('/rest/v1','')+'/auth/v1';
 const AUTH={token:null, role:null, fmName:null, email:null};
 const AUTH_STORE='safc_auth_session';
-/* Headers carrying the logged-in user's token (falls back to anon pre-login). */
-function sbAuthHeaders(){
-  const t=AUTH.token||SB_KEY;
-  return {'apikey':SB_KEY,'Authorization':'Bearer '+t,'Content-Type':'application/json'};
-}
-/* Sign in with email+password. Returns {ok} or {ok:false,msg}. */
 async function authLogin(email,password){
   try{
     const r=await fetch(SB_AUTH+'/token?grant_type=password',{
@@ -967,7 +1002,6 @@ async function authLogin(email,password){
     return {ok:true};
   }catch(e){return {ok:false,msg:'Network error — check connection'};}
 }
-/* Restore a saved session on page load; verifies the token still works. */
 async function authRestore(){
   let s=null; try{s=JSON.parse(localStorage.getItem(AUTH_STORE)||'null');}catch(e){}
   if(!s||!s.token)return false;
@@ -1017,20 +1051,24 @@ let UP_MORNING=null, UP_MID=null, UP_EOD=null;
 function planKey(fm,date){return fm+'|'+date;}
 /* Point STATE.bucket at the given date's stored bucket (or null if none). */
 function useBucketForDate(date){STATE.bucket = STATE.buckets[date] || null;}
-/* Keys we mirror to the cloud, in one place so load/save/reset stay in sync. */
-const SYNC_KEYS=['buckets','plans','pipDays','pipCfg','dayActivity','coverage'];
+/* Keys mirrored to the cloud, in one place so load/save/reset stay in sync.
+   Note: stageRules is stored under a fixed key but read via applyStageRules. */
+const SYNC_KEYS=['buckets','plans','pipDays','pipCfg','dayActivity','coverage','stageRules'];
 async function persist(){
   const now=Date.now();
-  // 1) local cache (offline) — value + a local write time per key
+  const sr=currentStageRules();
+  // 1) local cache (offline)
   await idbSet('buckets',STATE.buckets);await idbSet('plans',STATE.plans);
   await idbSet('pipDays',STATE.pipDays);await idbSet('pipCfg',STATE.pipCfg);
   await idbSet('dayActivity',STATE.dayActivity);await idbSet('coverage',STATE.coverage);
+  await idbSet('stageRules',sr);
   await idbSet('_ts',now);
-  // 2) cloud (shared across the 2–3 users). Fire in parallel; failures are non-fatal.
+  // 2) cloud (shared). Fire in parallel; failures are non-fatal.
   Promise.all([
     sbSet('buckets',STATE.buckets),sbSet('plans',STATE.plans),
     sbSet('pipDays',STATE.pipDays),sbSet('pipCfg',STATE.pipCfg),
-    sbSet('dayActivity',STATE.dayActivity),sbSet('coverage',STATE.coverage)
+    sbSet('dayActivity',STATE.dayActivity),sbSet('coverage',STATE.coverage),
+    sbSet('stageRules',sr)
   ]).then(()=>{if(!SB_OK&&typeof toast==='function')toast('Saved locally — cloud sync unavailable','bad');});
 }
 async function loadState(){
@@ -1042,10 +1080,11 @@ async function loadState(){
   const pc=await idbGet('pipCfg');if(pc)STATE.pipCfg={...STATE.pipCfg,...pc};
   const da=await idbGet('dayActivity');if(da)STATE.dayActivity=da;
   const cv=await idbGet('coverage');if(cv)STATE.coverage=cv;
+  const sr=await idbGet('stageRules');if(sr)applyStageRules(sr);
   const localTs=(await idbGet('_ts'))||0;
 
-  // overlay cloud copies that are newer than our last local write,
-  // so plans/data other users saved show up here too.
+  // overlay cloud copies newer than our last local write, so data other
+  // users saved shows up here too.
   try{
     const rows=await Promise.all(SYNC_KEYS.map(k=>sbGet(k)));
     let pulledNewer=false;
@@ -1054,9 +1093,10 @@ async function loadState(){
       if(!row||row.value==null)return;
       const cloudTs=row.updatedAt?Date.parse(row.updatedAt):0;
       const haveLocal=(k==='buckets'&&bk)||(k==='plans'&&p)||(k==='pipDays'&&pd)||
-                      (k==='pipCfg'&&pc)||(k==='dayActivity'&&da)||(k==='coverage'&&cv);
+                      (k==='pipCfg'&&pc)||(k==='dayActivity'&&da)||(k==='coverage'&&cv)||(k==='stageRules'&&sr);
       if(!haveLocal || cloudTs>localTs){
         if(k==='pipCfg')STATE.pipCfg={...STATE.pipCfg,...row.value};
+        else if(k==='stageRules')applyStageRules(row.value);
         else STATE[k]=row.value;
         pulledNewer=true;
       }
@@ -1065,6 +1105,7 @@ async function loadState(){
       await idbSet('buckets',STATE.buckets);await idbSet('plans',STATE.plans);
       await idbSet('pipDays',STATE.pipDays);await idbSet('pipCfg',STATE.pipCfg);
       await idbSet('dayActivity',STATE.dayActivity);await idbSet('coverage',STATE.coverage);
+      await idbSet('stageRules',currentStageRules());
       await idbSet('_ts',Date.now());
     }
   }catch(e){/* offline or blocked — local cache already loaded */}
@@ -1481,10 +1522,14 @@ function isLocked(){const p=currentPlan();return !!(p&&p.submittedAt);}
 /* ============================================================
    MOBILE-FIRST FM VIEW — render
    ============================================================ */
-const FMV={filter:'all', tab:'plan'}; // tab: plan | progress | result
+const FMV={filter:'all', tab:'plan', picks:new Set(), sortBy:'none', sortDir:'asc'};
+// picks persists across stage filters (the 240 gate is a TOTAL across all stages)
+// sortBy: 'none' | 'stage' (days in stage) | 'created' (age); sortDir: 'asc' | 'desc'
 function renderFMMobile(){
   const host=$('#fmView');
   const fms = STATE.bucket ? STATE.bucket.fms : [];
+  // No login yet (pre-Supabase): if no FM chosen, default to the first available so
+  // the tabs are usable. A "preview as" picker lets admin check each FM's view.
   const lockedFM = (AUTH.role==='fm') ? (AUTH.fmName||null) : null;
   if(lockedFM){
     // A logged-in FM is always pinned to their own name, regardless of the bucket.
@@ -1527,6 +1572,7 @@ function renderFMMobile(){
       <button data-ftab="plan" class="${FMV.tab==='plan'?'on':''}">My Plan</button>
       <button data-ftab="progress" class="${FMV.tab==='progress'?'on':''}">Progress</button>
       <button data-ftab="result" class="${FMV.tab==='result'?'on':''}">Result</button>
+      <button data-ftab="locked" class="${FMV.tab==='locked'?'on':''}">Locked Plan</button>
     </div>
   </div>`;
 
@@ -1537,7 +1583,8 @@ function renderFMMobile(){
   // route to the active tab's body
   if(FMV.tab==='plan')       html+=fmPlanBody(fm,byStage,plan);
   else if(FMV.tab==='progress') html+=fmReviewBody(fm,byStage,plan,'mid');
-  else                        html+=fmReviewBody(fm,byStage,plan,'eod');
+  else if(FMV.tab==='result')   html+=fmReviewBody(fm,byStage,plan,'eod');
+  else                        html+=fmLockedBody(fm,byStage,plan);
 
   host.innerHTML=html;
   wireFMMobile();
@@ -1545,8 +1592,13 @@ function renderFMMobile(){
 
 /* ---------- TAB 1: PLAN (pick leads) ---------- */
 function fmPlanBody(fm,byStage,plan){
-  const picked=new Set(plan?plan.leadKeys:[]);
   const locked=isLocked();
+  // If locked, picks = the submitted plan. If not, use the live FMV.picks set
+  // (which persists across stage filters — the 240 gate is a TOTAL of all stages).
+  if(locked){
+    FMV.picks=new Set(plan?plan.leadKeys:[]);
+  }
+  const picked=FMV.picks;
   const totalLeads=STAGES.reduce((a,st)=>a+byStage[st.id].length,0);
   if(!STATE.bucket){
     return `<div class="empty" style="padding:50px 20px"><div class="must">📭</div><h3>No plan loaded for ${covDateLabel(STATE.sel.date)}</h3><p>Nothing to work on this day yet.</p></div>`;
@@ -1565,11 +1617,14 @@ function fmPlanBody(fm,byStage,plan){
       return `<div class="fmv-chip ${FMV.filter===st.id?'on':''}" data-fchip="${st.id}"><span class="cdot" style="background:${st.dot}"></span>${esc(st.name)} <span class="cn">${n}</span></div>`;
     }).join('')}
   </div>`;
+  // sorting controls
+  html+=fmSortBarHTML();
   // swipeable lead pane
   html+=`<div class="fmv-leads" id="fmvSwipe">`;
   const showStages = FMV.filter==='all' ? stagesWith : stagesWith.filter(st=>st.id===FMV.filter);
   for(const st of showStages){
-    const leads=byStage[st.id];
+    let leads=byStage[st.id].slice();
+    leads=applyLeadSort(leads);
     const pickedHere=leads.filter(l=>picked.has(l.key)).length;
     const suggest=Math.max(1,Math.round(leads.length*st.share));
     html+=`<div class="fmv-stagehdr"><span class="sd" style="background:${st.dot}"></span>
@@ -1585,6 +1640,33 @@ function fmPlanBody(fm,byStage,plan){
   html+=`</div>`;
   html+=fmSheetHTML(byStage,picked,locked);
   return html;
+}
+
+/* sort bar: none / days-in-stage / created-age, asc/desc */
+function fmSortBarHTML(){
+  const opt=(v,lbl)=>`<button class="fmv-sortbtn ${FMV.sortBy===v?'on':''}" data-sortby="${v}">${lbl}</button>`;
+  const dirBtn = FMV.sortBy==='none' ? '' :
+    `<button class="fmv-sortdir" data-sortdir>${FMV.sortDir==='asc'?'↑ Asc':'↓ Desc'}</button>`;
+  return `<div class="fmv-sortbar">
+    <span class="fmv-sortlbl">Sort:</span>
+    ${opt('none','Default')}
+    ${opt('stage','Days in stage')}
+    ${opt('created','Age')}
+    ${dirBtn}
+  </div>`;
+}
+/* apply the active sort to a lead array */
+function applyLeadSort(leads){
+  if(FMV.sortBy==='none')return leads;
+  const key = FMV.sortBy==='stage' ? 'stageDays' : 'createdDays';
+  const dir = FMV.sortDir==='asc' ? 1 : -1;
+  return leads.slice().sort((a,b)=>{
+    const av=a[key], bv=b[key];
+    // nulls (missing) always sort to the bottom
+    if(av===null||av===undefined)return 1;
+    if(bv===null||bv===undefined)return -1;
+    return (av-bv)*dir;
+  });
 }
 
 /* ---------- TAB 2/3: PROGRESS (midday) / RESULT (eod) ---------- */
@@ -1652,6 +1734,28 @@ function fmReviewBody(fm,byStage,plan,phase){
   return html;
 }
 
+/* ---------- TAB 4: LOCKED PLAN (submitted plan, read-only) ---------- */
+function fmLockedBody(fm,byStage,plan){
+  if(!plan||!plan.submittedAt){
+    return `<div class="empty" style="padding:50px 20px"><div class="must">🔒</div>
+      <h3>No locked plan yet</h3><p>Once you submit your plan in <b>My Plan</b>, the leads you chose appear here as your locked plan for the day.</p></div>`;
+  }
+  const t=new Date(plan.submittedAt);
+  const keys=new Set(plan.leadKeys);
+  const groups=STAGES.map(st=>({st, leads:byStage[st.id].filter(l=>keys.has(l.key))})).filter(g=>g.leads.length);
+  const tot=planTotals(byStage,keys);
+  let html=`<div class="fmv-locked" style="margin:14px 16px 0"><span class="li">🔒</span>
+    <div><b>Locked plan · ${plan.leadKeys.length} leads</b><span>Submitted ${covDateLabel(plan.date)} at ${t.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})} · ${tot.mins} min planned</span></div></div>`;
+  html+=`<div class="fmv-leads" style="padding-bottom:40px">`;
+  for(const g of groups){
+    html+=`<div class="fmv-stagehdr"><span class="sd" style="background:${g.st.dot}"></span>
+      <span class="sn">${esc(g.st.name)}</span><span class="sr">${g.leads.length} planned · ${g.st.ruleTxt}</span></div>`;
+    for(const l of applyLeadSort(g.leads))html+=mLeadHTML(l,true,true);
+  }
+  html+=`</div>`;
+  return html;
+}
+
 function mReviewLeadHTML(l,g){
   if(!l)return '';
   const telHref = l.ph ? 'tel:'+(''+l.ph).replace(/[^\d+]/g,'') : '';
@@ -1714,7 +1818,7 @@ function fmSheetHTML(byStage,picked,locked){
 function fmRefreshSheet(){
   if(!STATE.sel.fm)return;
   const byStage=fmLeadsByStage(STATE.sel.fm);
-  const picked=new Set();$$('#fmView .mlead.pick').forEach(el=>picked.add(el.dataset.key));
+  const picked=FMV.picks; // TOTAL across all stages, not just visible DOM
   const t=planTotals(byStage,picked);
   const met=t.mins>=MIN_PLAN_MINS;
   const pct=Math.min(100,Math.round(t.mins/MIN_PLAN_MINS*100));
@@ -1738,7 +1842,7 @@ function fmRefreshSheet(){
 function wireFMMobile(){
   // preview-as FM picker (temporary until Supabase login)
   const who=$('#fmvWho');
-  if(who)who.addEventListener('change',()=>{STATE.sel.fm=who.value;FMV.filter='all';renderFMMobile();});
+  if(who)who.addEventListener('change',()=>{STATE.sel.fm=who.value;FMV.filter='all';FMV.picks=new Set();renderFMMobile();});
   // tab toggle
   $$('#fmvTabs [data-ftab]').forEach(b=>b.addEventListener('click',()=>{
     if(FMV.tab!==b.dataset.ftab){FMV.tab=b.dataset.ftab;FMV.filter='all';renderFMMobile();}
@@ -1749,32 +1853,45 @@ function wireFMMobile(){
   if(nx)nx.addEventListener('click',()=>changeSelectedDate(shiftISO(STATE.sel.date,1),'fmv'));
   // chips
   $$('#fmView [data-fchip]').forEach(c=>c.addEventListener('click',()=>{FMV.filter=c.dataset.fchip;renderFMMobile();}));
+  // sort controls
+  $$('#fmView [data-sortby]').forEach(b=>b.addEventListener('click',()=>{
+    const v=b.dataset.sortby;
+    if(v==='none'){FMV.sortBy='none';}
+    else if(FMV.sortBy===v){FMV.sortDir=FMV.sortDir==='asc'?'desc':'asc';} // toggle dir if same
+    else {FMV.sortBy=v;FMV.sortDir='asc';}
+    renderFMMobile();
+  }));
+  const sd=$('#fmView [data-sortdir]');
+  if(sd)sd.addEventListener('click',()=>{FMV.sortDir=FMV.sortDir==='asc'?'desc':'asc';renderFMMobile();});
   // swipe between stages (plan tab) — horizontal swipe on the lead pane cycles chips
   wireStageSwipe();
 
   if(FMV.tab!=='plan')return; // Progress/Result are read-only
   const locked=isLocked();
   if(!locked){
-    // tap row to select (but NOT when tapping the call button)
+    // tap row to select — updates the PERSISTENT FMV.picks set (survives stage filter)
     $$('#fmView .mlead').forEach(row=>row.addEventListener('click',e=>{
       if(e.target.closest('[data-callbtn]'))return; // let the call link work
-      row.classList.toggle('pick');fmRefreshSheet();
+      const key=row.dataset.key;
+      if(FMV.picks.has(key)){FMV.picks.delete(key);row.classList.remove('pick');}
+      else {FMV.picks.add(key);row.classList.add('pick');}
+      fmRefreshSheet();
     }));
-    // bulk suggested / clear
+    // bulk suggested — adds this stage's top N to FMV.picks
     $$('#fmView [data-fmall]').forEach(btn=>btn.addEventListener('click',()=>{
       const sid=btn.dataset.fmall;const st=STAGE_BY_ID[sid];
-      const rows=$$(`#fmView .mlead`).filter(r=>{
-        // only rows within this stage — find by matching lead's stage
-        const l=leadByKey(r.dataset.key);return l&&l.stage===sid;
-      });
-      const suggest=Math.max(1,Math.round(rows.length*st.share));
-      rows.forEach((r,i)=>r.classList.toggle('pick',i<suggest));
-      fmRefreshSheet();
+      const byStage=fmLeadsByStage(STATE.sel.fm);
+      let leads=applyLeadSort(byStage[sid].slice());
+      const suggest=Math.max(1,Math.round(leads.length*st.share));
+      leads.forEach((l,i)=>{if(i<suggest)FMV.picks.add(l.key);});
+      renderFMMobile();
     }));
+    // clear this stage from FMV.picks
     $$('#fmView [data-fmnone]').forEach(btn=>btn.addEventListener('click',()=>{
       const sid=btn.dataset.fmnone;
-      $$(`#fmView .mlead`).forEach(r=>{const l=leadByKey(r.dataset.key);if(l&&l.stage===sid)r.classList.remove('pick');});
-      fmRefreshSheet();
+      const byStage=fmLeadsByStage(STATE.sel.fm);
+      byStage[sid].forEach(l=>FMV.picks.delete(l.key));
+      renderFMMobile();
     }));
     const sb=$('#fmvSubmit');if(sb)sb.addEventListener('click',fmvSubmitPlan);
   }
@@ -1804,7 +1921,7 @@ function wireStageSwipe(){
 }
 
 async function fmvSubmitPlan(){
-  const picked=new Set();$$('#fmView .mlead.pick').forEach(el=>picked.add(el.dataset.key));
+  const picked=new Set(FMV.picks); // total across all stages
   if(!picked.size){toast('Pick at least one lead','bad');return;}
   const byStage=fmLeadsByStage(STATE.sel.fm);
   const tot=planTotals(byStage,picked);
@@ -2312,7 +2429,7 @@ function changeSelectedDate(newDate, source){
   // repaint current phase with the new date's data
   updateUnlockBtn();
   fillFMSelect(); // repopulate FM dropdown for this date's bucket
-  if(STATE.role==='fm'){renderFMMobile();}
+  if(STATE.role==='fm'){FMV.picks=new Set();renderFMMobile();}
   else{switchPhase(STATE.phase);}
   updateFooter();
 }
@@ -2696,6 +2813,28 @@ function renderPip(){
     </div>
   </div></div>`;
 
+  // ---- Stage Rules editor ----
+  html+=`<div class="card" style="margin-bottom:14px"><div class="card-pad">
+    <div class="sec-head"><span class="must">🎚️</span><h2>Stage rules & plan minimum</h2></div>
+    <div class="sec-sub">Change how many minutes each stage is worth and the suggested share. Changes save and reflect in every FM's plan and the submit gate instantly.</div>
+    <div class="srule-min">
+      <label>Plan minimum (total minutes an FM must plan)</label>
+      <input type="number" min="1" id="srMinPlan" value="${MIN_PLAN_MINS}">
+    </div>
+    <div class="srule-table">
+      <div class="srule-hd"><span>Stage</span><span>Minutes / lead</span><span>Suggested share %</span></div>
+      ${STAGES.map(st=>`<div class="srule-row">
+        <span class="srn"><span class="srdot" style="background:${st.dot}"></span>${esc(st.name)}</span>
+        <input type="number" min="0" step="1" data-srmin="${st.id}" value="${st.min}">
+        <input type="number" min="0" max="100" step="1" data-srshare="${st.id}" value="${Math.round(st.share*100)}">
+      </div>`).join('')}
+    </div>
+    <div class="srule-actions">
+      <button class="btn btn-primary btn-sm" id="srSave">Apply stage rules</button>
+      <button class="btn btn-ghost btn-sm" id="srReset">Reset to defaults</button>
+    </div>
+  </div></div>`;
+
   if(!days.length){
     html+=`<div class="card"><div class="empty"><div class="must">📈</div>
       <h3>No days recorded yet</h3>
@@ -2803,8 +2942,8 @@ function showPipDetail(fm){
   document.body.appendChild(dlg);
 }
 function wirePipCfg(){
-  const s=$('#cfgSave');if(!s)return;
-  s.addEventListener('click',async()=>{
+  const s=$('#cfgSave');
+  if(s)s.addEventListener('click',async()=>{
     const d=parseInt($('#cfgDaily').value,10),st=parseInt($('#cfgStreak').value,10),w=parseInt($('#cfgWarn').value,10);
     const wd=parseInt($('#cfgWindow').value,10);
     if(d>0)STATE.pipCfg.dailyMin=d;
@@ -2812,6 +2951,29 @@ function wirePipCfg(){
     if(w>0)STATE.pipCfg.warnPerWeek=w;
     if(wd>=7)STATE.pipCfg.windowDays=wd;
     await persist();renderPip();toast('Thresholds applied','ok');
+  });
+  // stage rules editor
+  const srSave=$('#srSave');
+  if(srSave)srSave.addEventListener('click',async()=>{
+    const mp=parseInt($('#srMinPlan').value,10);
+    const cfg={minPlan:(mp>0?mp:MIN_PLAN_MINS), stages:{}};
+    for(const st of STAGES){
+      const mi=parseFloat($('[data-srmin="'+st.id+'"]').value);
+      const sh=parseFloat($('[data-srshare="'+st.id+'"]').value);
+      cfg.stages[st.id]={min:(isNaN(mi)?st.min:mi), share:(isNaN(sh)?st.share:sh/100)};
+    }
+    applyStageRules(cfg);
+    await persist();
+    renderPip();
+    toast('Stage rules applied — reflected in FM plans','ok');
+  });
+  const srReset=$('#srReset');
+  if(srReset)srReset.addEventListener('click',async()=>{
+    if(!confirm('Reset all stage rules and the plan minimum to their original defaults?'))return;
+    MIN_PLAN_MINS=MIN_PLAN_DEFAULT;
+    for(const st of STAGES){const d=STAGE_DEFAULTS[st.id];st.min=d.min;st.share=d.share;
+      st.ruleTxt = st.share===1 ? ('× '+st.min+'m') : (Math.round(st.share*100)+'% × '+st.min+'m');}
+    await persist();renderPip();toast('Stage rules reset to defaults','ok');
   });
 }
 
@@ -3000,13 +3162,11 @@ async function boot(){
 function applyAuthRole(){
   document.body.classList.add('is-authed');
   if(AUTH.role==='fm'){
-    // Lock this session to the FM's own view and name.
     document.body.classList.add('locked-fm');
     if(AUTH.fmName)STATE.sel.fm=AUTH.fmName;   // force their name
     STATE.previewFM=AUTH.fmName||null;
     setRole('fm');
   }else{
-    // admin: full app, exactly as before
     document.body.classList.remove('locked-fm');
     setRole('admin');
   }
@@ -3025,7 +3185,7 @@ function wireLogin(){
       return;
     }
     gate.classList.add('hidden');
-    await boot();               // only boot the app AFTER successful login
+    await boot();               // boot the app only AFTER successful login
   }
   btn.addEventListener('click',doLogin);
   passEl.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
