@@ -403,6 +403,57 @@ select{min-width:170px;cursor:pointer;appearance:none;
 .rev-lead-name{font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rev-lead-sub{font-size:11px;color:var(--mut);font-weight:500;font-variant-numeric:tabular-nums}
 .rev-evi{font-size:11px;color:var(--mut-2);font-weight:600;text-align:right;max-width:220px}
+.incall-badge{display:inline-block;background:#dcfce7;color:#15803d;border:1px solid #86efac;border-radius:6px;padding:0 5px;font-size:10px;font-weight:700;white-space:nowrap}
+.mreview-badge.less,.lead-badge.b-less{background:#fef3c7;color:#b45309;border-color:#fcd34d}
+.mreview.less .mreview-dot{background:#f59e0b}
+.score-grid-6{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+@media(max-width:760px){.score-grid-6{grid-template-columns:repeat(3,1fr)}}
+.score.less{background:#fffbeb;border-color:#fde68a}
+.score.less .sv{color:#b45309}
+.rev-clickable{cursor:pointer;transition:transform .1s,box-shadow .1s}
+.rev-clickable:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.rev-clickable.rev-on{outline:2px solid var(--cyan,#06b6d4);outline-offset:1px}
+.rev-filter-note{background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:8px 12px;margin:10px 0;font-size:13px;color:#0369a1}
+.lead-stage-tag{display:inline-block;background:#eef2ff;color:#4338ca;border:1px solid #c7d2fe;border-radius:6px;padding:1px 7px;font-size:10px;font-weight:700;margin-left:7px;vertical-align:middle;white-space:nowrap}
+.fmv-rsum .rs .v.less{color:#f59e0b}
+.fmv-rsum-warns{display:flex;gap:8px;padding:10px 14px 12px;border-top:1px solid rgba(255,255,255,.08)}
+.fmv-warnbtn{flex:1;background:rgba(245,158,11,.14);color:#fbbf24;border:1px solid rgba(245,158,11,.35);border-radius:10px;padding:8px 10px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:.12s}
+.fmv-warnbtn .cn{background:rgba(245,158,11,.25);border-radius:10px;padding:0 7px;font-size:11px}
+.fmv-warnbtn.on{background:#f59e0b;color:#1a1a1a;border-color:#f59e0b}
+.fmv-warnbtn.on .cn{background:rgba(0,0,0,.15)}
+.gm-panel{margin:0 0 10px;padding:12px 14px;border:1.5px dashed #e0447a;border-radius:12px;background:#fff5f9}
+.gm-panel.ok{border-style:solid;border-color:#22c55e;background:#f0fdf4}
+.gm-panel.bad{border-style:solid;border-color:#ef4444;background:#fef2f2}
+.gm-panel.pending{border-style:solid;border-color:#f59e0b;background:#fffbeb}
+.gm-title{font-size:12px;font-weight:800;color:#be185d;margin-bottom:8px}
+.gm-panel.ok .gm-title{color:#15803d}.gm-panel.bad .gm-title{color:#b91c1c}.gm-panel.pending .gm-title{color:#b45309}
+.gm-shot{display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer}
+.gm-shot-btn{display:inline-block;background:#fce7f3;color:#be185d;border:1px solid #f9a8d4;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:700}
+.gm-shot-name{font-size:12px;color:#15803d;font-weight:700}
+.gm-durrow{display:flex;gap:8px}
+.gm-dur{flex:1;padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px}
+.gm-submit{background:#e0447a;color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:14px;font-weight:700;cursor:pointer}
+.gm-submit:disabled{opacity:.6}
+.gm-state{font-size:13px;font-weight:800;padding:4px 0}
+.gm-state.ok{color:#15803d}.gm-state.bad{color:#b91c1c}.gm-state.pending{color:#b45309}
+.gm-viewshot,.gm-msg{margin-top:6px}
+.gm-viewshot{background:#fff;border:1px solid #cbd5e1;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;color:#334155}
+.gm-msg{font-size:12px;color:#64748b}
+.gm-msg.bad{color:#b91c1c;font-weight:600}
+.breach-sec{margin:12px 0;border:1.5px solid #fca5a5;border-radius:12px;background:#fef2f2;overflow:hidden}
+.breach-sec.gmeet-sec{border-color:#f9a8d4;background:#fdf2f8}
+.breach-sec-hd{background:#fee2e2;color:#b91c1c;font-weight:800;font-size:13px;padding:9px 14px}
+.gmeet-sec .breach-sec-hd{background:#fce7f3;color:#be185d}
+.breach-item{padding:9px 14px;border-top:1px solid #fecaca}
+.gmeet-sec .breach-item{border-top-color:#fbcfe8}
+.breach-item-name{font-weight:700;font-size:13px;color:#1f2937}
+.breach-item-reason{font-size:12px;color:#7f1d1d;margin-top:2px}
+.gmeet-sec .breach-item-reason{color:#9d174d}
+.gm-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;padding-bottom:6px}
+.gm-toggle input{width:18px;height:18px;cursor:pointer}
+.gm-toggle-txt{font-size:13px;font-weight:700;color:#334155}
+.gm-save-msg{font-size:12px;font-weight:700;align-self:center}
+.gm-save-msg.ok{color:#15803d}.gm-save-msg.bad{color:#b91c1c}
 
 /* ---- talk-time chips in review ---- */
 .talk-row{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 18px}
@@ -454,10 +505,8 @@ select{min-width:170px;cursor:pointer;appearance:none;
 .admin-only{display:none}
 body.is-admin .admin-only{display:block}
 body.is-admin .admin-only.inl{display:inline-flex}
-/* When logged in as an FM, hide the role toggle and preview-as picker entirely */
 body.locked-fm #roleToggle{display:none}
 body.locked-fm .fmv-preview-row{display:none !important}
-/* Login overlay */
 #loginGate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(160deg,var(--cream,#fbf7ef),#eef3f6);padding:20px}
 #loginGate.hidden{display:none}
@@ -534,6 +583,15 @@ body.is-fm .admin-view{display:none}   /* hide the admin plan/phases when FM */
 .mreview-badge.ok{background:var(--ok-bg);color:var(--ok)}
 .mreview-badge.partial{background:var(--warn-bg);color:var(--warn)}
 .mreview-badge.none{background:var(--bad-bg);color:var(--bad)}
+.mreview.breach{border-color:#e04545;background:#fff5f5}
+.mreview.breach .mreview-dot{background:#c62828}
+.mreview-badge.breach{background:#fde0e0;color:#c62828;font-weight:800}
+.fmv-breach{margin:14px 16px 0;background:#fde0e0;border:1.5px solid #e04545;border-radius:12px;padding:13px 15px;display:flex;gap:11px;align-items:flex-start}
+.fmv-breach .bi{font-size:20px}
+.fmv-breach b{font-weight:800;font-size:13.5px;display:block;color:#c62828;margin-bottom:2px}
+.fmv-breach span{font-size:12px;color:#8a2a2a;font-weight:500}
+.fmcard.has-breach{border-color:#e04545}
+.fm-breach-tag{background:#fde0e0;color:#c62828;font-weight:800;font-size:11px;padding:4px 8px;border-radius:6px;margin:2px 0 6px;display:inline-block}
 
 /* PIP banner (mobile) */
 .fmv-pip{margin:12px 16px 0;border-radius:12px;padding:13px 15px;display:flex;gap:11px;align-items:flex-start}
@@ -546,6 +604,12 @@ body.is-fm .admin-view{display:none}   /* hide the admin plan/phases when FM */
 
 /* stage filter chips */
 .fmv-chips{display:flex;gap:8px;overflow-x:auto;padding:14px 16px 4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.fmv-search{display:flex;align-items:center;gap:9px;margin:14px 16px 0;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:11px 14px;color:var(--mut)}
+.fmv-search:focus-within{border-color:var(--cyan);color:var(--cyan-d)}
+.fmv-search svg{flex-shrink:0}
+.fmv-search input{flex:1;border:0;outline:0;font-family:var(--f-body);font-size:15px;font-weight:600;color:var(--ink);background:transparent;min-width:0}
+.fmv-search input::placeholder{color:var(--mut-2);font-weight:500}
+.fmv-search-clr{border:0;background:var(--idle-bg);color:var(--mut);width:24px;height:24px;border-radius:50%;font-size:13px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .fmv-chips::-webkit-scrollbar{display:none}
 .fmv-chip{flex:0 0 auto;border:1.5px solid var(--line);background:#fff;border-radius:22px;padding:8px 14px;font-size:12.5px;font-weight:700;color:var(--ink-2);cursor:pointer;transition:.14s;white-space:nowrap;display:flex;align-items:center;gap:6px}
 .fmv-chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -871,6 +935,17 @@ function daysBadge(days,label){
   return {txt:days+'d',cls,label};
 }
 
+/* Build a reliable tel: link that pre-fills the dialer.
+   Numbers are stored like '919353159725' (country code, no +). A bare tel:
+   without '+' can open some dialers blank, so we normalise to +<digits>.
+   10-digit local numbers get the +91 India prefix. */
+function telLink(ph){
+  let d=(''+(ph||'')).replace(/[^\d]/g,'');   // digits only
+  if(!d)return '';
+  if(d.length===10)d='91'+d;                   // local 10-digit → add India code
+  return 'tel:+'+d;
+}
+
 /* ============================================================
    STAGE MODEL  — maps TeleCRM Status -> plan stage + rule
    Rules (per lead, flat minutes):
@@ -936,14 +1011,12 @@ function stageOf(status){
 /* ============================================================
    SUPABASE (shared cloud store, no external library)
    Mirrors the top-level STATE keys into a single key-value
-   table `app_state (key text primary key, value jsonb,
-   updated_at timestamptz)`. Local IndexedDB is an offline
-   cache; on load we take whichever copy is newer.
+   table `app_state`. Local IndexedDB is an offline cache;
+   on load we take whichever copy is newer.
    ============================================================ */
 const SB_URL='https://bhzgtqlmzdzmhqdualvj.supabase.co/rest/v1';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJoemd0cWxtemR6bWhxZHVhbHZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4MDMxNDUsImV4cCI6MjA5ODM3OTE0NX0.IheiOvNFs_1Mwmv-bX7SgjekLGd_3hLyGsdTujAY6OE';
 let SB_OK=true;
-/* Sign-in aware headers (defined in the AUTH block below). */
 function sbAuthHeaders(){
   const t=(typeof AUTH!=='undefined'&&AUTH.token)?AUTH.token:SB_KEY;
   return {'apikey':SB_KEY,'Authorization':'Bearer '+t,'Content-Type':'application/json'};
@@ -1022,6 +1095,97 @@ function authLogout(silent){
 }
 
 /* ============================================================
+   G-MEET SCHEDULED — cloud helpers (submissions + screenshots)
+   Backend: gmeet_submissions table, gmeet_settings, gmeet storage
+   bucket, and the gmeet_submit / gmeet_upload_open RPCs.
+   ============================================================ */
+const SB_BASE=SB_URL.replace('/rest/v1','');
+/* In-memory cache of this day's submissions, keyed by lead_key. */
+let GMEET_SUBS={};   // { lead_key: {id,state,duration_min,screenshot_path,fm_name,...} }
+/* Fetch all G-Meet submissions for a given day (admin sees all; FM sees own via RLS). */
+async function gmeetFetch(day){
+  try{
+    const r=await fetch(SB_URL+'/gmeet_submissions?day=eq.'+encodeURIComponent(day)+'&select=*',{headers:sbAuthHeaders()});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const rows=await r.json();
+    const map={};
+    for(const row of rows)map[row.lead_key]=row;
+    GMEET_SUBS=map;
+    return map;
+  }catch(e){return {};}
+}
+/* Ask the server clock whether uploads are currently open for this FM. */
+async function gmeetUploadOpen(fmName){
+  try{
+    const r=await fetch(SB_URL+'/rpc/gmeet_upload_open',{
+      method:'POST',headers:sbAuthHeaders(),
+      body:JSON.stringify({p_fm:fmName})
+    });
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return await r.json();   // {open, cutoff, server_time, overridden, tz}
+  }catch(e){return {open:true,reason:'offline'};}
+}
+/* Upload a screenshot File to the gmeet storage bucket. Returns its path or null. */
+async function gmeetUploadShot(file, day, leadKey){
+  try{
+    const ext=(file.name.split('.').pop()||'png').toLowerCase();
+    const path=day+'/'+leadKey+'_'+Date.now()+'.'+ext;
+    const r=await fetch(SB_BASE+'/storage/v1/object/gmeet/'+path,{
+      method:'POST',
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+(AUTH.token||SB_KEY)},
+      body:file
+    });
+    if(!r.ok)throw new Error('upload HTTP '+r.status);
+    return path;
+  }catch(e){return null;}
+}
+/* Create a submission via the tamper-proof RPC (checks server cutoff + lock). */
+async function gmeetSubmit(day, leadKey, leadName, durationMin, shotPath){
+  try{
+    const r=await fetch(SB_URL+'/rpc/gmeet_submit',{
+      method:'POST',headers:sbAuthHeaders(),
+      body:JSON.stringify({p_day:day,p_lead_key:leadKey,p_lead_name:leadName,p_duration:durationMin,p_screenshot_path:shotPath})
+    });
+    const data=await r.json();
+    return data;   // {ok:true,id,state} or {ok:false,error,msg}
+  }catch(e){return {ok:false,error:'network',msg:'Network error — try again'};}
+}
+/* Signed URL to view a private screenshot (admin review + FM's own confirmation). */
+async function gmeetShotUrl(path){
+  if(!path)return '';
+  try{
+    const r=await fetch(SB_BASE+'/storage/v1/object/sign/gmeet/'+path,{
+      method:'POST',headers:sbAuthHeaders(),
+      body:JSON.stringify({expiresIn:3600})
+    });
+    if(!r.ok)throw new Error('sign HTTP '+r.status);
+    const d=await r.json();
+    return SB_BASE+'/storage/v1'+d.signedURL;
+  }catch(e){return '';}
+}
+/* Admin: read the G-Meet settings (cutoff + lock switch). */
+let GMEET_SETTINGS={cutoff_local:'19:30',tz:'Asia/Kolkata',lock_enabled:true};
+async function gmeetGetSettings(){
+  try{
+    const r=await fetch(SB_URL+'/gmeet_settings?id=eq.global&select=cutoff_local,tz,lock_enabled,fm_overrides',{headers:sbAuthHeaders()});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const rows=await r.json();
+    if(rows.length)GMEET_SETTINGS={...GMEET_SETTINGS,...rows[0]};
+    return GMEET_SETTINGS;
+  }catch(e){return GMEET_SETTINGS;}
+}
+/* Admin: save cutoff time and/or lock switch. */
+async function gmeetSaveSettings(patch){
+  try{
+    const r=await fetch(SB_URL+'/gmeet_settings?id=eq.global',{
+      method:'PATCH',headers:{...sbAuthHeaders(),'Prefer':'return=minimal'},
+      body:JSON.stringify(patch)
+    });
+    return r.ok;
+  }catch(e){return false;}
+}
+
+/* ============================================================
    STORAGE (IndexedDB kv)
    ============================================================ */
 let IDB_OK=true;
@@ -1051,19 +1215,15 @@ let UP_MORNING=null, UP_MID=null, UP_EOD=null;
 function planKey(fm,date){return fm+'|'+date;}
 /* Point STATE.bucket at the given date's stored bucket (or null if none). */
 function useBucketForDate(date){STATE.bucket = STATE.buckets[date] || null;}
-/* Keys mirrored to the cloud, in one place so load/save/reset stay in sync.
-   Note: stageRules is stored under a fixed key but read via applyStageRules. */
 const SYNC_KEYS=['buckets','plans','pipDays','pipCfg','dayActivity','coverage','stageRules'];
 async function persist(){
   const now=Date.now();
   const sr=currentStageRules();
-  // 1) local cache (offline)
   await idbSet('buckets',STATE.buckets);await idbSet('plans',STATE.plans);
   await idbSet('pipDays',STATE.pipDays);await idbSet('pipCfg',STATE.pipCfg);
   await idbSet('dayActivity',STATE.dayActivity);await idbSet('coverage',STATE.coverage);
   await idbSet('stageRules',sr);
   await idbSet('_ts',now);
-  // 2) cloud (shared). Fire in parallel; failures are non-fatal.
   Promise.all([
     sbSet('buckets',STATE.buckets),sbSet('plans',STATE.plans),
     sbSet('pipDays',STATE.pipDays),sbSet('pipCfg',STATE.pipCfg),
@@ -1082,9 +1242,7 @@ async function loadState(){
   const cv=await idbGet('coverage');if(cv)STATE.coverage=cv;
   const sr=await idbGet('stageRules');if(sr)applyStageRules(sr);
   const localTs=(await idbGet('_ts'))||0;
-
-  // overlay cloud copies newer than our last local write, so data other
-  // users saved shows up here too.
+  // overlay cloud copies newer than our last local write
   try{
     const rows=await Promise.all(SYNC_KEYS.map(k=>sbGet(k)));
     let pulledNewer=false;
@@ -1109,7 +1267,6 @@ async function loadState(){
       await idbSet('_ts',Date.now());
     }
   }catch(e){/* offline or blocked — local cache already loaded */}
-
   useBucketForDate(STATE.sel.date);
 }
 
@@ -1176,88 +1333,102 @@ function leadByKey(k){return STATE.bucket?.leads.find(l=>l.key===k)||null;}
    Consumes the 5 activity CSVs, indexes by phone, grades each key.
    Grade priority: connected > attempted/wa/note/moved > nothing
    ============================================================ */
-function buildActivity(files){
+function buildActivity(files, scoredDate){
   // files: {call,status,wa,note,all} — each may be a raw CSV string OR {name,text}
+  // scoredDate: ISO 'YYYY-MM-DD' — ONLY activity on this date counts.
   const txt=v=>typeof v==='string'?v:(v&&v.text)?v.text:'';
   const F={call:txt(files.call),status:txt(files.status),wa:txt(files.wa),note:txt(files.note),all:txt(files.all)};
   const A={}; // key(phone) -> per-lead activity
-  const fmSpoken={}; // FM name -> total connected talk seconds (the PIP number)
+  const fmSpoken={}; // FM name -> total connected talk seconds THAT DAY (the PIP number)
   function slot(ph){const k=normPhone(ph);if(!k)return null;
     return A[k]||(A[k]={connected:false,attempted:false,waSent:false,noteAdded:false,reminderSet:false,moved:false,
                         talkSec:0,callDate:'',evidence:[]});}
+  // does a DD/MM/YYYY[ time] string fall on the scored ISO date?
+  // STRICT: only calls whose Call Start Time day == the picker's scoredDate count.
+  // A missing scoredDate or an unparseable/blank call date is EXCLUDED (fail-safe),
+  // so the day's talk-time can never accidentally sum calls from other days.
+  function onDay(v){
+    if(!scoredDate)return false;      // no scored day → count nothing (never sum all history)
+    const p=parseDT(v);               // {day:'YYYY-MM-DD'} or null
+    return p ? p.day===scoredDate : false;  // blank/unparseable date → excluded
+  }
 
-  // CALL DETAILS — the talk-time source.
-  // NOTE: this export is column-shifted — 'Called On' holds the PHONE; the real
-  // date is in 'Call Start Time'. 'Duration(in sec)' is THIS call; 'Total Call
-  // Duration' is lifetime — we sum the per-call one for daily talk time.
+  // CALL DETAILS — talk-time source. 'Called On' holds the phone; real date in 'Call Start Time'.
+  // ONLY calls on the scored day count. Multiple calls that day are SUMMED (split conversations).
   if(F.call){
     for(const o of csvToObjects(F.call)){
-      const ph=o['Phone']||o['Called On']; // both hold phone in this export
+      const dateStr=clean(o['Call Start Time']);
+      if(!onDay(dateStr))continue; // ← the fix: skip calls from other days
+      const ph=o['Phone']||o['Called On'];
       const s=slot(ph);if(!s)continue;
       const type=clean(o['Call Type']);
       const dur=parseInt(clean(o['Duration(in sec)'])||'0',10)||0;
       const fb=clean(o['Feedback']).toUpperCase();
-      const dateStr=clean(o['Call Start Time']); // the real date lives here
       const connected = fb.includes('CONNECT')||dur>0;
-      const outgoing = /outgoing/i.test(type)|| type===''; // treat blank as outgoing
+      const incoming = /incoming/i.test(type);
       if(connected){
         s.connected=true;
-        if(outgoing)s.talkSec+=dur;            // only count talk time on connected outgoing
-        s.evidence.push(dur>=60?'Call '+Math.round(dur/60)+'m'+(dur%60?' '+(dur%60)+'s':''):dur>0?'Call '+dur+'s':'Call connected');
+        s.talkSec+=dur;            // SUM every connected call that day — incoming OR outgoing
+        const durLbl = dur>=60?Math.round(dur/60)+'m'+(dur%60?' '+(dur%60)+'s':''):dur>0?dur+'s':'connected';
+        s.evidence.push((incoming?'In-call ':'Call ')+durLbl);
       } else {
         s.attempted=true;s.evidence.push('Call attempted');
       }
       if(dateStr)s.callDate=dateStr;
     }
   }
-  // STATUS CHANGE
+  // STATUS CHANGE — only moves made on the scored day
   if(F.status){
     for(const o of csvToObjects(F.status)){
+      if(!onDay(clean(o['Action Created At'])))continue;
       const s=slot(o['Phone']);if(!s)continue;
       const from=clean(o['From status']),to=clean(o['To status']);
-      s.moved=true;s.toStatus=to;
+      s.moved=true;s.toStatus=to;if(!s.fromStatus)s.fromStatus=from;
       s.evidence.push('Moved: '+(from||'?')+' → '+(to||'?'));
     }
   }
-  // WHATSAPP
+  // WHATSAPP — only outgoing WA sent on the scored day
   if(F.wa){
     for(const o of csvToObjects(F.wa)){
+      if(!onDay(clean(o['Action Created At'])))continue;
       const s=slot(o['Phone']);if(!s)continue;
       const t=clean(o['WhatsApp Message Type']);
       if(/outgoing/i.test(t)){s.waSent=true;s.evidence.push('WhatsApp sent');}
     }
   }
-  // NOTE — presence of a note on this lead
+  // NOTE — only notes added on the scored day
   if(F.note){
     for(const o of csvToObjects(F.note)){
+      if(!onDay(clean(o['Action Created At'])))continue;
       const s=slot(o['Phone']);if(!s)continue;
       s.noteAdded=true;s.evidence.push('Note added');
     }
   }
-  // REMINDER — 'Next Follow-up On' in ALLREPORT means a reminder is set on the lead
+  // REMINDER — a reminder counts as "set today" when the lead's Next Follow-up On
+  // is on/after the scored day AND it was (re)set that day. TeleCRM records the
+  // reminder-create action in the note/status stream; as a reliable proxy we treat
+  // a future-dated 'Next Follow-up On' as an active reminder on the lead.
   if(F.all){
     for(const o of csvToObjects(F.all)){
       const ph=normPhone(o['Phone']);if(!ph)continue;
       const nf=clean(o['Next Follow-up On']);
-      if(nf){const s=slot(ph);if(s)s.reminderSet=true;}
+      if(nf){const s=A[ph];if(s)s.reminderSet=true;} // only tag leads already touched today
     }
   }
 
-  // Per-FM daily talk time — sum talkSec across leads, attributed by the call's assignee.
-  // We re-read CALLDETAILS to attribute talk time to the FM who made the call.
+  // Per-FM daily talk time — sum talkSec across THIS DAY's connected calls (incoming OR outgoing).
   if(F.call){
     for(const o of csvToObjects(F.call)){
+      if(!onDay(clean(o['Call Start Time'])))continue; // same-day only
       const fm=clean(o['Assignee name']);if(!fm)continue;
       const dur=parseInt(clean(o['Duration(in sec)'])||'0',10)||0;
       const fb=clean(o['Feedback']).toUpperCase();
-      const type=clean(o['Call Type']);
       const connected=fb.includes('CONNECT')||dur>0;
-      const outgoing=/outgoing/i.test(type)||type==='';
-      if(connected&&outgoing){fmSpoken[fm]=(fmSpoken[fm]||0)+dur;}
+      if(connected){fmSpoken[fm]=(fmSpoken[fm]||0)+dur;}   // incoming + outgoing both count
     }
   }
 
-  A.__fmSpoken=fmSpoken; // stash on the map (non-phone key, ignored by grading)
+  A.__fmSpoken=fmSpoken;
   return A;
 }
 /* minutes of connected talk time for an FM from an activity map */
@@ -1288,27 +1459,36 @@ function recordPipDay(dateISO, activity){
   for(const p of plans){
     const fm=p.fm;
     const talk=fmTalkMins(activity,fm);
-    // warning categories + counts across this FM's planned leads
-    let noteMiss=false, remMiss=false, shotMiss=false;
-    let noteMissN=0, remMissN=0, shotMissN=0;
-    let planned=0, worked=0, partial=0, none=0;
+    // WARNINGS: one warning = one connected/attempted lead missing ANY mandatory item.
+    // (per-lead, not per-item — a lead missing note AND reminder is still 1 warning)
+    let warnLeads=0;           // the Tag C number
+    let noteMissN=0, remMissN=0, waMissN=0, shotMissN=0, breachN=0; // per-item breakdown
+    let planned=0, worked=0, none=0, attempt=0, partial=0;
     for(const key of p.leadKeys){
-      const g=gradeLead(key,activity);
+      const g=gradeLead(key,activity,stageMinForKey(p,key));
       planned++;
-      if(g.level==='connected'||g.level==='moved')worked++;
-      else if(g.level==='partial')partial++;else none++;
-      if(g.warns){
-        if(g.warns.includes('no note')){noteMiss=true;noteMissN++;}
-        if(g.warns.includes('no reminder')){remMiss=true;remMissN++;}
+      if(g.level==='connected')worked++;                 // full talk-time achieved
+      else if(g.level==='attempt')attempt++;
+      else if(g.level==='breach'){none++;breachN++;}      // breach counts as not-worked
+      else if(g.level==='workedless'||g.level==='partial'||g.level==='moved')partial++;  // worked-less / partial / moved w/o talk → not worked
+      else none++;
+      // warnings: connected/attempted/moved/workedless missing a mandatory item, OR a breach
+      const canWarn = (g.level==='connected'||g.level==='moved'||g.level==='attempt'||g.level==='breach'||g.level==='partial'||g.level==='workedless');
+      if(canWarn && g.warns && g.warns.length){
+        warnLeads++;                                   // this lead = 1 warning
+        if(g.warns.includes('no note'))noteMissN++;
+        if(g.warns.includes('no reminder'))remMissN++;
+        if(g.warns.includes('no WhatsApp'))waMissN++;
       }
       const snap=(p.snapshot&&p.snapshot[key]);
       if(snap&&snap.stage==='gmeet'){
-        if(g.level!=='connected'&&g.level!=='moved'){shotMiss=true;shotMissN++;}
+        if(g.level!=='connected')shotMissN++;
       }
     }
-    day[fm]={talkMins:talk, noteMiss, remMiss, shotMiss,
-             noteMissN, remMissN, shotMissN,
-             planned, worked, partial, none};
+    day[fm]={talkMins:talk, warnLeads, breachN,
+             noteMissN, remMissN, waMissN, shotMissN,
+             planned, worked, partial, none, attempt,
+             noteMiss:noteMissN>0, remMiss:remMissN>0, shotMiss:shotMissN>0};
   }
   STATE.pipDays[dateISO]=day;
 }
@@ -1324,7 +1504,13 @@ function weekStartISO(iso){
   dt.setDate(dt.getDate()-dow);
   return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
 }
-function warnMarksForDay(rec){if(!rec)return 0;return (rec.noteMiss?1:0)+(rec.remMiss?1:0)+(rec.shotMiss?1:0);}
+function warnMarksForDay(rec){
+  if(!rec)return 0;
+  // new model: warnLeads = count of connected/attempted leads missing a mandatory item
+  if(typeof rec.warnLeads==='number')return rec.warnLeads;
+  // fallback for any old-format day records still in storage
+  return (rec.noteMiss?1:0)+(rec.remMiss?1:0)+(rec.shotMiss?1:0);
+}
 
 /* ============================================================
    RANGE PERFORMANCE — aggregate stored days over a date range
@@ -1353,13 +1539,13 @@ function monthBounds(refISO){
 function aggFmRange(fm,from,to){
   const dates=datesInRange(from,to).filter(d=>STATE.pipDays[d][fm]);
   let talkTotal=0, planned=0, worked=0, partial=0, none=0;
-  let noteN=0, remN=0, shotN=0, warnMarks=0, daysUnder=0;
+  let noteN=0, remN=0, shotN=0, waN=0, attemptT=0, warnMarks=0, daysUnder=0;
   const dayRows=[];
   for(const d of dates){
     const r=STATE.pipDays[d][fm];
     talkTotal+=r.talkMins||0;
     planned+=r.planned||0; worked+=r.worked||0; partial+=r.partial||0; none+=r.none||0;
-    noteN+=r.noteMissN||0; remN+=r.remMissN||0; shotN+=r.shotMissN||0;
+    noteN+=r.noteMissN||0; remN+=r.remMissN||0; shotN+=r.shotMissN||0; waN+=r.waMissN||0; attemptT+=r.attempt||0;
     warnMarks+=warnMarksForDay(r);
     if((r.talkMins||0)<STATE.pipCfg.dailyMin)daysUnder++;
     dayRows.push({date:d, ...r});
@@ -1370,7 +1556,7 @@ function aggFmRange(fm,from,to){
     talkTotal, talkAvg: n?Math.round(talkTotal/n):0,
     planned, worked, partial, none,
     adherence: planned?Math.round(worked/planned*100):0,
-    noteN, remN, shotN, warnMarks, daysUnder,
+    noteN, remN, shotN, waN, attemptT, warnMarks, daysUnder,
   };
 }
 /* All FMs who have any data in range */
@@ -1491,26 +1677,107 @@ function evalAllPip(){
   return [...fms].sort().map(evalPip);
 }
 
-/* grade one key against activity map */
-function gradeLead(key,A){
-  if(!A)return {level:'none',label:'No activity',cls:'b-bad',evi:''};
+/* Resolve a lead key's required talk-minutes from a plan's byStage map.
+   Returns the stage's `min` (e.g. Fresh=20), or 0 if the stage isn't found. */
+function stageMinForKey(plan,key){
+  if(!plan||!plan.byStage)return 0;
+  for(const st of STAGES){
+    const arr=plan.byStage[st.id];
+    if(arr&&arr.includes(key))return st.min||0;
+  }
+  return 0;
+}
+/* The TeleCRM stage NAME a planned lead sits in (e.g. 'Request for Call Back'),
+   resolved from the plan's byStage map. '' if not found. */
+function stageNameForKey(plan,key){
+  if(!plan||!plan.byStage)return '';
+  for(const st of STAGES){
+    const arr=plan.byStage[st.id];
+    if(arr&&arr.includes(key))return st.name||'';
+  }
+  return '';
+}
+
+/* grade one key against activity map — rules confirmed with the business:
+   TALK-TIME MODEL (strict): a connected lead is only "worked" (green) if its
+   connected talk-time >= the stage's required minutes (reqMin). If it connected
+   but talked less, it's PARTIAL (carries the minutes it did talk, not counted as
+   worked). Attempt/moved-only/note-only never reach the talk bar → not worked.
+   reqMin is passed by callers that know the stage; when omitted (reqMin<=0) the
+   old connected=worked behaviour is used as a safe fallback.
+   Missing note OR reminder = warnings (they don't remove "worked"). */
+function gradeLead(key,A,reqMin){
+  if(!A)return {level:'none',label:'No activity',cls:'b-bad',evi:'',warns:[]};
   const ph=key.startsWith('#')?null:key;
   const a=ph?A[ph]:null;
   if(!a)return {level:'none',label:'No activity',cls:'b-bad',evi:'',warns:[]};
-  // a lead is "worked" if there was a connect, attempt, wa, note or move
-  const worked = a.connected||a.attempted||a.waSent||a.noteAdded||a.moved;
   const warns=[];
-  if(worked){
+  const calledOrTried = a.connected||a.attempted;
+  const movedToLost = a.moved && /lost/i.test(a.toStatus||'');
+  const talkSec = a.talkSec||0;
+  const req = (typeof reqMin==='number' && reqMin>0) ? reqMin : 0;
+
+  // BREACH: status changed today to a NON-Lost stage without any call/attempt.
+  if(a.moved && !calledOrTried && !movedToLost){
+    warns.push('breach');
+    return {level:'breach',label:'Breached — moved without calling',cls:'b-bad',
+            evi:a.evidence.join(' · '),warns,breach:true,talkSec,
+            fromStatus:a.fromStatus||'',toStatus:a.toStatus||''};
+  }
+
+  // CONNECTED → apply the talk-time test (strict model)
+  if(a.connected){
     if(!a.noteAdded)warns.push('no note');
     if(!a.reminderSet)warns.push('no reminder');
+    const mins=talkSec/60;
+    if(req>0 && mins < req){
+      // connected but under the required minutes → WORKED LESS (distinct state).
+      // Counts as NOT worked (no PIP help), but its talk-minutes still add to the
+      // daily total via fmSpoken. Kept separate from plain 'partial'.
+      return {level:'workedless',label:'Worked less · '+fmtMin(talkSec)+' / '+req+'m',cls:'b-less',
+              evi:a.evidence.join(' · '),warns,talkSec,reqMin:req,short:true};
+    }
+    // met or exceeded the bar (or no bar supplied) → fully worked
+    return {level:'connected',label:req>0?('Achieved '+fmtMin(talkSec)):'Connected',cls:'b-ok',
+            evi:a.evidence.join(' · '),warns,talkSec,reqMin:req};
   }
-  if(a.connected)return {level:'connected',label:'Connected',cls:'b-ok',evi:a.evidence.join(' · '),warns,talkSec:a.talkSec||0};
-  if(a.moved)return {level:'moved',label:'Status moved',cls:'b-ok',evi:a.evidence.join(' · '),warns};
-  if(a.attempted||a.waSent||a.noteAdded){
-    const lab=a.attempted?'Attempted':a.waSent?'WhatsApp only':'Note only';
-    return {level:'partial',label:lab,cls:'b-warn',evi:a.evidence.join(' · '),warns};
+  // Moved AND called/attempted (or moved to Lost) → NOT auto-worked anymore.
+  // A move without enough talk-time is treated as attempt/partial, not green.
+  if(a.moved){
+    if(!a.noteAdded)warns.push('no note');
+    if(!a.reminderSet)warns.push('no reminder');
+    const lbl = movedToLost && !calledOrTried ? 'Moved to Lost' : 'Status moved (no talk-time)';
+    return {level:'moved',label:lbl,cls:'b-warn',evi:a.evidence.join(' · '),warns,talkSec};
+  }
+  // NOT CONNECTED but attempted → ATTEMPT (reminder + WhatsApp mandatory)
+  if(a.attempted){
+    if(!a.reminderSet)warns.push('no reminder');
+    if(!a.waSent)warns.push('no WhatsApp');
+    return {level:'attempt',label:'Attempted (not connected)',cls:'b-warn',evi:a.evidence.join(' · '),warns,talkSec};
+  }
+  // Only WhatsApp or only a note, no call at all → partial touch
+  if(a.waSent||a.noteAdded){
+    const lab=a.waSent?'WhatsApp only':'Note only';
+    return {level:'partial',label:lab,cls:'b-warn',evi:a.evidence.join(' · '),warns,talkSec:0};
   }
   return {level:'none',label:'No activity',cls:'b-bad',evi:'',warns:[]};
+}
+/* format seconds as compact minutes label, e.g. 505 -> '8m', 90 -> '1m 30s' */
+function fmtMin(sec){sec=Math.round(sec||0);const m=Math.floor(sec/60),s=sec%60;return m?(m+'m'+(s?' '+s+'s':'')):(s+'s');}
+/* 'HH:MM' 24h → '7:30 PM' */
+function to12h(hhmm){
+  const [h,m]=(hhmm||'19:30').split(':').map(Number);
+  const ap=h>=12?'PM':'AM';const h12=h%12||12;
+  return h12+':'+String(m||0).padStart(2,'0')+' '+ap;
+}
+/* Render evidence text, wrapping "In-call …" segments in a green badge so
+   incoming calls are visually distinct. Input is the ' · '-joined evidence. */
+function renderEvi(evi){
+  if(!evi)return '';
+  return evi.split(' · ').map(seg=>{
+    if(/^In-call\b/.test(seg))return '<span class="incall-badge">'+esc(seg)+'</span>';
+    return esc(seg);
+  }).join(' · ');
 }
 
 /* ============================================================
@@ -1522,7 +1789,9 @@ function isLocked(){const p=currentPlan();return !!(p&&p.submittedAt);}
 /* ============================================================
    MOBILE-FIRST FM VIEW — render
    ============================================================ */
-const FMV={filter:'all', tab:'plan', picks:new Set(), sortBy:'none', sortDir:'asc'};
+const FMV={filter:'all', tab:'plan', picks:new Set(), sortBy:'none', sortDir:'asc', search:''};
+// admin review scorecard: which status the tiles are filtering the lead list by
+const REV={filter:'all'};
 // picks persists across stage filters (the 240 gate is a TOTAL across all stages)
 // sortBy: 'none' | 'stage' (days in stage) | 'created' (age); sortDir: 'asc' | 'desc'
 function renderFMMobile(){
@@ -1532,11 +1801,9 @@ function renderFMMobile(){
   // the tabs are usable. A "preview as" picker lets admin check each FM's view.
   const lockedFM = (AUTH.role==='fm') ? (AUTH.fmName||null) : null;
   if(lockedFM){
-    // A logged-in FM is always pinned to their own name, regardless of the bucket.
-    STATE.sel.fm = lockedFM;
+    STATE.sel.fm = lockedFM;               // FM always pinned to their own name
   }else if(!STATE.sel.fm && fms.length){
-    // Admin previewing with nothing chosen: default to first available.
-    STATE.sel.fm=fms[0];
+    STATE.sel.fm=fms[0];                    // admin preview default
   }
   const fm=STATE.sel.fm;
 
@@ -1553,8 +1820,7 @@ function renderFMMobile(){
   const plan=currentPlan();
   const totalLeads=STAGES.reduce((a,st)=>a+byStage[st.id].length,0);
 
-  // "preview as" FM picker — ADMIN ONLY (lets admin inspect each FM's view).
-  // A logged-in FM never sees this; they're locked to their own name.
+  // "preview as" FM picker — temporary until Supabase login identifies the FM
   const previewPicker = (AUTH.role!=='fm' && fms.length>1) ? `<select class="fmv-whoami" id="fmvWho">${fms.map(f=>`<option value="${esc(f)}" ${f===fm?'selected':''}>${esc(f)}</option>`).join('')}</select>` : '';
 
   // header (constant across tabs)
@@ -1580,6 +1846,13 @@ function renderFMMobile(){
   const pb=fmPipBannerData(fm);
   if(pb)html+=`<div class="fmv-pip ${pb.cls}"><span class="pi">${pb.icon}</span><div><b>${pb.title}</b><span>${pb.msg}</span></div></div>`;
 
+  // For the Result tab, ensure this day's G-Meet submissions are loaded (async).
+  // We load once per (day) and re-render when they arrive.
+  if(FMV.tab==='result' && GMEET_LOADED_DAY!==STATE.sel.date){
+    GMEET_LOADED_DAY=STATE.sel.date;
+    gmeetFetch(STATE.sel.date).then(()=>{ if(STATE.role==='fm'||AUTH.role==='fm'||STATE.sel.fm===fm) renderFMMobile(); });
+  }
+
   // route to the active tab's body
   if(FMV.tab==='plan')       html+=fmPlanBody(fm,byStage,plan);
   else if(FMV.tab==='progress') html+=fmReviewBody(fm,byStage,plan,'mid');
@@ -1589,6 +1862,7 @@ function renderFMMobile(){
   host.innerHTML=html;
   wireFMMobile();
 }
+let GMEET_LOADED_DAY=null;
 
 /* ---------- TAB 1: PLAN (pick leads) ---------- */
 function fmPlanBody(fm,byStage,plan){
@@ -1611,6 +1885,13 @@ function fmPlanBody(fm,byStage,plan){
   const stagesWith=STAGES.filter(st=>byStage[st.id].length);
   // clamp filter to a stage that exists
   if(FMV.filter!=='all' && !stagesWith.some(s=>s.id===FMV.filter))FMV.filter='all';
+  // search bar (name or phone) — searches across ALL stages
+  const q=(FMV.search||'').trim().toLowerCase();
+  html+=`<div class="fmv-search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input type="text" id="fmvSearch" placeholder="Search name or number…" value="${esc(FMV.search||'')}" autocomplete="off">
+    ${q?`<button class="fmv-search-clr" id="fmvSearchClr">✕</button>`:''}
+  </div>`;
   html+=`<div class="fmv-chips">
     <div class="fmv-chip ${FMV.filter==='all'?'on':''}" data-fchip="all">All <span class="cn">${totalLeads}</span></div>
     ${stagesWith.map(st=>{const n=byStage[st.id].length;
@@ -1619,17 +1900,33 @@ function fmPlanBody(fm,byStage,plan){
   </div>`;
   // sorting controls
   html+=fmSortBarHTML();
+  // helper: does a lead match the search query? (phone matched on last 10 digits,
+  // so typing the 10-digit number finds it even though we store the 91 prefix)
+  const qDigits=q.replace(/\D/g,'');
+  const last10=s=>(s||'').replace(/\D/g,'').slice(-10);
+  const qLast10=qDigits.slice(-10);
+  const matchQ=l=>{
+    if(!q)return true;
+    const name=(l.name||'').toLowerCase();
+    if(name.includes(q))return true;
+    if(qDigits && last10(l.ph).includes(qLast10))return true;
+    return false;
+  };
   // swipeable lead pane
   html+=`<div class="fmv-leads" id="fmvSwipe">`;
-  const showStages = FMV.filter==='all' ? stagesWith : stagesWith.filter(st=>st.id===FMV.filter);
+  // when searching, ignore the stage chip and show ALL matching leads across stages
+  const showStages = q ? stagesWith : (FMV.filter==='all' ? stagesWith : stagesWith.filter(st=>st.id===FMV.filter));
+  let anyShown=false;
   for(const st of showStages){
-    let leads=byStage[st.id].slice();
+    let leads=byStage[st.id].slice().filter(matchQ);
+    if(!leads.length)continue;
+    anyShown=true;
     leads=applyLeadSort(leads);
     const pickedHere=leads.filter(l=>picked.has(l.key)).length;
-    const suggest=Math.max(1,Math.round(leads.length*st.share));
+    const suggest=Math.max(1,Math.round(byStage[st.id].length*st.share));
     html+=`<div class="fmv-stagehdr"><span class="sd" style="background:${st.dot}"></span>
-      <span class="sn">${esc(st.name)}</span><span class="sr">${pickedHere}/${leads.length} · ${st.ruleTxt}</span></div>`;
-    if(!locked){
+      <span class="sn">${esc(st.name)}</span><span class="sr">${pickedHere}/${leads.length}${q?' found':' · '+st.ruleTxt}</span></div>`;
+    if(!locked && !q){
       html+=`<div class="fmv-bulk">
         <button data-fmall="${st.id}">✓ Select suggested (${suggest})</button>
         <button class="clr" data-fmnone="${st.id}">Clear</button>
@@ -1637,6 +1934,7 @@ function fmPlanBody(fm,byStage,plan){
     }
     for(const l of leads)html+=mLeadHTML(l, picked.has(l.key), locked);
   }
+  if(q && !anyShown)html+=`<div class="empty" style="padding:36px 20px"><div class="must">🔍</div><h3>No leads found</h3><p>Nothing matches "${esc(FMV.search)}". Try a different name or number.</p></div>`;
   html+=`</div>`;
   html+=fmSheetHTML(byStage,picked,locked);
   return html;
@@ -1685,25 +1983,40 @@ function fmReviewBody(fm,byStage,plan,phase){
       <p>Your ${isEod?'end-of-day score':'midday progress'} will appear once admin uploads the ${isEod?'end-of-day':'midday'} activity for ${covDateLabel(STATE.sel.date)}.</p></div>`;
   }
   // grade each planned lead
-  const rows=plan.leadKeys.map(k=>({key:k, lead:leadByKey(k)||(plan.snapshot&&plan.snapshot[k]), g:gradeLead(k,activity)}));
-  const worked=rows.filter(r=>r.g.level==='connected'||r.g.level==='moved').length;
-  const partial=rows.filter(r=>r.g.level==='partial').length;
+  const rows=plan.leadKeys.map(k=>({key:k, lead:leadByKey(k)||(plan.snapshot&&plan.snapshot[k]), g:gradeLead(k,activity,stageMinForKey(plan,k))}));
+  const worked=rows.filter(r=>r.g.level==='connected').length;
+  const attempt=rows.filter(r=>r.g.level==='attempt').length;
+  const breach=rows.filter(r=>r.g.level==='breach').length;
+  const workedless=rows.filter(r=>r.g.level==='workedless').length;
+  const partial=rows.filter(r=>r.g.level==='partial'||r.g.level==='moved').length;
   const none=rows.filter(r=>r.g.level==='none').length;
   const talk=fmTalkMins(activity,fm);
   const adh=rows.length?Math.round(worked/rows.length*100):0;
+  // missing-note / missing-reminder counts across the FM's planned leads
+  const noteMissN=rows.filter(r=>r.g.warns&&r.g.warns.includes('no note')).length;
+  const remMissN=rows.filter(r=>r.g.warns&&r.g.warns.includes('no reminder')).length;
 
   let html=`<div class="fmv-review">`;
+  // BREACH banner — overall flag if any lead was moved without calling
+  if(breach>0){
+    html+=`<div class="fmv-breach"><span class="bi">⛔</span><div><b>Plan has ${breach} rule breach${breach>1?'es':''}</b><span>${breach} lead${breach>1?'s were':' was'} moved to a new stage without calling. Only Lost is allowed without a call.</span></div></div>`;
+  }
   // summary card
   html+=`<div class="fmv-rsum">
     <div class="fmv-rsum-row">
       <div class="rs"><span class="v cyan">${rows.length}</span><span class="l">Planned</span></div>
       <div class="rs"><span class="v ok">${worked}</span><span class="l">Worked</span></div>
-      <div class="rs"><span class="v warn">${partial}</span><span class="l">Partial</span></div>
-      <div class="rs"><span class="v bad">${none}</span><span class="l">Not done</span></div>
+      <div class="rs"><span class="v less">${workedless}</span><span class="l">Worked Less</span></div>
+      <div class="rs"><span class="v warn">${attempt}</span><span class="l">Attempt</span></div>
+      <div class="rs"><span class="v bad">${none+partial+breach}</span><span class="l">Not done</span></div>
     </div>
     <div class="fmv-rsum-foot">
       <div class="rf"><b>${talk}m</b> talk time</div>
       <div class="rf"><b class="${adh>=70?'okc':adh>=40?'warnc':'badc'}">${adh}%</b> ${isEod?'adherence':'so far'}</div>
+    </div>
+    <div class="fmv-rsum-warns">
+      <button class="fmv-warnbtn ${FMV.filter==='notemiss'?'on':''}" data-fchip="notemiss">Missing notes <span class="cn">${noteMissN}</span></button>
+      <button class="fmv-warnbtn ${FMV.filter==='remmiss'?'on':''}" data-fchip="remmiss">Missing reminders <span class="cn">${remMissN}</span></button>
     </div>
   </div>`;
 
@@ -1711,10 +2024,13 @@ function fmReviewBody(fm,byStage,plan,phase){
   const buckets=[
     {id:'all',lbl:'All',n:rows.length},
     {id:'worked',lbl:'Worked',n:worked},
-    {id:'partial',lbl:'Partial',n:partial},
-    {id:'none',lbl:'Not done',n:none},
-  ];
-  if(FMV.filter!=='all' && !['worked','partial','none'].includes(FMV.filter))FMV.filter='all';
+    {id:'workedless',lbl:'Worked Less',n:workedless},
+    {id:'attempt',lbl:'Attempt',n:attempt},
+    {id:'breach',lbl:'Breached',n:breach},
+    {id:'none',lbl:'Not done',n:none+partial},
+  ].filter(b=>b.id!=='breach'||breach>0);
+  const validFilters=['all','worked','workedless','attempt','breach','none','notemiss','remmiss'];
+  if(!validFilters.includes(FMV.filter))FMV.filter='all';
   html+=`<div class="fmv-chips">
     ${buckets.map(b=>`<div class="fmv-chip ${FMV.filter===b.id?'on':''}" data-fchip="${b.id}">${b.lbl} <span class="cn">${b.n}</span></div>`).join('')}
   </div>`;
@@ -1723,12 +2039,23 @@ function fmReviewBody(fm,byStage,plan,phase){
   html+=`<div class="fmv-leads" style="padding-bottom:40px">`;
   const filtered = rows.filter(r=>{
     if(FMV.filter==='all')return true;
-    if(FMV.filter==='worked')return r.g.level==='connected'||r.g.level==='moved';
-    if(FMV.filter==='partial')return r.g.level==='partial';
-    if(FMV.filter==='none')return r.g.level==='none';
+    if(FMV.filter==='worked')return r.g.level==='connected';
+    if(FMV.filter==='workedless')return r.g.level==='workedless';
+    if(FMV.filter==='attempt')return r.g.level==='attempt';
+    if(FMV.filter==='breach')return r.g.level==='breach';
+    if(FMV.filter==='none')return r.g.level==='none'||r.g.level==='partial'||r.g.level==='moved';
+    if(FMV.filter==='notemiss')return r.g.warns&&r.g.warns.includes('no note');
+    if(FMV.filter==='remmiss')return r.g.warns&&r.g.warns.includes('no reminder');
     return true;
   });
-  for(const r of filtered)html+=mReviewLeadHTML(r.lead,r.g);
+  for(const r of filtered){
+    const stName=stageNameForKey(plan,r.key);
+    html+=mReviewLeadHTML(r.lead,r.g,stName);
+    // G-Meet Scheduled leads get an upload/approval panel (Result tab only)
+    if(isEod && stName==='G-Meet Scheduled'){
+      html+=gmeetPanelHTML(r.key, r.lead);
+    }
+  }
   if(!filtered.length)html+=`<div class="empty" style="padding:30px"><p>No leads in this filter.</p></div>`;
   html+=`</div></div>`;
   return html;
@@ -1756,15 +2083,18 @@ function fmLockedBody(fm,byStage,plan){
   return html;
 }
 
-function mReviewLeadHTML(l,g){
+function mReviewLeadHTML(l,g,stageName){
   if(!l)return '';
-  const telHref = l.ph ? 'tel:'+(''+l.ph).replace(/[^\d+]/g,'') : '';
-  const cls = (g.level==='connected'||g.level==='moved')?'ok':(g.level==='partial')?'partial':'none';
-  const badge = (g.level==='connected'||g.level==='moved')?'✓ '+g.label:(g.level==='partial')?'~ '+g.label:'✕ '+g.label;
+  const telHref = telLink(l.ph);
+  const isBreach = g.level==='breach';
+  const cls = isBreach?'breach':(g.level==='connected')?'ok':(g.level==='workedless')?'less':(g.level==='attempt'||g.level==='partial'||g.level==='moved')?'partial':'none';
+  const pre = isBreach?'⛔ ':(g.level==='connected')?'✓ ':(g.level==='workedless')?'◑ ':(g.level==='attempt'||g.level==='partial'||g.level==='moved')?'~ ':'✕ ';
+  const badge = pre+g.label+(g.warns&&g.warns.filter(w=>w!=='breach').length?' · '+g.warns.filter(w=>w!=='breach').join(', '):'');
+  const stageTag = stageName?`<span class="lead-stage-tag">${esc(stageName)}</span>`:'';
   return `<div class="mlead mreview ${cls}">
     <div class="mreview-dot"></div>
     <div class="mlead-body">
-      <div class="mlead-name">${esc(l.name||'')}</div>
+      <div class="mlead-name">${esc(l.name||'')}${stageTag}</div>
       <div class="mlead-meta">${esc(l.ph||'')}${l.city?' · '+esc(l.city):''}</div>
       <div class="mreview-badge ${cls}">${esc(badge)}</div>
     </div>
@@ -1772,9 +2102,46 @@ function mReviewLeadHTML(l,g){
   </div>`;
 }
 
+/* G-Meet upload/approval panel for a single lead in the FM Result tab.
+   Shows one of: upload form (not submitted), pending, approved, rejected. */
+function gmeetPanelHTML(leadKey, lead){
+  const sub=GMEET_SUBS[leadKey];
+  const ph=(lead&&lead.ph)||leadKey;
+  if(!sub){
+    // NOT SUBMITTED → upload form (screenshot + duration)
+    return `<div class="gm-panel" data-gmlead="${esc(leadKey)}">
+      <div class="gm-title">📹 G-Meet proof</div>
+      <div class="gm-form">
+        <label class="gm-shot">
+          <input type="file" accept="image/*" data-gmshot="${esc(leadKey)}" style="display:none">
+          <span class="gm-shot-btn" data-gmshotbtn="${esc(leadKey)}">📎 Attach screenshot</span>
+          <span class="gm-shot-name" data-gmshotname="${esc(leadKey)}"></span>
+        </label>
+        <div class="gm-durrow">
+          <input type="number" min="1" max="600" placeholder="Duration (min)" class="gm-dur" data-gmdur="${esc(leadKey)}">
+          <button class="gm-submit" data-gmsubmit="${esc(leadKey)}" data-gmname="${esc((lead&&lead.name)||'')}">Submit</button>
+        </div>
+        <div class="gm-msg" data-gmmsg="${esc(leadKey)}"></div>
+      </div>
+    </div>`;
+  }
+  // SUBMITTED → show state
+  const st=sub.state;
+  const stCls = st==='approved'?'ok':st==='rejected'?'bad':'pending';
+  const stLbl = st==='approved'?('✓ Approved · '+sub.duration_min+' min')
+              : st==='rejected'?('✕ Rejected')
+              : ('⏳ Pending admin approval · '+sub.duration_min+' min');
+  return `<div class="gm-panel ${stCls}" data-gmlead="${esc(leadKey)}">
+    <div class="gm-title">📹 G-Meet proof</div>
+    <div class="gm-state ${stCls}">${stLbl}</div>
+    ${sub.screenshot_path?`<button class="gm-viewshot" data-gmview="${esc(sub.screenshot_path)}">View screenshot</button>`:''}
+    ${st==='rejected'?`<div class="gm-msg">Rejected by admin. Ask admin to remove it if you need to re-upload.</div>`:''}
+  </div>`;
+}
+
 function mLeadHTML(l,isPicked,locked){
   const meta=[l.city,l.invest].filter(Boolean).join(' · ');
-  const telHref = l.ph ? 'tel:'+l.ph.replace(/[^\d+]/g,'') : '';
+  const telHref = telLink(l.ph);
   const st=daysBadge(l.stageDays,'in stage');
   const cr=daysBadge(l.createdDays,'age');
   return `<div class="mlead ${isPicked?'pick':''}" data-key="${esc(l.key)}" ${locked?'data-locked="1"':''}>
@@ -1840,9 +2207,91 @@ function fmRefreshSheet(){
 }
 
 function wireFMMobile(){
+  // ---- G-Meet upload panel wiring ----
+  // attach-screenshot button → open the hidden file input
+  $$('#fmView [data-gmshotbtn]').forEach(b=>b.addEventListener('click',()=>{
+    const k=b.dataset.gmshotbtn;const inp=$(`#fmView [data-gmshot="${CSS.escape(k)}"]`);if(inp)inp.click();
+  }));
+  // show chosen filename
+  $$('#fmView [data-gmshot]').forEach(inp=>inp.addEventListener('change',()=>{
+    const k=inp.dataset.gmshot;const nm=$(`#fmView [data-gmshotname="${CSS.escape(k)}"]`);
+    if(nm)nm.textContent=inp.files&&inp.files[0]?('✓ '+inp.files[0].name.slice(0,20)):'';
+  }));
+  // submit a G-Meet proof
+  $$('#fmView [data-gmsubmit]').forEach(btn=>btn.addEventListener('click',async()=>{
+    const k=btn.dataset.gmsubmit;const leadName=btn.dataset.gmname||'';
+    const inp=$(`#fmView [data-gmshot="${CSS.escape(k)}"]`);
+    const durEl=$(`#fmView [data-gmdur="${CSS.escape(k)}"]`);
+    const msg=$(`#fmView [data-gmmsg="${CSS.escape(k)}"]`);
+    const file=inp&&inp.files&&inp.files[0];
+    const dur=parseInt(durEl&&durEl.value||'0',10)||0;
+    if(!file){msg.textContent='Attach a screenshot first.';msg.className='gm-msg bad';return;}
+    if(dur<1){msg.textContent='Enter the meeting duration in minutes.';msg.className='gm-msg bad';return;}
+    btn.disabled=true;btn.textContent='Submitting…';msg.textContent='';msg.className='gm-msg';
+    // 1) server-clock cutoff check
+    const fmName=(AUTH.fmName)||STATE.sel.fm;
+    const gate=await gmeetUploadOpen(fmName);
+    if(!gate.open){
+      msg.textContent="It's past "+(gate.cutoff||'the cutoff')+" — you can't upload now. Ask admin to remove the time lock.";
+      msg.className='gm-msg bad';btn.disabled=false;btn.textContent='Submit';return;
+    }
+    // 2) upload screenshot
+    const path=await gmeetUploadShot(file, STATE.sel.date, k);
+    if(!path){msg.textContent='Screenshot upload failed — try again.';msg.className='gm-msg bad';btn.disabled=false;btn.textContent='Submit';return;}
+    // 3) create the submission (server enforces cutoff + lock again)
+    const res=await gmeetSubmit(STATE.sel.date, k, leadName, dur, path);
+    if(!res.ok){
+      msg.textContent=res.msg||'Submit failed.';msg.className='gm-msg bad';btn.disabled=false;btn.textContent='Submit';return;
+    }
+    // success → refresh submissions and re-render
+    GMEET_LOADED_DAY=null;
+    await gmeetFetch(STATE.sel.date);
+    renderFMMobile();
+  }));
+  // view an uploaded screenshot (signed URL)
+  $$('#fmView [data-gmview]').forEach(b=>b.addEventListener('click',async()=>{
+    const url=await gmeetShotUrl(b.dataset.gmview);
+    if(url)window.open(url,'_blank');
+  }));
+
   // preview-as FM picker (temporary until Supabase login)
   const who=$('#fmvWho');
-  if(who)who.addEventListener('change',()=>{STATE.sel.fm=who.value;FMV.filter='all';FMV.picks=new Set();renderFMMobile();});
+  if(who)who.addEventListener('change',()=>{STATE.sel.fm=who.value;FMV.filter='all';FMV.picks=new Set();FMV.search='';renderFMMobile();});
+  // search box — live filter without a full re-render (keeps keyboard focus)
+  const srch=$('#fmvSearch');
+  if(srch){
+    srch.addEventListener('input',()=>{
+      FMV.search=srch.value;
+      const raw=srch.value.trim().toLowerCase();
+      const qDigits=raw.replace(/\D/g,'');
+      const last10=s=>(s||'').replace(/\D/g,'').slice(-10);
+      const qLast10=qDigits.slice(-10);
+      let anyVisible=false;
+      $$('#fmView .mlead').forEach(row=>{
+        const l=leadByKey(row.dataset.key);
+        const name=(l&&l.name||'').toLowerCase();
+        const hit = !raw || name.includes(raw) || (qDigits && last10(l&&l.ph).includes(qLast10));
+        row.style.display=hit?'':'none';
+        if(hit)anyVisible=true;
+      });
+      // hide stage headers/bulk with no visible leads
+      $$('#fmView .fmv-stagehdr').forEach(h=>{
+        let n=h.nextElementSibling, has=false;
+        while(n && !n.classList.contains('fmv-stagehdr')){
+          if(n.classList.contains('mlead') && n.style.display!=='none'){has=true;break;}
+          n=n.nextElementSibling;
+        }
+        h.style.display=has?'':'none';
+        // hide the bulk row right after the header too
+        const bulk=h.nextElementSibling;
+        if(bulk && bulk.classList.contains('fmv-bulk'))bulk.style.display=has?'':'none';
+      });
+    });
+    // Enter or clearing triggers a proper re-render (to restore bulk buttons etc.)
+    srch.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();srch.blur();}});
+  }
+  const sclr=$('#fmvSearchClr');
+  if(sclr)sclr.addEventListener('click',()=>{FMV.search='';renderFMMobile();});
   // tab toggle
   $$('#fmvTabs [data-ftab]').forEach(b=>b.addEventListener('click',()=>{
     if(FMV.tab!==b.dataset.ftab){FMV.tab=b.dataset.ftab;FMV.filter='all';renderFMMobile();}
@@ -2175,8 +2624,12 @@ function wirePlan(){
   // search within stage
   $$('#planBody [data-srch]').forEach(inp=>inp.addEventListener('input',()=>{
     const q=inp.value.toLowerCase().trim();
+    const qDigits=q.replace(/\D/g,''); const qLast10=qDigits.slice(-10);
     $$(`[data-list="${inp.dataset.srch}"] .lead`).forEach(r=>{
-      r.style.display = !q||r.dataset.name.includes(q) ? '' : 'none';
+      const nm=r.dataset.name||'';
+      const phLast10=(nm.replace(/\D/g,'')).slice(-10);
+      const hit = !q || nm.includes(q) || (qDigits && phLast10.includes(qLast10));
+      r.style.display = hit ? '' : 'none';
     });
   }));
 }
@@ -2251,19 +2704,34 @@ function renderReview(phase){
   const fm=STATE.sel.fm;
   const showFM = fm && plans.some(p=>p.fm===fm);
 
+  // Ensure this day's G-Meet submissions are loaded for the breach/G-Meet sections.
+  if(GMEET_LOADED_DAY!==date){
+    GMEET_LOADED_DAY=date;
+    gmeetFetch(date).then(()=>renderReview(phase));
+  }
+
   let html='';
-  // ---- overview scorecard (all plans this day) ----
-  const agg=aggregate(plans,activity);
+  // ---- scorecard: team totals when viewing all FMs, or the selected FM's numbers ----
+  const selPlan = showFM ? plans.find(p=>p.fm===fm) : null;
+  const sc = selPlan ? scorePlan(selPlan,activity) : aggregate(plans,activity);
+  const scTitle = showFM ? esc(fm) : (isEod?'End of day':'Midday');
+  const scSub = showFM
+    ? `${esc(fm)}'s result for ${isoToDMY(date)}. Tap a tile to filter the leads below.`
+    : `${plans.length} FM${plans.length>1?'s':''} planned ${sc.planned} leads. ${isEod?'Final result below.':'Progress so far — the day isn\'t over.'}`;
+  // tiles are clickable only in the per-FM view (they filter that FM's lead list)
+  const clk = showFM ? ' rev-clickable' : '';
+  const on = f => (showFM && REV.filter===f) ? ' rev-on' : '';
   html+=`<div class="card" style="margin-bottom:14px"><div class="card-pad">
-    <div class="sec-head"><span class="must">${isEod?'🌙':'🕐'}</span><h2>${isEod?'End of day':'Midday'} — ${isoToDMY(date)}</h2></div>
-    <div class="sec-sub">${plans.length} FM${plans.length>1?'s':''} planned ${agg.planned} leads. ${isEod?'Final result below.':'Progress so far — the day isn\'t over.'}</div>
-    <div class="score-grid">
-      <div class="score cyan"><div class="sv">${agg.planned}</div><div class="sl">Leads planned</div></div>
-      <div class="score ok"><div class="sv">${agg.worked}</div><div class="sl">Worked</div><div class="sp">connected or moved</div></div>
-      <div class="score warn"><div class="sv">${agg.partial}</div><div class="sl">Partial</div><div class="sp">attempt / WhatsApp / note</div></div>
-      <div class="score bad"><div class="sv">${agg.none}</div><div class="sl">Not touched</div></div>
-      <div class="score ${agg.adh>=70?'ok':agg.adh>=40?'warn':'bad'}"><div class="sv">${agg.adh}%</div><div class="sl">Adherence</div>
-        <div class="adh-bar"><div class="adh-fill" style="width:${agg.adh}%;background:${agg.adh>=70?'var(--ok)':agg.adh>=40?'var(--warn)':'var(--bad)'}"></div></div>
+    <div class="sec-head"><span class="must">${showFM?'🎯':(isEod?'🌙':'🕐')}</span><h2>${scTitle}${showFM?' — scorecard':' — '+isoToDMY(date)}</h2>${showFM?'<span class="mini-link" data-backall style="margin-left:auto">← all managers</span>':''}</div>
+    <div class="sec-sub">${scSub}</div>
+    <div class="score-grid score-grid-6">
+      <div class="score cyan${clk}${on('all')}" ${showFM?'data-revfilter="all"':''}><div class="sv">${sc.planned}</div><div class="sl">Leads planned</div></div>
+      <div class="score ok${clk}${on('worked')}" ${showFM?'data-revfilter="worked"':''}><div class="sv">${sc.worked}</div><div class="sl">Worked</div><div class="sp">hit talk-time</div></div>
+      <div class="score less${clk}${on('workedless')}" ${showFM?'data-revfilter="workedless"':''}><div class="sv">${sc.workedless}</div><div class="sl">Worked Less</div><div class="sp">under target</div></div>
+      <div class="score warn${clk}${on('partial')}" ${showFM?'data-revfilter="partial"':''}><div class="sv">${sc.partial}</div><div class="sl">Partial</div><div class="sp">attempt / moved / WA</div></div>
+      <div class="score bad${clk}${on('none')}" ${showFM?'data-revfilter="none"':''}><div class="sv">${sc.none}</div><div class="sl">Not touched</div></div>
+      <div class="score ${sc.adh>=70?'ok':sc.adh>=40?'warn':'bad'}"><div class="sv">${sc.adh}%</div><div class="sl">Adherence</div>
+        <div class="adh-bar"><div class="adh-fill" style="width:${sc.adh}%;background:${sc.adh>=70?'var(--ok)':sc.adh>=40?'var(--warn)':'var(--bad)'}"></div></div>
       </div>
     </div>
   </div></div>`;
@@ -2279,11 +2747,13 @@ function renderReview(phase){
     for(const p of plans.sort((a,b)=>a.fm.localeCompare(b.fm))){
       const s=scorePlan(p,activity);
       const talk=fmTalkMins(activity,p.fm);const tOk=talk>=MIN_PLAN_MINS;
-      html+=`<div class="fmcard" data-fmpick="${esc(p.fm)}">
+      html+=`<div class="fmcard ${s.breach>0?'has-breach':''}" data-fmpick="${esc(p.fm)}">
         <div class="fn">${esc(p.fm)}<span class="adp" style="color:${s.adh>=70?'var(--ok)':s.adh>=40?'var(--warn)':'var(--bad)'}">${s.adh}%</span></div>
+        ${s.breach>0?`<div class="fm-breach-tag">⛔ ${s.breach} breach${s.breach>1?'es':''}</div>`:''}
         <div class="frow">Planned <b>${s.planned}</b></div>
         <div class="frow">Worked <b style="color:var(--ok)">${s.worked}</b></div>
-        <div class="frow">Partial <b style="color:var(--warn)">${s.partial}</b></div>
+        <div class="frow">Worked less <b style="color:#b45309">${s.workedless}</b></div>
+        <div class="frow">Attempt <b style="color:var(--warn)">${s.attempt}</b></div>
         <div class="frow">Not touched <b style="color:var(--bad)">${s.none}</b></div>
         <div class="fm-talk ${tOk?'ok':'bad'}">🕐 Talk ${talk} / ${MIN_PLAN_MINS} min ${tOk?'✓':''}</div>
       </div>`;
@@ -2300,10 +2770,20 @@ function renderReview(phase){
     html+=`</div></div></div>`;
   }
   body.innerHTML=html;
-  // wire FM card clicks
+  // wire FM card clicks (entering an FM resets the status filter)
   $$(`#${isEod?'eodBody':'midBody'} [data-fmpick]`).forEach(c=>c.addEventListener('click',()=>{
+    REV.filter='all';
     STATE.sel.fm=c.dataset.fmpick;$('#planFM').value=c.dataset.fmpick;renderReview(phase);
   }));
+  // wire scorecard tile clicks (per-FM view) → filter the lead list to that status
+  $$(`#${isEod?'eodBody':'midBody'} [data-revfilter]`).forEach(t=>t.addEventListener('click',()=>{
+    const f=t.dataset.revfilter;
+    REV.filter=(REV.filter===f?'all':f);   // click active tile again → clear
+    renderReview(phase);
+  }));
+  // wire the "← all managers" back link (resets FM and filter)
+  const bk=$(`#${isEod?'eodBody':'midBody'} [data-backall]`);
+  if(bk)bk.addEventListener('click',()=>{REV.filter='all';STATE.sel.fm='';$('#planFM').value='';renderReview(phase);});
 }
 
 function reviewFMDetail(plan,activity,phase){
@@ -2312,7 +2792,7 @@ function reviewFMDetail(plan,activity,phase){
   const talkMet=talk>=MIN_PLAN_MINS;
   // tally warnings across planned leads
   let noteW=0,remW=0;
-  for(const key of plan.leadKeys){const g=gradeLead(key,activity);if(g.warns){if(g.warns.includes('no note'))noteW++;if(g.warns.includes('no reminder'))remW++;}}
+  for(const key of plan.leadKeys){const g=gradeLead(key,activity,stageMinForKey(plan,key));if(g.warns){if(g.warns.includes('no note'))noteW++;if(g.warns.includes('no reminder'))remW++;}}
   let html=`<div class="card"><div class="card-pad">
     <div class="sec-head"><span class="must">🎯</span><h2>${esc(plan.fm)} — planned leads</h2></div>
     <div class="sec-sub">Each lead ${esc(plan.fm)} committed to this morning, and whether it was worked. <span class="mini-link" data-backall>← all managers</span></div>
@@ -2325,16 +2805,70 @@ function reviewFMDetail(plan,activity,phase){
       ${noteW?`<div class="talk-chip warn"><span class="tc-lbl">Missing notes</span><span class="tc-val">${noteW}</span></div>`:''}
       ${remW?`<div class="talk-chip warn"><span class="tc-lbl">Missing reminders</span><span class="tc-val">${remW}</span></div>`:''}
     </div>`;
+  // ---- BREACHED section: leads moved to a non-Lost stage without any call ----
+  const breachRows=plan.leadKeys
+    .map(key=>({key, snap:(plan.snapshot&&plan.snapshot[key])||{name:key,ph:key}, g:gradeLead(key,activity,stageMinForKey(plan,key))}))
+    .filter(r=>r.g.level==='breach');
+  if(breachRows.length){
+    html+=`<div class="breach-sec"><div class="breach-sec-hd">⛔ ${breachRows.length} Breached lead${breachRows.length>1?'s':''}</div>`;
+    for(const r of breachRows){
+      const move=(r.g.fromStatus||r.g.toStatus)?`${esc(r.g.fromStatus||'?')} → ${esc(r.g.toStatus||'?')}`:'stage changed';
+      html+=`<div class="breach-item">
+        <div class="breach-item-name">${esc(r.snap.name||r.key)}</div>
+        <div class="breach-item-reason">${move} · <b>without calling</b></div>
+      </div>`;
+    }
+    html+=`</div>`;
+  }
+  // ---- G-MEET issues: planned G-Meet leads not submitted or rejected ----
+  const gmRows=STAGES.filter(s=>s.id==='gmeet').flatMap(s=>((plan.byStage&&plan.byStage[s.id])||[]))
+    .map(key=>({key, snap:(plan.snapshot&&plan.snapshot[key])||{name:key,ph:key}, sub:GMEET_SUBS[key]}))
+    .filter(r=>!r.sub || r.sub.state==='rejected');
+  if(gmRows.length){
+    html+=`<div class="breach-sec gmeet-sec"><div class="breach-sec-hd">📹 ${gmRows.length} G-Meet issue${gmRows.length>1?'s':''}</div>`;
+    for(const r of gmRows){
+      const reason = !r.sub ? 'No screenshot submitted' : 'Screenshot rejected';
+      html+=`<div class="breach-item">
+        <div class="breach-item-name">${esc(r.snap.name||r.key)}</div>
+        <div class="breach-item-reason">${reason}</div>
+      </div>`;
+    }
+    html+=`</div>`;
+  }
+  // maps a grade level to the scorecard tile bucket it belongs to
+  const bucketOf = lvl => lvl==='connected'?'worked'
+    : lvl==='workedless'?'workedless'
+    : (lvl==='attempt'||lvl==='partial'||lvl==='moved')?'partial'
+    : (lvl==='none'||lvl==='breach')?'none' : 'none';
+  const matchFilter = lvl => REV.filter==='all' || bucketOf(lvl)===REV.filter;
+  const filterLabel = {worked:'Worked',workedless:'Worked Less',partial:'Partial',none:'Not touched'}[REV.filter];
+  if(REV.filter!=='all'){
+    html+=`<div class="rev-filter-note">Showing only <b>${filterLabel}</b> leads · <span class="mini-link" data-revclear>show all</span></div>`;
+  }
   // group planned keys by stage using snapshot
   for(const st of STAGES){
     const keys=(plan.byStage&&plan.byStage[st.id])||[];
     if(!keys.length)continue;
+    // pro-rata stage total: sum of min(connected talk, st.min) across planned leads,
+    // against the required target (planned × min × share).
+    let stageTalkSec=0, stageWorked=0;
+    for(const key of keys){
+      const gg=gradeLead(key,activity,st.min);
+      const capped=Math.min((gg.talkSec||0), st.min*60);
+      stageTalkSec+=capped;
+      if(gg.level==='connected')stageWorked++;
+    }
+    // which leads to actually show under this stage, after the status filter
+    const shownKeys=keys.filter(key=>matchFilter(gradeLead(key,activity,st.min).level));
+    if(!shownKeys.length)continue;   // hide stages with nothing matching the filter
+    const targetMin=Math.round(keys.length*st.min*(st.share||1));
+    const gotMin=Math.round(stageTalkSec/60);
     html+=`<div class="rev-stage"><div class="rev-stage-hd">
       <span class="stage-dot" style="background:${st.dot}"></span>
-      <span class="rn">${esc(st.name)}</span><span class="rc">${keys.length} planned · ${st.min}m each</span></div>`;
-    for(const key of keys){
+      <span class="rn">${esc(st.name)}</span><span class="rc">${keys.length} planned · ${st.min}m each · <b>${gotMin}/${targetMin}m</b> · ${stageWorked} hit</span></div>`;
+    for(const key of shownKeys){
       const snap=(plan.snapshot&&plan.snapshot[key])||{name:key,ph:key};
-      const g=gradeLead(key,activity);
+      const g=gradeLead(key,activity,st.min);
       const badge=`<span class="lead-badge ${g.cls}">${gradeIcon(g.level)}${g.label}</span>`;
       const warnHTML=(g.warns&&g.warns.length)?g.warns.map(w=>`<span class="lead-warn">⚠ ${w}</span>`).join(''):'';
       html+=`<div class="rev-lead">
@@ -2342,15 +2876,17 @@ function reviewFMDetail(plan,activity,phase){
           <div class="rev-lead-name">${esc(snap.name||key)}${warnHTML}</div>
           <div class="rev-lead-sub">${esc(snap.ph||'')}${snap.city?' · '+esc(snap.city):''}</div>
         </div>
-        ${g.evi?`<div class="rev-evi">${esc(g.evi)}</div>`:''}
+        ${g.evi?`<div class="rev-evi">${renderEvi(g.evi)}</div>`:''}
         ${badge}
       </div>`;
     }
     html+=`</div>`;
   }
   html+=`</div></div>`;
-  // wire back link after render (handled in renderReview via delegation fallback)
-  setTimeout(()=>{const b=$('[data-backall]');if(b)b.addEventListener('click',()=>{STATE.sel.fm='';$('#planFM').value='';renderReview(phase);});},0);
+  setTimeout(()=>{
+    const b=$('[data-backall]');if(b)b.addEventListener('click',()=>{REV.filter='all';STATE.sel.fm='';$('#planFM').value='';renderReview(phase);});
+    const rc=$('[data-revclear]');if(rc)rc.addEventListener('click',()=>{REV.filter='all';renderReview(phase);});
+  },0);
   return html;
 }
 
@@ -2358,23 +2894,27 @@ function gradeIcon(level){
   if(level==='connected')return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>';
   if(level==='moved')return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   if(level==='partial')return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/></svg>';
+  if(level==='workedless')return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/></svg>';
   return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 6L6 18M6 6l12 12"/></svg>';
 }
 function scorePlan(plan,activity){
-  let planned=0,worked=0,partial=0,none=0;
+  let planned=0,worked=0,workedless=0,partial=0,none=0,attempt=0,breach=0;
   for(const key of plan.leadKeys){
-    planned++;const g=gradeLead(key,activity);
-    if(g.level==='connected'||g.level==='moved')worked++;
-    else if(g.level==='partial')partial++;else none++;
+    planned++;const g=gradeLead(key,activity,stageMinForKey(plan,key));
+    if(g.level==='connected')worked++;
+    else if(g.level==='workedless')workedless++;
+    else if(g.level==='attempt')attempt++;
+    else if(g.level==='breach'){none++;breach++;}
+    else if(g.level==='partial'||g.level==='moved')partial++;else none++;
   }
   const adh=planned?Math.round(worked/planned*100):0;
-  return {planned,worked,partial,none,adh};
+  return {planned,worked,workedless,partial,none,attempt,breach,adh};
 }
 function aggregate(plans,activity){
-  let planned=0,worked=0,partial=0,none=0;
-  for(const p of plans){const s=scorePlan(p,activity);planned+=s.planned;worked+=s.worked;partial+=s.partial;none+=s.none;}
+  let planned=0,worked=0,workedless=0,partial=0,none=0;
+  for(const p of plans){const s=scorePlan(p,activity);planned+=s.planned;worked+=s.worked;workedless+=s.workedless;partial+=s.partial;none+=s.none;}
   const adh=planned?Math.round(worked/planned*100):0;
-  return {planned,worked,partial,none,adh};
+  return {planned,worked,workedless,partial,none,adh};
 }
 
 /* ============================================================
@@ -2745,7 +3285,7 @@ function rangeFmDetail(r, from, to){
       <div class="score cyan"><div class="sv">${Math.round(r.talkTotal/60)}h ${r.talkTotal%60}m</div><div class="sl">Talk time total</div><div class="sp">${r.days} day${r.days===1?'':'s'}</div></div>
       <div class="score ${avgOk?'ok':'bad'}"><div class="sv">${r.talkAvg}m</div><div class="sl">Daily average</div><div class="sp">target ${cfg.dailyMin}m</div></div>
       <div class="score ${r.adherence>=70?'ok':r.adherence>=40?'warn':'bad'}"><div class="sv">${r.adherence}%</div><div class="sl">Adherence</div><div class="sp">${r.worked}/${r.planned} worked</div></div>
-      <div class="score warn"><div class="sv">${r.warnMarks}</div><div class="sl">Warning-marks</div><div class="sp">${r.noteN} notes · ${r.remN} rem · ${r.shotN} shots</div></div>
+      <div class="score warn"><div class="sv">${r.warnMarks}</div><div class="sl">Warning-leads</div><div class="sp">${r.noteN} note · ${r.remN} rem · ${r.waN} wa</div></div>
     </div>
     <div class="rev-stage-hd" style="margin-bottom:8px"><span class="rn">Day by day</span></div>
     <div class="cov-scroll"><table class="range-table">
@@ -2793,6 +3333,11 @@ function renderPip(){
   const cfg=STATE.pipCfg;
   const days=pipDatesSorted();
   const results=evalAllPip();
+  // load G-Meet cutoff settings once, then re-render with real values
+  if(!GMEET_SETTINGS._loaded){
+    GMEET_SETTINGS._loaded=true;
+    gmeetGetSettings().then(()=>renderPip());
+  }
 
   // --- Settings card ---
   let html=`<div class="card" style="margin-bottom:14px"><div class="card-pad">
@@ -2810,6 +3355,26 @@ function renderPip(){
       <span><b>B</b> · Mon–Sun weekly average under ${cfg.dailyMin}m</span>
       <span><b>C</b> · ${cfg.warnPerWeek}+ warning-marks in a Mon–Sun week (max 3/day)</span>
       <span class="cfg-esc">Escalation: 1 condition fired → PIP 1 · 2+ → PIP 2</span>
+    </div>
+  </div></div>`;
+
+  // ---- G-Meet cutoff settings card ----
+  const gs=GMEET_SETTINGS;
+  const cutoffVal=(gs.cutoff_local||'19:30').slice(0,5);   // HH:MM for the time input
+  html+=`<div class="card" style="margin-bottom:14px"><div class="card-pad">
+    <div class="sec-head"><span class="must">📹</span><h2>G-Meet screenshot cutoff</h2></div>
+    <div class="sec-sub">Set the daily time after which FMs can no longer upload G-Meet screenshots. Enforced by the server clock (IST) — changing a phone's time can't bypass it.</div>
+    <div class="cfg-row" style="align-items:flex-end">
+      <label class="gm-toggle">
+        <input type="checkbox" id="gmLockOn" ${gs.lock_enabled?'checked':''}>
+        <span class="gm-toggle-txt">Time lock ${gs.lock_enabled?'ON':'OFF'}</span>
+      </label>
+      <div class="fld"><label>Cutoff time (IST)</label><input type="time" id="gmCutoff" value="${cutoffVal}" ${gs.lock_enabled?'':'disabled'}></div>
+      <button class="btn btn-primary btn-sm" id="gmSave">Save</button>
+      <span class="gm-save-msg" id="gmSaveMsg"></span>
+    </div>
+    <div class="cfg-legend">
+      <span>${gs.lock_enabled?`Uploads close daily at <b>${to12h(cutoffVal)}</b> IST.`:'Time lock is <b>off</b> — FMs can upload any time.'}</span>
     </div>
   </div></div>`;
 
@@ -2951,6 +3516,24 @@ function wirePipCfg(){
     if(w>0)STATE.pipCfg.warnPerWeek=w;
     if(wd>=7)STATE.pipCfg.windowDays=wd;
     await persist();renderPip();toast('Thresholds applied','ok');
+  });
+  // G-Meet cutoff settings
+  const gmLockOn=$('#gmLockOn'), gmCutoff=$('#gmCutoff'), gmSave=$('#gmSave'), gmMsg=$('#gmSaveMsg');
+  if(gmLockOn)gmLockOn.addEventListener('change',()=>{ if(gmCutoff)gmCutoff.disabled=!gmLockOn.checked; });
+  if(gmSave)gmSave.addEventListener('click',async()=>{
+    const patch={ lock_enabled: gmLockOn?gmLockOn.checked:true };
+    if(gmCutoff&&gmCutoff.value)patch.cutoff_local=gmCutoff.value+':00';
+    gmSave.disabled=true;if(gmMsg){gmMsg.textContent='Saving…';gmMsg.className='gm-save-msg';}
+    const ok=await gmeetSaveSettings(patch);
+    gmSave.disabled=false;
+    if(ok){
+      GMEET_SETTINGS={...GMEET_SETTINGS,...patch};
+      if(gmMsg){gmMsg.textContent='✓ Saved';gmMsg.className='gm-save-msg ok';}
+      renderPip();toast('G-Meet cutoff saved','ok');
+    }else{
+      if(gmMsg){gmMsg.textContent='Save failed';gmMsg.className='gm-save-msg bad';}
+      toast('Could not save — check connection','bad');
+    }
   });
   // stage rules editor
   const srSave=$('#srSave');
@@ -3142,13 +3725,44 @@ async function boot(){
   });
 
   // uploads — one reusable 5-slot uploader per phase
+  // Warn if the uploaded CALLDETAILS is for a different day than the picker.
+  // Strict date matching means a mismatch would silently score 0 — this makes it visible.
+  function callDateMismatch(store){
+    try{
+      const f=store.files&&store.files.call; if(!f)return null;
+      const txt=typeof f==='string'?f:f.text; if(!txt)return null;
+      const rows=csvToObjects(txt);
+      let onPick=0, other=0; const otherDays={};
+      for(const o of rows){
+        const p=parseDT(clean(o['Call Start Time']));
+        if(!p)continue;
+        if(p.day===store.date)onPick++;
+        else{other++;otherDays[p.day]=(otherDays[p.day]||0)+1;}
+      }
+      // Only warn when the file has calls, none/very few match, and most are another day.
+      if(onPick===0 && other>0){
+        const top=Object.entries(otherDays).sort((a,b)=>b[1]-a[1])[0];
+        return {onPick,other,topDay:top?isoToDMY(top[0]):'',topN:top?top[1]:0};
+      }
+      return null;
+    }catch(e){return null;}
+  }
+  function confirmDateOrAbort(store){
+    const mm=callDateMismatch(store);
+    if(!mm)return true;
+    return confirm('⚠ The call report has no calls dated '+isoToDMY(store.date)+
+      ', but '+mm.other+' calls dated '+mm.topDay+(mm.topN?' ('+mm.topN+' calls)':'')+'.\n\n'+
+      'You\'re scoring '+isoToDMY(store.date)+', so talk-time will be 0 for those.\n\n'+
+      'Continue anyway? (Cancel, then change the date to match the report.)');
+  }
+
   UP_MORNING=buildUploader({mount:'#upMorning',phase:'plan',requireAll:false,btnLabel:'Load bucket'});
   UP_MID=buildUploader({mount:'#upMid',phase:'mid',requireAll:false,btnLabel:'Check planned leads',
-    onRun:store=>{STATE.midActivity=buildActivity(store.files);STATE.sel.date=store.date;$('#planDate').value=store.date;
+    onRun:store=>{if(!confirmDateOrAbort(store))return;STATE.midActivity=buildActivity(store.files,store.date);STATE.sel.date=store.date;$('#planDate').value=store.date;
       STATE.dayActivity[store.date]=STATE.midActivity; persist();
       toast('Midday check ready','ok');updateFooter();renderReview('mid');}});
   UP_EOD=buildUploader({mount:'#upEod',phase:'eod',requireAll:false,btnLabel:'Score the day',
-    onRun:async store=>{STATE.eodActivity=buildActivity(store.files);STATE.sel.date=store.date;$('#planDate').value=store.date;
+    onRun:async store=>{if(!confirmDateOrAbort(store))return;STATE.eodActivity=buildActivity(store.files,store.date);STATE.sel.date=store.date;$('#planDate').value=store.date;
       STATE.dayActivity[store.date]=STATE.eodActivity;
       recordPipDay(store.date,STATE.eodActivity); await persist();
       toast('Day scored & saved to history','ok');updateFooter();renderReview('eod');}});
