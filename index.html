@@ -454,6 +454,57 @@ select{min-width:170px;cursor:pointer;appearance:none;
 .gm-toggle-txt{font-size:13px;font-weight:700;color:#334155}
 .gm-save-msg{font-size:12px;font-weight:700;align-self:center}
 .gm-save-msg.ok{color:#15803d}.gm-save-msg.bad{color:#b91c1c}
+.gma-card{border:1.5px solid #f9a8d4}
+.gma-count{margin-left:auto;background:#f59e0b;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px;font-weight:800}
+.gma-item{display:flex;gap:10px;align-items:flex-start;padding:11px 0;border-top:1px solid #f3e8ee}
+.gma-item:first-of-type{border-top:none}
+.gma-main{flex:1;min-width:0}
+.gma-name{font-weight:800;font-size:14px;color:#1f2937}
+.gma-fm{background:#eef2ff;color:#4338ca;border-radius:6px;padding:1px 7px;font-size:11px;font-weight:700;margin-left:6px}
+.gma-sub{font-size:12px;color:#64748b;margin-top:2px}
+.gma-st.ok{color:#15803d;font-weight:700}.gma-st.bad{color:#b91c1c;font-weight:700}.gma-st.pending{color:#b45309;font-weight:700}
+.gma-dup{margin-top:4px;font-size:11px;font-weight:700;color:#b45309;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:2px 7px;display:inline-block}
+.gma-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.gma-btn{border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer}
+.gma-btn.view{background:#eef2ff;color:#4338ca}
+.gma-btn.ok{background:#22c55e;color:#fff}
+.gma-btn.bad{background:#ef4444;color:#fff}
+.gma-btn.del{background:#f1f5f9;color:#64748b;padding:6px 9px}
+.gma-empty{color:#94a3b8;font-size:13px;padding:8px 0}
+.gma-review-hd{margin:12px 0 4px;font-size:12px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em}
+.att-controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
+.att-fm{padding:9px 12px;border:1px solid #d1d5db;border-radius:10px;font-size:14px;font-weight:700;min-width:180px}
+.att-nav{display:flex;align-items:center;gap:10px;margin-left:auto}
+.att-month{font-weight:800;font-size:15px;min-width:150px;text-align:center}
+.att-legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;font-size:12px;font-weight:700;color:#475569}
+.att-tally{display:flex;align-items:center;gap:5px}
+.att-legend .d,.att-tally i.d{width:12px;height:12px;border-radius:3px;display:inline-block}
+.d.p{background:#22c55e}.d.r{background:#ef4444}.d.o{background:#f59e0b}.d.y{background:#eab308}.d.g{background:#cbd5e1}
+.att-grid-hd{display:grid;grid-template-columns:repeat(7,32px);gap:2px;margin-bottom:4px;font-size:10px;font-weight:800;color:#94a3b8;text-align:center}
+.att-grid{display:grid;grid-template-columns:repeat(7,32px);gap:2px}
+.att-cell{height:32px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;cursor:pointer;transition:transform .1s}
+.att-cell:hover:not(.blank){transform:scale(1.08)}
+.att-cell.blank{background:transparent;cursor:default}
+.att-cell.p{background:#22c55e;color:#fff}
+.att-cell.r{background:#ef4444;color:#fff}
+.att-cell.o{background:#f59e0b;color:#fff}
+.att-cell.y{background:#eab308;color:#fff}
+.att-cell.g{background:#e2e8f0;color:#94a3b8}
+.att-cell.n{background:#f1f5f9;color:#cbd5e1}
+.att-hint{margin-top:10px;font-size:12px;color:#94a3b8}
+.range-section-switch{display:flex;gap:8px}
+.range-section-switch button{flex:1;padding:11px;border:1.5px solid #e2e8f0;background:#fff;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;color:#64748b}
+.range-section-switch button.on{background:#0f172a;color:#fff;border-color:#0f172a}
+.att-abs{margin-left:auto;color:#b91c1c}
+.att-badge{display:inline-block;border-radius:8px;padding:4px 12px;font-size:12px;font-weight:800}
+.att-badge.p{background:#dcfce7;color:#15803d}
+.att-badge.r{background:#fee2e2;color:#b91c1c}
+.att-badge.o{background:#ffedd5;color:#c2410c}
+.att-badge.y{background:#fef9c3;color:#a16207}
+.att-badge.g{background:#e2e8f0;color:#475569}
+.att-badge.n{background:#f1f5f9;color:#94a3b8}
+.fm-att{margin-top:8px}
+.fmv-att-row{padding:10px 14px 4px;text-align:center}
 
 /* ---- talk-time chips in review ---- */
 .talk-row{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 18px}
@@ -1167,7 +1218,7 @@ async function gmeetShotUrl(path){
 let GMEET_SETTINGS={cutoff_local:'19:30',tz:'Asia/Kolkata',lock_enabled:true};
 async function gmeetGetSettings(){
   try{
-    const r=await fetch(SB_URL+'/gmeet_settings?id=eq.global&select=cutoff_local,tz,lock_enabled,fm_overrides',{headers:sbAuthHeaders()});
+    const r=await fetch(SB_URL+'/gmeet_settings?id=eq.global&select=cutoff_local,tz,lock_enabled,fm_overrides,plan_cutoff_local,plan_lock_enabled',{headers:sbAuthHeaders()});
     if(!r.ok)throw new Error('HTTP '+r.status);
     const rows=await r.json();
     if(rows.length)GMEET_SETTINGS={...GMEET_SETTINGS,...rows[0]};
@@ -1183,6 +1234,106 @@ async function gmeetSaveSettings(patch){
     });
     return r.ok;
   }catch(e){return false;}
+}
+/* Admin: approve or reject a submission (sets state + reviewer + time). */
+async function gmeetReview(id, state){
+  try{
+    const r=await fetch(SB_URL+'/gmeet_submissions?id=eq.'+encodeURIComponent(id),{
+      method:'PATCH',headers:{...sbAuthHeaders(),'Prefer':'return=minimal'},
+      body:JSON.stringify({state, reviewed_at:new Date().toISOString()})
+    });
+    return r.ok;
+  }catch(e){return false;}
+}
+/* Admin: delete a submission (unlocks the lead so the FM can re-upload). */
+async function gmeetDelete(id){
+  try{
+    const r=await fetch(SB_URL+'/gmeet_submissions?id=eq.'+encodeURIComponent(id),{
+      method:'DELETE',headers:sbAuthHeaders()
+    });
+    return r.ok;
+  }catch(e){return false;}
+}
+
+/* ============================================================
+   ATTENDANCE — admin-marked holidays (all FMs) & leave (per FM)
+   ============================================================ */
+let ATT_OVERRIDES=[];   // [{day,fm_name,kind,reason}]
+async function attFetch(){
+  try{
+    const r=await fetch(SB_URL+'/attendance_overrides?select=day,fm_name,kind,reason',{headers:sbAuthHeaders()});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    ATT_OVERRIDES=await r.json();
+    return ATT_OVERRIDES;
+  }catch(e){return ATT_OVERRIDES;}
+}
+/* Add a holiday (fmName null = all FMs) or leave (per FM). */
+async function attMark(day, fmName, kind, reason){
+  try{
+    const row={day, fm_name:fmName||null, kind, reason:reason||null};
+    const r=await fetch(SB_URL+'/attendance_overrides?on_conflict=day,fm_name,kind',{
+      method:'POST',
+      headers:{...sbAuthHeaders(),'Prefer':'resolution=merge-duplicates,return=minimal'},
+      body:JSON.stringify([row])
+    });
+    return r.ok;
+  }catch(e){return false;}
+}
+/* Remove an override. */
+async function attClear(day, fmName, kind){
+  try{
+    let q=SB_URL+'/attendance_overrides?day=eq.'+encodeURIComponent(day)+'&kind=eq.'+encodeURIComponent(kind);
+    q += fmName ? '&fm_name=eq.'+encodeURIComponent(fmName) : '&fm_name=is.null';
+    const r=await fetch(q,{method:'DELETE',headers:sbAuthHeaders()});
+    return r.ok;
+  }catch(e){return false;}
+}
+/* Attendance badge for an FM on a day (day-end display). */
+function attBadgeHTML(fmName, dateISO){
+  const s=attState(fmName,dateISO);
+  const map={present:{c:'p',t:'Present'},perf:{c:'r',t:'Absent · under target'},noplan:{c:'o',t:'Absent · no plan on time'},leave:{c:'y',t:'Leave'},holiday:{c:'g',t:'Holiday'},none:{c:'n',t:''}};
+  const m=map[s.state]||map.none;
+  if(!m.t)return '';
+  // for leave/holiday, append reason if present
+  let txt=m.t;
+  const extra=s.label&&s.label.includes(' · ')?s.label.split(' · ').slice(1).join(' · '):'';
+  if((s.state==='leave'||s.state==='holiday')&&extra)txt+=' · '+extra;
+  return `<span class="att-badge ${m.c}">${esc(txt)}</span>`;
+}
+
+/* Resolve a day's attendance state for an FM.
+   Priority: Holiday > Leave > auto (performance/plan) > blank.
+   Returns {state, label} where state ∈ present|noplan|perf|leave|holiday|none */
+function attState(fmName, dateISO){
+  // holiday for all, or holiday for this FM
+  const hol=ATT_OVERRIDES.find(o=>o.day===dateISO && o.kind==='holiday' && (!o.fm_name||o.fm_name===fmName));
+  if(hol)return {state:'holiday',label:'Holiday'+(hol.reason?' · '+hol.reason:'')};
+  // Sunday = auto holiday
+  const [y,m,d]=dateISO.split('-').map(Number);
+  if(new Date(y,m-1,d).getDay()===0)return {state:'holiday',label:'Sunday'};
+  // leave for this FM
+  const lv=ATT_OVERRIDES.find(o=>o.day===dateISO && o.kind==='leave' && o.fm_name===fmName);
+  if(lv)return {state:'leave',label:'Leave'+(lv.reason?' · '+lv.reason:'')};
+  // auto: find this FM's plan for the day
+  const plan=Object.values(STATE.plans).find(p=>p.fm===fmName && p.date===dateISO && p.submittedAt);
+  const act=STATE.dayActivity[dateISO];
+  const hasData = plan || act;
+  if(!hasData)return {state:'none',label:''};   // no data yet → blank
+  // planned on time?  (submittedAt time-of-day < plan cutoff) — only if the plan lock is ON
+  const planLockOn = GMEET_SETTINGS.plan_lock_enabled!==false;
+  const cutoff=(GMEET_SETTINGS.plan_cutoff_local||'10:30');
+  const [ch,cm]=cutoff.split(':').map(Number);
+  let plannedOnTime=false;
+  if(plan&&plan.submittedAt){
+    const t=new Date(plan.submittedAt);
+    plannedOnTime = (t.getHours()*60+t.getMinutes()) <= (ch*60+cm);
+  }
+  if(!plan)return {state:'noplan',label:'No plan submitted'};
+  if(planLockOn && !plannedOnTime)return {state:'noplan',label:'No plan by '+to12h(cutoff)};
+  // hit 240?
+  const talk=act?fmTalkMins(act,fmName):0;
+  if(talk>=MIN_PLAN_MINS)return {state:'present',label:'Present · '+talk+'m'};
+  return {state:'perf',label:'Under target · '+talk+'m'};
 }
 
 /* ============================================================
@@ -1850,7 +2001,7 @@ function renderFMMobile(){
   // We load once per (day) and re-render when they arrive.
   if(FMV.tab==='result' && GMEET_LOADED_DAY!==STATE.sel.date){
     GMEET_LOADED_DAY=STATE.sel.date;
-    gmeetFetch(STATE.sel.date).then(()=>{ if(STATE.role==='fm'||AUTH.role==='fm'||STATE.sel.fm===fm) renderFMMobile(); });
+    Promise.all([gmeetFetch(STATE.sel.date),attFetch(),gmeetGetSettings()]).then(()=>{ if(STATE.role==='fm'||AUTH.role==='fm'||STATE.sel.fm===fm) renderFMMobile(); });
   }
 
   // route to the active tab's body
@@ -2014,6 +2165,7 @@ function fmReviewBody(fm,byStage,plan,phase){
       <div class="rf"><b>${talk}m</b> talk time</div>
       <div class="rf"><b class="${adh>=70?'okc':adh>=40?'warnc':'badc'}">${adh}%</b> ${isEod?'adherence':'so far'}</div>
     </div>
+    ${isEod?`<div class="fmv-att-row">${attBadgeHTML(fm,STATE.sel.date)||'<span class="att-badge n">Not marked yet</span>'}</div>`:''}
     <div class="fmv-rsum-warns">
       <button class="fmv-warnbtn ${FMV.filter==='notemiss'?'on':''}" data-fchip="notemiss">Missing notes <span class="cn">${noteMissN}</span></button>
       <button class="fmv-warnbtn ${FMV.filter==='remmiss'?'on':''}" data-fchip="remmiss">Missing reminders <span class="cn">${remMissN}</span></button>
@@ -2100,6 +2252,40 @@ function mReviewLeadHTML(l,g,stageName){
     </div>
     ${telHref?`<a class="mlead-call" href="${telHref}" data-callbtn title="Call ${esc(l.ph)}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.18z"/></svg></a>`:''}
   </div>`;
+}
+
+/* Admin review panel: all G-Meet submissions for a day, pending first.
+   Detects duplicate screenshots (same image path on two leads) and flags them. */
+function gmeetApprovalsHTML(day){
+  const subs=Object.values(GMEET_SUBS||{});
+  if(!subs.length)return '';
+  const pathCount={};
+  subs.forEach(s=>{ if(s.screenshot_path)pathCount[s.screenshot_path]=(pathCount[s.screenshot_path]||0)+1; });
+  const pending=subs.filter(s=>s.state==='pending');
+  const reviewed=subs.filter(s=>s.state!=='pending');
+  const card = rows => rows.map(s=>{
+    const dup = s.screenshot_path && pathCount[s.screenshot_path]>1;
+    const stCls=s.state==='approved'?'ok':s.state==='rejected'?'bad':'pending';
+    const stLbl=s.state==='approved'?'✓ Approved':s.state==='rejected'?'✕ Rejected':'⏳ Pending';
+    return `<div class="gma-item ${stCls}">
+      <div class="gma-main">
+        <div class="gma-name">${esc(s.lead_name||s.lead_key)} <span class="gma-fm">${esc(s.fm_name)}</span></div>
+        <div class="gma-sub">${esc(s.lead_key)} · <b>${s.duration_min} min</b> · <span class="gma-st ${stCls}">${stLbl}</span></div>
+        ${dup?`<div class="gma-dup">⚠ Duplicate screenshot — same image used on another lead</div>`:''}
+      </div>
+      <div class="gma-actions">
+        ${s.screenshot_path?`<button class="gma-btn view" data-gmaview="${esc(s.screenshot_path)}">View</button>`:''}
+        ${s.state==='pending'?`<button class="gma-btn ok" data-gmaok="${esc(s.id)}">Approve</button><button class="gma-btn bad" data-gmareject="${esc(s.id)}">Reject</button>`:''}
+        <button class="gma-btn del" data-gmadel="${esc(s.id)}" title="Delete (unlocks re-upload)">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+  return `<div class="card gma-card" style="margin-bottom:14px"><div class="card-pad">
+    <div class="sec-head"><span class="must">📹</span><h2>G-Meet approvals</h2>${pending.length?`<span class="gma-count">${pending.length} pending</span>`:''}</div>
+    <div class="sec-sub">Review screenshots FMs submitted for ${isoToDMY(day)}. Approve to count toward talk-time; delete to let the FM re-upload.</div>
+    ${pending.length?card(pending):'<div class="gma-empty">No pending submissions.</div>'}
+    ${reviewed.length?`<div class="gma-review-hd">Reviewed</div>${card(reviewed)}`:''}
+  </div></div>`;
 }
 
 /* G-Meet upload/approval panel for a single lead in the FM Result tab.
@@ -2707,10 +2893,12 @@ function renderReview(phase){
   // Ensure this day's G-Meet submissions are loaded for the breach/G-Meet sections.
   if(GMEET_LOADED_DAY!==date){
     GMEET_LOADED_DAY=date;
-    gmeetFetch(date).then(()=>renderReview(phase));
+    Promise.all([gmeetFetch(date),attFetch(),gmeetGetSettings()]).then(()=>renderReview(phase));
   }
 
   let html='';
+  // ---- G-MEET APPROVALS panel (admin) — pending first, then reviewed ----
+  html+=gmeetApprovalsHTML(date);
   // ---- scorecard: team totals when viewing all FMs, or the selected FM's numbers ----
   const selPlan = showFM ? plans.find(p=>p.fm===fm) : null;
   const sc = selPlan ? scorePlan(selPlan,activity) : aggregate(plans,activity);
@@ -2756,6 +2944,7 @@ function renderReview(phase){
         <div class="frow">Attempt <b style="color:var(--warn)">${s.attempt}</b></div>
         <div class="frow">Not touched <b style="color:var(--bad)">${s.none}</b></div>
         <div class="fm-talk ${tOk?'ok':'bad'}">🕐 Talk ${talk} / ${MIN_PLAN_MINS} min ${tOk?'✓':''}</div>
+        <div class="fm-att">${attBadgeHTML(p.fm,date)}</div>
       </div>`;
     }
     // FMs with NO plan for the day (from bucket)
@@ -2784,6 +2973,23 @@ function renderReview(phase){
   // wire the "← all managers" back link (resets FM and filter)
   const bk=$(`#${isEod?'eodBody':'midBody'} [data-backall]`);
   if(bk)bk.addEventListener('click',()=>{REV.filter='all';STATE.sel.fm='';$('#planFM').value='';renderReview(phase);});
+
+  // ---- G-Meet approval actions ----
+  const scope=`#${isEod?'eodBody':'midBody'}`;
+  $$(`${scope} [data-gmaview]`).forEach(b=>b.addEventListener('click',async()=>{
+    const url=await gmeetShotUrl(b.dataset.gmaview); if(url)window.open(url,'_blank');
+  }));
+  const doAction=async(fn,id,ok,bad)=>{
+    const done=await fn(id);
+    if(done){ GMEET_LOADED_DAY=null; await gmeetFetch(date); renderReview(phase); toast(ok,'ok'); }
+    else toast(bad,'bad');
+  };
+  $$(`${scope} [data-gmaok]`).forEach(b=>b.addEventListener('click',()=>doAction(id=>gmeetReview(id,'approved'),b.dataset.gmaok,'Approved','Approve failed')));
+  $$(`${scope} [data-gmareject]`).forEach(b=>b.addEventListener('click',()=>doAction(id=>gmeetReview(id,'rejected'),b.dataset.gmareject,'Rejected','Reject failed')));
+  $$(`${scope} [data-gmadel]`).forEach(b=>b.addEventListener('click',()=>{
+    if(!confirm('Delete this submission? The FM will be able to upload again.'))return;
+    doAction(gmeetDelete,b.dataset.gmadel,'Deleted — FM can re-upload','Delete failed');
+  }));
 }
 
 function reviewFMDetail(plan,activity,phase){
@@ -3194,15 +3400,125 @@ function rangePeriodLabel(){
   }
   return covDateLabel(from)+' → '+covDateLabel(to);
 }
+let ATT_LOADED=false;
+let ATT_MONTH=null;   // {y,m} being viewed; null = current month
+/* All FM names known from plans/buckets, for the dropdown. */
+function allFmNames(){
+  const set=new Set();
+  Object.values(STATE.plans).forEach(p=>{if(p.fm)set.add(p.fm);});
+  Object.values(STATE.buckets||{}).forEach(b=>(b.fms||[]).forEach(f=>set.add(f)));
+  return [...set].sort((a,b)=>a.localeCompare(b));
+}
+function attendanceHTML(){
+  const fms=allFmNames();
+  const fm=RANGE.fm && fms.includes(RANGE.fm) ? RANGE.fm : (fms[0]||'');
+  RANGE.fm=fm;
+  const now=new Date();
+  const view=ATT_MONTH||{y:now.getFullYear(),m:now.getMonth()};
+  const first=new Date(view.y,view.m,1);
+  const monthName=first.toLocaleString('en-US',{month:'long',year:'numeric'});
+  const startDow=first.getDay();
+  const daysInMonth=new Date(view.y,view.m+1,0).getDate();
+  const iso=(d)=>view.y+'-'+String(view.m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+
+  // tally
+  let cP=0,cA=0,cH=0,cL=0;
+  const cells=[];
+  for(let i=0;i<startDow;i++)cells.push('<div class="att-cell blank"></div>');
+  for(let d=1;d<=daysInMonth;d++){
+    const dISO=iso(d);
+    const future=new Date(view.y,view.m,d) > now;
+    const s=future?{state:'none',label:''}:attState(fm,dISO);
+    const clsMap={present:'p',perf:'r',noplan:'o',leave:'y',holiday:'g',none:'n'};
+    if(s.state==='present')cP++;else if(s.state==='perf'||s.state==='noplan')cA++;else if(s.state==='holiday')cH++;else if(s.state==='leave')cL++;
+    cells.push(`<div class="att-cell ${clsMap[s.state]||'n'}" data-attday="${dISO}" title="${esc(s.label||dISO)}">${d}</div>`);
+  }
+  const opts=fms.map(f=>`<option value="${esc(f)}" ${f===fm?'selected':''}>${esc(f)}</option>`).join('');
+  return `<div class="card"><div class="card-pad">
+    <div class="sec-head"><span class="must">🗓️</span><h2>Attendance</h2></div>
+    <div class="sec-sub">Green = present (240m + planned by ${to12h(GMEET_SETTINGS.plan_cutoff_local||'10:30')}). Red = under target. Orange = no plan on time. Yellow = leave. Grey = holiday/Sunday.</div>
+    <div class="att-controls">
+      <select id="attFm" class="att-fm">${opts}</select>
+      <div class="att-nav">
+        <button class="range-arrow" id="attPrev">‹</button>
+        <span class="att-month">${monthName}</span>
+        <button class="range-arrow" id="attNext">›</button>
+      </div>
+    </div>
+    <div class="att-legend">
+      <span class="att-tally"><i class="d p"></i>Present <b>${cP}</b></span>
+      <span class="att-tally"><i class="d r"></i>Under target</span>
+      <span class="att-tally"><i class="d o"></i>No plan on time</span>
+      <span class="att-tally"><i class="d y"></i>Leave <b>${cL}</b></span>
+      <span class="att-tally"><i class="d g"></i>Holiday <b>${cH}</b></span>
+      <span class="att-tally att-abs"><b>${cA}</b> absent total</span>
+    </div>
+    <div class="att-grid-hd">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>`<div>${d}</div>`).join('')}</div>
+    <div class="att-grid">${cells.join('')}</div>
+    <div class="att-hint">Tap a day to mark <b>Holiday</b> or <b>Leave</b>, or clear an override.</div>
+  </div></div>`;
+}
+function wireAttendance(){
+  const sel=$('#attFm');
+  if(sel)sel.addEventListener('change',()=>{RANGE.fm=sel.value;renderRange();});
+  const now=new Date();
+  const view=ATT_MONTH||{y:now.getFullYear(),m:now.getMonth()};
+  const prev=$('#attPrev'),next=$('#attNext');
+  if(prev)prev.addEventListener('click',()=>{let m=view.m-1,y=view.y;if(m<0){m=11;y--;}ATT_MONTH={y,m};renderRange();});
+  if(next)next.addEventListener('click',()=>{let m=view.m+1,y=view.y;if(m>11){m=0;y++;}ATT_MONTH={y,m};renderRange();});
+  // tap a day → action sheet
+  $$('#rangeBody [data-attday]').forEach(c=>c.addEventListener('click',()=>attDayActions(c.dataset.attday)));
+}
+async function attDayActions(dISO){
+  const fm=RANGE.fm;
+  const cur=attState(fm,dISO);
+  const isHol=ATT_OVERRIDES.some(o=>o.day===dISO&&o.kind==='holiday'&&(!o.fm_name||o.fm_name===fm));
+  const isLeave=ATT_OVERRIDES.some(o=>o.day===dISO&&o.kind==='leave'&&o.fm_name===fm);
+  const opts=[];
+  if(!isHol)opts.push('1 = Mark HOLIDAY for '+fm);
+  opts.push('2 = Mark HOLIDAY for ALL FMs');
+  if(!isLeave)opts.push('3 = Mark LEAVE for '+fm);
+  if(isHol||isLeave)opts.push('4 = CLEAR override');
+  const pick=prompt(`${isoToDMY(dISO)} · ${fm}\nCurrent: ${cur.label||'auto'}\n\n${opts.join('\n')}\n\nType a number:`);
+  if(!pick)return;
+  let ok=false;
+  if(pick==='1'){ok=await attMark(dISO,fm,'holiday','');}
+  else if(pick==='2'){ok=await attMark(dISO,null,'holiday','');}
+  else if(pick==='3'){const rsn=prompt('Leave reason (optional):')||'';ok=await attMark(dISO,fm,'leave',rsn);}
+  else if(pick==='4'){
+    if(isHol)await attClear(dISO, ATT_OVERRIDES.find(o=>o.day===dISO&&o.kind==='holiday'&&o.fm_name)?fm:null, 'holiday');
+    if(isLeave)await attClear(dISO,fm,'leave');
+    ok=true;
+  }
+  if(ok){await attFetch();renderRange();toast('Attendance updated','ok');}
+  else if(pick>='1'&&pick<='4')toast('Update failed','bad');
+}
+
 function renderRange(){
   const body=$('#rangeBody');
+  // Two distinct sections in Range view: Performance and Attendance.
+  const sect=RANGE.section||'perf';
+  let topHtml=`<div class="card" style="margin-bottom:14px"><div class="card-pad">
+    <div class="range-section-switch">
+      <button data-rsection="perf" class="${sect==='perf'?'on':''}">📊 Performance</button>
+      <button data-rsection="attend" class="${sect==='attend'?'on':''}">🗓️ Attendance</button>
+    </div>
+  </div></div>`;
+
+  // ATTENDANCE section — its own thing, separate from performance ranges
+  if(sect==='attend'){
+    if(!ATT_LOADED){ ATT_LOADED=true; Promise.all([attFetch(),gmeetGetSettings()]).then(()=>renderRange()); }
+    body.innerHTML=topHtml+attendanceHTML();
+    wireRangeSection();wireAttendance();return;
+  }
+
   const {from,to}=rangeResolve();
   const results=aggAllRange(from,to);
   const allDays=datesInRange(from,to);
 
   // controls
   const showNav = RANGE.mode==='week'||RANGE.mode==='month';
-  let html=`<div class="card" style="margin-bottom:14px"><div class="card-pad">
+  let html=topHtml+`<div class="card" style="margin-bottom:14px"><div class="card-pad">
     <div class="sec-head"><span class="must">📊</span><h2>Performance range</h2></div>
     <div class="sec-sub">Aggregated across stored days. Talk-time, adherence and warnings over the period.</div>
     <div class="range-controls">
@@ -3231,7 +3547,7 @@ function renderRange(){
     html+=`<div class="card"><div class="empty"><div class="must">📈</div>
       <h3>No data in this range</h3>
       <p>Score end-of-days (Phase 3) within ${covDateLabel(from)} – ${covDateLabel(to)} to see performance here. ${RANGE.mode!=='custom'?'Or switch to Custom to pick a range with data.':''}</p></div></div>`;
-    body.innerHTML=html;wireRange();return;
+    body.innerHTML=html;wireRange();wireRangeSection();return;
   }
 
   // If an FM is selected, show detail; else overview table
@@ -3274,6 +3590,14 @@ function renderRange(){
   }
   body.innerHTML=html;
   wireRange();
+  wireRangeSection();
+}
+/* Wire the Performance/Attendance section switcher. */
+function wireRangeSection(){
+  $$('#rangeBody [data-rsection]').forEach(b=>b.addEventListener('click',()=>{
+    RANGE.section=b.dataset.rsection;
+    renderRange();
+  }));
 }
 function rangeFmDetail(r, from, to){
   const cfg=STATE.pipCfg;
@@ -3376,6 +3700,24 @@ function renderPip(){
     <div class="cfg-legend">
       <span>${gs.lock_enabled?`Uploads close daily at <b>${to12h(cutoffVal)}</b> IST.`:'Time lock is <b>off</b> — FMs can upload any time.'}</span>
     </div>
+  </div></div>`;
+
+  // ---- Day-plan cutoff (attendance) settings card ----
+  const planCut=(gs.plan_cutoff_local||'10:30').slice(0,5);
+  const planLockOn=gs.plan_lock_enabled!==false;
+  html+=`<div class="card" style="margin-bottom:14px"><div class="card-pad">
+    <div class="sec-head"><span class="must">⏰</span><h2>Day-plan cutoff (attendance)</h2></div>
+    <div class="sec-sub">FMs must lock their day plan before this time. If they don't, that day is marked absent (orange) in attendance. Same server-clock logic as the G-Meet cutoff.</div>
+    <div class="cfg-row" style="align-items:flex-end">
+      <label class="gm-toggle">
+        <input type="checkbox" id="planLockOn" ${planLockOn?'checked':''}>
+        <span class="gm-toggle-txt">Plan lock ${planLockOn?'ON':'OFF'}</span>
+      </label>
+      <div class="fld"><label>Plan-by time (IST)</label><input type="time" id="planCutoff" value="${planCut}" ${planLockOn?'':'disabled'}></div>
+      <button class="btn btn-primary btn-sm" id="planCutSave">Save</button>
+      <span class="gm-save-msg" id="planCutMsg"></span>
+    </div>
+    <div class="cfg-legend"><span>${planLockOn?`Plans locked after <b>${to12h(planCut)}</b> IST count as "no plan on time".`:'Plan lock is <b>off</b> — late plans are not marked absent.'}</span></div>
   </div></div>`;
 
   // ---- Stage Rules editor ----
@@ -3532,6 +3874,25 @@ function wirePipCfg(){
       renderPip();toast('G-Meet cutoff saved','ok');
     }else{
       if(gmMsg){gmMsg.textContent='Save failed';gmMsg.className='gm-save-msg bad';}
+      toast('Could not save — check connection','bad');
+    }
+  });
+  // Day-plan cutoff (attendance)
+  const planLockEl=$('#planLockOn'), planCutSave=$('#planCutSave'), planCutEl=$('#planCutoff'), planCutMsg=$('#planCutMsg');
+  if(planLockEl)planLockEl.addEventListener('change',()=>{ if(planCutEl)planCutEl.disabled=!planLockEl.checked; });
+  if(planCutSave)planCutSave.addEventListener('click',async()=>{
+    const patch={ plan_lock_enabled: planLockEl?planLockEl.checked:true };
+    if(planCutEl&&planCutEl.value)patch.plan_cutoff_local=planCutEl.value+':00';
+    planCutSave.disabled=true;if(planCutMsg){planCutMsg.textContent='Saving…';planCutMsg.className='gm-save-msg';}
+    const ok=await gmeetSaveSettings(patch);
+    planCutSave.disabled=false;
+    if(ok){
+      GMEET_SETTINGS={...GMEET_SETTINGS,...patch};
+      if(planCutEl&&planCutEl.value)GMEET_SETTINGS.plan_cutoff_local=planCutEl.value;
+      if(planCutMsg){planCutMsg.textContent='✓ Saved';planCutMsg.className='gm-save-msg ok';}
+      renderPip();toast('Day-plan cutoff saved','ok');
+    }else{
+      if(planCutMsg){planCutMsg.textContent='Save failed';planCutMsg.className='gm-save-msg bad';}
       toast('Could not save — check connection','bad');
     }
   });
