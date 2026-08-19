@@ -413,6 +413,9 @@ select{min-width:170px;cursor:pointer;appearance:none;
 .rev-clickable{cursor:pointer;transition:transform .1s,box-shadow .1s}
 .rev-clickable:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
 .rev-clickable.rev-on{outline:2px solid var(--cyan,#06b6d4);outline-offset:1px}
+.rev-scope{display:inline-flex;gap:4px;background:#f1f5f9;border-radius:10px;padding:4px;margin:10px 0 14px}
+.rev-scope button{border:none;background:transparent;border-radius:7px;padding:7px 18px;font-size:13px;font-weight:800;cursor:pointer;color:#64748b}
+.rev-scope button.on{background:#fff;color:#0f172a;box-shadow:0 1px 3px rgba(0,0,0,.1)}
 .rev-filter-note{background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:8px 12px;margin:10px 0;font-size:13px;color:#0369a1}
 .lead-stage-tag{display:inline-block;background:#eef2ff;color:#4338ca;border:1px solid #c7d2fe;border-radius:6px;padding:1px 7px;font-size:10px;font-weight:700;margin-left:7px;vertical-align:middle;white-space:nowrap}
 .fmv-rsum .rs .v.less{color:#f59e0b}
@@ -962,11 +965,34 @@ function normPhone(v){v=clean(v).replace(/[^\d]/g,'');
 /* dd/mm/yyyy [hh:mm:ss] -> {ms,dayKey} */
 function parseDT(v){
   v=clean(v);if(!v)return null;
-  const m=v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?/);
-  if(!m)return null;
-  const d=new Date(+m[3],+m[2]-1,+m[1],+(m[4]||0),+(m[5]||0),+(m[6]||0));
-  return {ms:d.getTime(),day:m[3]+'-'+m[2].padStart(2,'0')+'-'+m[1].padStart(2,'0'),
-          dmy:m[1].padStart(2,'0')+'/'+m[2].padStart(2,'0')+'/'+m[3]};
+  // Format 1: DD/MM/YYYY [hh:mm[:ss]]  (the standard TeleCRM export format)
+  let m=v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?/);
+  if(m){
+    const d=new Date(+m[3],+m[2]-1,+m[1],+(m[4]||0),+(m[5]||0),+(m[6]||0));
+    return {ms:d.getTime(),day:m[3]+'-'+m[2].padStart(2,'0')+'-'+m[1].padStart(2,'0'),
+            dmy:m[1].padStart(2,'0')+'/'+m[2].padStart(2,'0')+'/'+m[3]};
+  }
+  // Format 2: YYYY-MM-DD [hh:mm[:ss]]  (ISO)
+  m=v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if(m){
+    return {ms:new Date(+m[1],+m[2]-1,+m[3]).getTime(),
+            day:m[1]+'-'+m[2].padStart(2,'0')+'-'+m[3].padStart(2,'0'),
+            dmy:m[3].padStart(2,'0')+'/'+m[2].padStart(2,'0')+'/'+m[1]};
+  }
+  // Format 3: text month — "17 Aug 2026", "17-Aug-2026", "17th Aug 26",
+  //           and with a leading time/day like "4:18 PM Mon, 17 Aug 26"
+  const MON={jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+  m=v.match(/(\d{1,2})(?:st|nd|rd|th)?[\s-]+([A-Za-z]{3,})[\s-]+(\d{2,4})/);
+  if(m){
+    const mon=MON[m[2].slice(0,3).toLowerCase()];
+    if(mon){
+      let yr=+m[3];if(yr<100)yr+=2000;
+      return {ms:new Date(yr,mon-1,+m[1]).getTime(),
+              day:yr+'-'+String(mon).padStart(2,'0')+'-'+m[1].padStart(2,'0'),
+              dmy:m[1].padStart(2,'0')+'/'+String(mon).padStart(2,'0')+'/'+yr};
+    }
+  }
+  return null;
 }
 function isoToDMY(iso){if(!iso)return'';const p=iso.split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:iso;}
 /* whole days between a dd/mm/yyyy[ hh:mm] date and today; null if unparseable */
@@ -1361,12 +1387,13 @@ const STATE={
   pipCfg:{dailyMin:240, streakDays:3, warnPerWeek:6, windowDays:14}, // editable thresholds
   dayActivity:{},     // dateISO -> full activity map (for redrawing review per date)
   coverage:{},        // dateISO -> {all:rows, call:rows, status:rows, wa:rows, note:rows}
+  phaseDone:{},       // dateISO -> {plan:ms, mid:ms, eod:ms}  when each phase was done
 };
 let UP_MORNING=null, UP_MID=null, UP_EOD=null;
 function planKey(fm,date){return fm+'|'+date;}
 /* Point STATE.bucket at the given date's stored bucket (or null if none). */
 function useBucketForDate(date){STATE.bucket = STATE.buckets[date] || null;}
-const SYNC_KEYS=['buckets','plans','pipDays','pipCfg','dayActivity','coverage','stageRules'];
+const SYNC_KEYS=['buckets','plans','pipDays','pipCfg','dayActivity','coverage','stageRules','phaseDone'];
 async function persist(){
   const now=Date.now();
   const sr=currentStageRules();
@@ -1374,12 +1401,13 @@ async function persist(){
   await idbSet('pipDays',STATE.pipDays);await idbSet('pipCfg',STATE.pipCfg);
   await idbSet('dayActivity',STATE.dayActivity);await idbSet('coverage',STATE.coverage);
   await idbSet('stageRules',sr);
+  await idbSet('phaseDone',STATE.phaseDone);
   await idbSet('_ts',now);
   Promise.all([
     sbSet('buckets',STATE.buckets),sbSet('plans',STATE.plans),
     sbSet('pipDays',STATE.pipDays),sbSet('pipCfg',STATE.pipCfg),
     sbSet('dayActivity',STATE.dayActivity),sbSet('coverage',STATE.coverage),
-    sbSet('stageRules',sr)
+    sbSet('stageRules',sr),sbSet('phaseDone',STATE.phaseDone)
   ]).then(()=>{if(!SB_OK&&typeof toast==='function')toast('Saved locally — cloud sync unavailable','bad');});
 }
 async function loadState(){
@@ -1391,6 +1419,7 @@ async function loadState(){
   const pc=await idbGet('pipCfg');if(pc)STATE.pipCfg={...STATE.pipCfg,...pc};
   const da=await idbGet('dayActivity');if(da)STATE.dayActivity=da;
   const cv=await idbGet('coverage');if(cv)STATE.coverage=cv;
+  const phd=await idbGet('phaseDone');if(phd)STATE.phaseDone=phd;
   const sr=await idbGet('stageRules');if(sr)applyStageRules(sr);
   const localTs=(await idbGet('_ts'))||0;
   // overlay cloud copies newer than our last local write
@@ -1402,7 +1431,7 @@ async function loadState(){
       if(!row||row.value==null)return;
       const cloudTs=row.updatedAt?Date.parse(row.updatedAt):0;
       const haveLocal=(k==='buckets'&&bk)||(k==='plans'&&p)||(k==='pipDays'&&pd)||
-                      (k==='pipCfg'&&pc)||(k==='dayActivity'&&da)||(k==='coverage'&&cv)||(k==='stageRules'&&sr);
+                      (k==='pipCfg'&&pc)||(k==='dayActivity'&&da)||(k==='coverage'&&cv)||(k==='stageRules'&&sr)||(k==='phaseDone'&&phd);
       if(!haveLocal || cloudTs>localTs){
         if(k==='pipCfg')STATE.pipCfg={...STATE.pipCfg,...row.value};
         else if(k==='stageRules')applyStageRules(row.value);
@@ -1563,7 +1592,15 @@ function buildActivity(files, scoredDate){
     for(const o of csvToObjects(F.all)){
       const ph=normPhone(o['Phone']);if(!ph)continue;
       const nf=clean(o['Next Follow-up On']);
-      if(nf){const s=A[ph];if(s)s.reminderSet=true;} // only tag leads already touched today
+      const s=A[ph];
+      if(s){
+        if(nf)s.reminderSet=true; // only tag leads already touched today
+        // capture lead meta for unplanned-lead grading/display
+        if(!s.status)s.status=clean(o['Status']);
+        if(!s.leadName)s.leadName=clean(o['Name']);
+        if(!s.city)s.city=clean(o['City'])||clean(o['State and Districts Districts']);
+        if(!s.fmName)s.fmName=clean(o['Assignee name']);
+      }
     }
   }
 
@@ -1942,7 +1979,7 @@ function isLocked(){const p=currentPlan();return !!(p&&p.submittedAt);}
    ============================================================ */
 const FMV={filter:'all', tab:'plan', picks:new Set(), sortBy:'none', sortDir:'asc', search:''};
 // admin review scorecard: which status the tiles are filtering the lead list by
-const REV={filter:'all'};
+const REV={filter:'all', scope:'all'};   // scope: all | planned | unplanned
 // picks persists across stage filters (the 240 gate is a TOTAL across all stages)
 // sortBy: 'none' | 'stage' (days in stage) | 'created' (age); sortDir: 'asc' | 'desc'
 function renderFMMobile(){
@@ -2158,8 +2195,8 @@ function fmReviewBody(fm,byStage,plan,phase){
       <div class="rs"><span class="v cyan">${rows.length}</span><span class="l">Planned</span></div>
       <div class="rs"><span class="v ok">${worked}</span><span class="l">Worked</span></div>
       <div class="rs"><span class="v less">${workedless}</span><span class="l">Worked Less</span></div>
-      <div class="rs"><span class="v warn">${attempt}</span><span class="l">Attempt</span></div>
-      <div class="rs"><span class="v bad">${none+partial+breach}</span><span class="l">Not done</span></div>
+      <div class="rs"><span class="v warn">${attempt+partial}</span><span class="l">Partial</span></div>
+      <div class="rs"><span class="v bad">${none+breach}</span><span class="l">Not done</span></div>
     </div>
     <div class="fmv-rsum-foot">
       <div class="rf"><b>${talk}m</b> talk time</div>
@@ -2177,9 +2214,9 @@ function fmReviewBody(fm,byStage,plan,phase){
     {id:'all',lbl:'All',n:rows.length},
     {id:'worked',lbl:'Worked',n:worked},
     {id:'workedless',lbl:'Worked Less',n:workedless},
-    {id:'attempt',lbl:'Attempt',n:attempt},
+    {id:'attempt',lbl:'Partial',n:attempt+partial},
     {id:'breach',lbl:'Breached',n:breach},
-    {id:'none',lbl:'Not done',n:none+partial},
+    {id:'none',lbl:'Not done',n:none+breach},
   ].filter(b=>b.id!=='breach'||breach>0);
   const validFilters=['all','worked','workedless','attempt','breach','none','notemiss','remmiss'];
   if(!validFilters.includes(FMV.filter))FMV.filter='all';
@@ -2193,9 +2230,9 @@ function fmReviewBody(fm,byStage,plan,phase){
     if(FMV.filter==='all')return true;
     if(FMV.filter==='worked')return r.g.level==='connected';
     if(FMV.filter==='workedless')return r.g.level==='workedless';
-    if(FMV.filter==='attempt')return r.g.level==='attempt';
+    if(FMV.filter==='attempt')return r.g.level==='attempt'||r.g.level==='partial'||r.g.level==='moved';
     if(FMV.filter==='breach')return r.g.level==='breach';
-    if(FMV.filter==='none')return r.g.level==='none'||r.g.level==='partial'||r.g.level==='moved';
+    if(FMV.filter==='none')return r.g.level==='none';
     if(FMV.filter==='notemiss')return r.g.warns&&r.g.warns.includes('no note');
     if(FMV.filter==='remmiss')return r.g.warns&&r.g.warns.includes('no reminder');
     return true;
@@ -2567,7 +2604,7 @@ async function fmvSubmitPlan(){
   STATE.plans[k]={fm:STATE.sel.fm,date:STATE.sel.date,leadKeys:[...picked],byStage:byStageKeys,
     plannedMins:tot.mins,submittedAt:Date.now(),
     snapshot:Object.fromEntries([...picked].map(key=>{const l=leadByKey(key);return[key,l?{name:l.name,ph:l.ph,stage:l.stage,city:l.city}:{name:key,ph:'',stage:'',city:''}];}))};
-  await persist();
+  await persistPlansMerged();
   toast('Plan submitted — '+picked.size+' leads','ok');
   renderFMMobile();
 }
@@ -2837,10 +2874,28 @@ async function submitPlan(){
     // snapshot lead detail so review works even if bucket re-uploaded
     snapshot:Object.fromEntries([...picked].map(key=>{const l=leadByKey(key);return[key,l?{name:l.name,ph:l.ph,stage:l.stage,city:l.city}:{name:key,ph:key.startsWith('#')?'':key,stage:'',city:''}];}))
   };
-  await persist();
+  await persistPlansMerged();
   toast('Plan locked — '+picked.size+' leads','ok');
   renderPlan();
   updateFooter();
+}
+
+/* Save plans WITHOUT clobbering other FMs' concurrent submissions.
+   Fetches the cloud's current plans, merges (newest submittedAt wins per
+   FM+date), sets that as our plans, then persists. This stops one device's
+   stale copy from overwriting plans another FM saved moments earlier. */
+async function persistPlansMerged(){
+  try{
+    const row=await sbGet('plans');
+    const cloud=(row&&row.value)||{};
+    const merged={...cloud};
+    for(const k in STATE.plans){
+      const mine=STATE.plans[k], theirs=merged[k];
+      if(!theirs || (mine.submittedAt||0)>=(theirs.submittedAt||0)) merged[k]=mine;
+    }
+    STATE.plans=merged;   // now local holds cloud + mine, nothing lost
+  }catch(e){/* offline → plain persist still saves locally */}
+  await persist();
 }
 
 async function unlockPlan(){
@@ -2901,31 +2956,93 @@ function renderReview(phase){
   html+=gmeetApprovalsHTML(date);
   // ---- scorecard: team totals when viewing all FMs, or the selected FM's numbers ----
   const selPlan = showFM ? plans.find(p=>p.fm===fm) : null;
-  const sc = selPlan ? scorePlan(selPlan,activity) : aggregate(plans,activity);
+  const scope = REV.scope||'all';
+  // planned numbers (existing)
+  const planned = selPlan ? scorePlan(selPlan,activity) : aggregate(plans,activity);
+  // unplanned numbers
+  const unpl = showFM ? unplannedFor(fm,activity,selPlan) : unplannedAggregate(plans,activity);
+  const unW=unpl.worked, unL=unpl.workedless, unP=unpl.partial, unCount=(unpl.rows?unpl.rows.length:unpl.count);
+  // talk splits
+  const plannedTalk = showFM ? fmTalkMins(activity,fm) : plans.reduce((s,p)=>s+fmTalkMins(activity,p.fm),0);
+  const unplTalk = unpl.talk||0;
   const scTitle = showFM ? esc(fm) : (isEod?'End of day':'Midday');
-  const scSub = showFM
-    ? `${esc(fm)}'s result for ${isoToDMY(date)}. Tap a tile to filter the leads below.`
-    : `${plans.length} FM${plans.length>1?'s':''} planned ${sc.planned} leads. ${isEod?'Final result below.':'Progress so far — the day isn\'t over.'}`;
-  // tiles are clickable only in the per-FM view (they filter that FM's lead list)
   const clk = showFM ? ' rev-clickable' : '';
   const on = f => (showFM && REV.filter===f) ? ' rev-on' : '';
+  // build tiles per scope
+  let tiles='';
+  if(scope==='unplanned'){
+    tiles=`
+      <div class="score cyan"><div class="sv">${unCount}</div><div class="sl">Unplanned touched</div></div>
+      <div class="score ok${clk}${on('worked')}" ${showFM?'data-revfilter="worked"':''}><div class="sv">${unW}</div><div class="sl">Worked</div><div class="sp">hit talk-time</div></div>
+      <div class="score less${clk}${on('workedless')}" ${showFM?'data-revfilter="workedless"':''}><div class="sv">${unL}</div><div class="sl">Worked Less</div><div class="sp">under target</div></div>
+      <div class="score warn${clk}${on('partial')}" ${showFM?'data-revfilter="partial"':''}><div class="sv">${unP}</div><div class="sl">Partial</div><div class="sp">attempt / WA / note</div></div>
+      <div class="score"><div class="sv">${unplTalk}<span style="font-size:13px">m</span></div><div class="sl">Unplanned talk</div></div>`;
+  }else if(scope==='all'){
+    tiles=`
+      <div class="score cyan"><div class="sv">${planned.planned+unCount}</div><div class="sl">Total touched</div><div class="sp">${planned.planned} plan · ${unCount} unpl</div></div>
+      <div class="score ok"><div class="sv">${planned.worked+unW}</div><div class="sl">Worked</div></div>
+      <div class="score less"><div class="sv">${planned.workedless+unL}</div><div class="sl">Worked Less</div></div>
+      <div class="score warn"><div class="sv">${planned.partial+unP}</div><div class="sl">Partial</div></div>
+      <div class="score bad"><div class="sv">${planned.none}</div><div class="sl">Not touched</div><div class="sp">planned only</div></div>
+      <div class="score"><div class="sv">${plannedTalk+unplTalk}<span style="font-size:13px">m</span></div><div class="sl">Total talk</div><div class="sp">${plannedTalk} + ${unplTalk}</div></div>`;
+  }else{ // planned
+    tiles=`
+      <div class="score cyan${clk}${on('all')}" ${showFM?'data-revfilter="all"':''}><div class="sv">${planned.planned}</div><div class="sl">Leads planned</div></div>
+      <div class="score ok${clk}${on('worked')}" ${showFM?'data-revfilter="worked"':''}><div class="sv">${planned.worked}</div><div class="sl">Worked</div><div class="sp">hit talk-time</div></div>
+      <div class="score less${clk}${on('workedless')}" ${showFM?'data-revfilter="workedless"':''}><div class="sv">${planned.workedless}</div><div class="sl">Worked Less</div><div class="sp">under target</div></div>
+      <div class="score warn${clk}${on('partial')}" ${showFM?'data-revfilter="partial"':''}><div class="sv">${planned.partial}</div><div class="sl">Partial</div><div class="sp">attempt / moved / WA</div></div>
+      <div class="score bad${clk}${on('none')}" ${showFM?'data-revfilter="none"':''}><div class="sv">${planned.none}</div><div class="sl">Not touched</div></div>
+      <div class="score ${planned.adh>=70?'ok':planned.adh>=40?'warn':'bad'}"><div class="sv">${planned.adh}%</div><div class="sl">Adherence</div>
+        <div class="adh-bar"><div class="adh-fill" style="width:${planned.adh}%;background:${planned.adh>=70?'var(--ok)':planned.adh>=40?'var(--warn)':'var(--bad)'}"></div></div>
+      </div>`;
+  }
+  const scopeToggle=`<div class="rev-scope">
+    <button data-rscope="all" class="${scope==='all'?'on':''}">All</button>
+    <button data-rscope="planned" class="${scope==='planned'?'on':''}">Planned</button>
+    <button data-rscope="unplanned" class="${scope==='unplanned'?'on':''}">Unplanned</button>
+  </div>`;
   html+=`<div class="card" style="margin-bottom:14px"><div class="card-pad">
     <div class="sec-head"><span class="must">${showFM?'🎯':(isEod?'🌙':'🕐')}</span><h2>${scTitle}${showFM?' — scorecard':' — '+isoToDMY(date)}</h2>${showFM?'<span class="mini-link" data-backall style="margin-left:auto">← all managers</span>':''}</div>
-    <div class="sec-sub">${scSub}</div>
-    <div class="score-grid score-grid-6">
-      <div class="score cyan${clk}${on('all')}" ${showFM?'data-revfilter="all"':''}><div class="sv">${sc.planned}</div><div class="sl">Leads planned</div></div>
-      <div class="score ok${clk}${on('worked')}" ${showFM?'data-revfilter="worked"':''}><div class="sv">${sc.worked}</div><div class="sl">Worked</div><div class="sp">hit talk-time</div></div>
-      <div class="score less${clk}${on('workedless')}" ${showFM?'data-revfilter="workedless"':''}><div class="sv">${sc.workedless}</div><div class="sl">Worked Less</div><div class="sp">under target</div></div>
-      <div class="score warn${clk}${on('partial')}" ${showFM?'data-revfilter="partial"':''}><div class="sv">${sc.partial}</div><div class="sl">Partial</div><div class="sp">attempt / moved / WA</div></div>
-      <div class="score bad${clk}${on('none')}" ${showFM?'data-revfilter="none"':''}><div class="sv">${sc.none}</div><div class="sl">Not touched</div></div>
-      <div class="score ${sc.adh>=70?'ok':sc.adh>=40?'warn':'bad'}"><div class="sv">${sc.adh}%</div><div class="sl">Adherence</div>
-        <div class="adh-bar"><div class="adh-fill" style="width:${sc.adh}%;background:${sc.adh>=70?'var(--ok)':sc.adh>=40?'var(--warn)':'var(--bad)'}"></div></div>
-      </div>
-    </div>
+    ${scopeToggle}
+    <div class="score-grid score-grid-6">${tiles}</div>
   </div></div>`;
+  const sc=planned;  // downstream references
 
   if(showFM){
     html+=reviewFMDetail(plans.find(p=>p.fm===fm),activity,phase);
+  }else if((REV.scope||'all')==='unplanned'){
+    // ALL-MANAGERS + UNPLANNED: show every FM's unplanned leads (the different
+    // leads they called that day that weren't in their plan), grouped by FM.
+    const fmSet=new Set(plans.map(p=>p.fm));
+    for(const key in activity){if(key.startsWith('__'))continue;const a=activity[key];if(a&&a.fmName)fmSet.add(a.fmName);}
+    const fmList=[...fmSet].sort((a,b)=>a.localeCompare(b));
+    let any=false;
+    for(const fmName of fmList){
+      const plan=plans.find(p=>p.fm===fmName)||null;
+      const u=unplannedFor(fmName,activity,plan);
+      if(!u.rows.length)continue;
+      any=true;
+      // apply active status filter (tile) if any
+      const bucketOf=lvl=>lvl==='connected'?'worked':lvl==='workedless'?'workedless':'partial';
+      const shown=u.rows.filter(r=>REV.filter==='all'||bucketOf(r.g.level)===REV.filter);
+      html+=`<div class="card" style="margin-bottom:12px"><div class="card-pad">
+        <div class="sec-head"><span class="must">📞</span><h2>${esc(fmName)}</h2>
+          <span class="mini-link" data-fmpick="${esc(fmName)}" style="margin-left:auto">open →</span></div>
+        <div class="sec-sub">${u.rows.length} different leads called (not planned) · ${u.talk}m talk · ${u.worked} worked · ${u.workedless} worked less · ${u.partial} partial</div>`;
+      for(const r of shown){
+        const badge=`<span class="lead-badge ${r.g.cls}">${gradeIcon(r.g.level)}${r.g.label}</span>`;
+        html+=`<div class="rev-lead">
+          <div class="rev-lead-main">
+            <div class="rev-lead-name">${esc(r.name)}<span class="lead-stage-tag">${esc(r.stage)}</span></div>
+            <div class="rev-lead-sub">${esc(r.key)}${r.city?' · '+esc(r.city):''}</div>
+          </div>
+          ${r.g.evi?`<div class="rev-evi">${renderEvi(r.g.evi)}</div>`:''}
+          ${badge}
+        </div>`;
+      }
+      html+=`</div></div>`;
+    }
+    if(!any)html+=`<div class="card"><div class="card-pad"><div class="gma-empty">No unplanned lead activity found for this day. Make sure the ALLREPORT file is uploaded.</div></div></div>`;
   }else{
     // FM cards
     html+=`<div class="card"><div class="card-pad">
@@ -2941,7 +3058,7 @@ function renderReview(phase){
         <div class="frow">Planned <b>${s.planned}</b></div>
         <div class="frow">Worked <b style="color:var(--ok)">${s.worked}</b></div>
         <div class="frow">Worked less <b style="color:#b45309">${s.workedless}</b></div>
-        <div class="frow">Attempt <b style="color:var(--warn)">${s.attempt}</b></div>
+        <div class="frow">Partial <b style="color:var(--warn)">${s.partial}</b></div>
         <div class="frow">Not touched <b style="color:var(--bad)">${s.none}</b></div>
         <div class="fm-talk ${tOk?'ok':'bad'}">🕐 Talk ${talk} / ${MIN_PLAN_MINS} min ${tOk?'✓':''}</div>
         <div class="fm-att">${attBadgeHTML(p.fm,date)}</div>
@@ -2970,13 +3087,17 @@ function renderReview(phase){
     REV.filter=(REV.filter===f?'all':f);   // click active tile again → clear
     renderReview(phase);
   }));
+  // wire scope toggle (All / Planned / Unplanned)
+  $$(`#${isEod?'eodBody':'midBody'} [data-rscope]`).forEach(t=>t.addEventListener('click',()=>{
+    REV.scope=t.dataset.rscope; REV.filter='all'; renderReview(phase);
+  }));
   // wire the "← all managers" back link (resets FM and filter)
   const bk=$(`#${isEod?'eodBody':'midBody'} [data-backall]`);
   if(bk)bk.addEventListener('click',()=>{REV.filter='all';STATE.sel.fm='';$('#planFM').value='';renderReview(phase);});
 
   // ---- G-Meet approval actions ----
-  const scope=`#${isEod?'eodBody':'midBody'}`;
-  $$(`${scope} [data-gmaview]`).forEach(b=>b.addEventListener('click',async()=>{
+  const bodyScope=`#${isEod?'eodBody':'midBody'}`;
+  $$(`${bodyScope} [data-gmaview]`).forEach(b=>b.addEventListener('click',async()=>{
     const url=await gmeetShotUrl(b.dataset.gmaview); if(url)window.open(url,'_blank');
   }));
   const doAction=async(fn,id,ok,bad)=>{
@@ -2984,9 +3105,9 @@ function renderReview(phase){
     if(done){ GMEET_LOADED_DAY=null; await gmeetFetch(date); renderReview(phase); toast(ok,'ok'); }
     else toast(bad,'bad');
   };
-  $$(`${scope} [data-gmaok]`).forEach(b=>b.addEventListener('click',()=>doAction(id=>gmeetReview(id,'approved'),b.dataset.gmaok,'Approved','Approve failed')));
-  $$(`${scope} [data-gmareject]`).forEach(b=>b.addEventListener('click',()=>doAction(id=>gmeetReview(id,'rejected'),b.dataset.gmareject,'Rejected','Reject failed')));
-  $$(`${scope} [data-gmadel]`).forEach(b=>b.addEventListener('click',()=>{
+  $$(`${bodyScope} [data-gmaok]`).forEach(b=>b.addEventListener('click',()=>doAction(id=>gmeetReview(id,'approved'),b.dataset.gmaok,'Approved','Approve failed')));
+  $$(`${bodyScope} [data-gmareject]`).forEach(b=>b.addEventListener('click',()=>doAction(id=>gmeetReview(id,'rejected'),b.dataset.gmareject,'Rejected','Reject failed')));
+  $$(`${bodyScope} [data-gmadel]`).forEach(b=>b.addEventListener('click',()=>{
     if(!confirm('Delete this submission? The FM will be able to upload again.'))return;
     doAction(gmeetDelete,b.dataset.gmadel,'Deleted — FM can re-upload','Delete failed');
   }));
@@ -2994,6 +3115,33 @@ function renderReview(phase){
 
 function reviewFMDetail(plan,activity,phase){
   const isEod=phase==='eod';
+  // UNPLANNED scope: show the FM's unplanned leads instead of the planned breakdown
+  if((REV.scope||'all')==='unplanned'){
+    const u=unplannedFor(plan.fm,activity,plan);
+    let uh=`<div class="card"><div class="card-pad">
+      <div class="sec-head"><span class="must">📞</span><h2>Unplanned leads worked</h2></div>
+      <div class="sec-sub">${u.rows.length} leads ${plan.fm} touched that weren't in the plan · ${u.talk}m talk.</div>`;
+    if(!u.rows.length){uh+=`<div class="gma-empty">No unplanned activity.</div>`;}
+    else{
+      // filter by REV.filter if a status tile is active
+      const bucketOf=lvl=>lvl==='connected'?'worked':lvl==='workedless'?'workedless':'partial';
+      const shown=u.rows.filter(r=>REV.filter==='all'||bucketOf(r.g.level)===REV.filter);
+      for(const r of shown){
+        const badge=`<span class="lead-badge ${r.g.cls}">${gradeIcon(r.g.level)}${r.g.label}</span>`;
+        uh+=`<div class="rev-lead">
+          <div class="rev-lead-main">
+            <div class="rev-lead-name">${esc(r.name)}<span class="lead-stage-tag">${esc(r.stage)}</span></div>
+            <div class="rev-lead-sub">${esc(r.key)}${r.city?' · '+esc(r.city):''}</div>
+          </div>
+          ${r.g.evi?`<div class="rev-evi">${renderEvi(r.g.evi)}</div>`:''}
+          ${badge}
+        </div>`;
+      }
+    }
+    uh+=`</div></div>`;
+    setTimeout(()=>{const b=$('[data-backall]');if(b)b.addEventListener('click',()=>{REV.filter='all';STATE.sel.fm='';$('#planFM').value='';renderReview(phase);});},0);
+    return uh;
+  }
   const talk=fmTalkMins(activity,plan.fm);
   const talkMet=talk>=MIN_PLAN_MINS;
   // tally warnings across planned leads
@@ -3109,7 +3257,7 @@ function scorePlan(plan,activity){
     planned++;const g=gradeLead(key,activity,stageMinForKey(plan,key));
     if(g.level==='connected')worked++;
     else if(g.level==='workedless')workedless++;
-    else if(g.level==='attempt')attempt++;
+    else if(g.level==='attempt'){attempt++;partial++;}   // attempt is a touched lead → counts as Partial
     else if(g.level==='breach'){none++;breach++;}
     else if(g.level==='partial'||g.level==='moved')partial++;else none++;
   }
@@ -3121,6 +3269,60 @@ function aggregate(plans,activity){
   for(const p of plans){const s=scorePlan(p,activity);planned+=s.planned;worked+=s.worked;workedless+=s.workedless;partial+=s.partial;none+=s.none;}
   const adh=planned?Math.round(worked/planned*100):0;
   return {planned,worked,workedless,partial,none,adh};
+}
+
+/* UNPLANNED leads for an FM on a day: leads with activity in the map that are
+   NOT in the FM's plan. Stage comes from the lead's Status (ALLREPORT).
+   Returns {rows:[{key,g,stage,name,city}], worked, workedless, partial, talk}. */
+function unplannedFor(fmName, activity, plan){
+  const planned = new Set(plan?plan.leadKeys.map(normPhone):[]);
+  const rows=[]; let worked=0,workedless=0,partial=0,talk=0;
+  // fallback owner lookup: which FM a phone belongs to, from the day's bucket
+  const bk = STATE.buckets[STATE.sel.date];
+  const ownerOf = ph => {
+    if(!bk||!bk.leads)return '';
+    const L=bk.leads.find(l=>normPhone(l.ph||l.key)===ph);
+    return L ? (L.fm||L.assignee||'') : '';
+  };
+  for(const key in activity){
+    if(key.startsWith('__'))continue;
+    const a=activity[key];
+    if(!a||typeof a!=='object')continue;
+    // attribute to an FM: prefer ALLREPORT assignee, fall back to the bucket owner
+    const owner = a.fmName || ownerOf(key);
+    if(owner && owner!==fmName)continue;   // belongs to a different FM
+    if(!owner)continue;                    // truly unknown owner → skip
+    if(planned.has(key))continue;          // it's planned → not unplanned
+    // any activity that day?
+    const touched = a.connected||a.attempted||a.waSent||a.noteAdded||a.moved;
+    if(!touched)continue;
+    const stId=stageOf(a.status);
+    const st=STAGES.find(s=>s.id===stId);
+    const reqMin=st?st.min:0;
+    const g=gradeLead(key,activity,reqMin);
+    talk += (a.talkSec||0);
+    if(g.level==='connected')worked++;
+    else if(g.level==='workedless')workedless++;
+    else partial++;                        // everything else touched = partial (no "not touched")
+    rows.push({key,g,stage:st?st.name:(a.status||'—'),name:a.leadName||key,city:a.city||'',reqMin});
+  }
+  return {rows,worked,workedless,partial,talk:Math.round(talk/60)};
+}
+/* Team-wide unplanned totals across all planned FMs + any FM with activity. */
+function unplannedAggregate(plans, activity){
+  let worked=0,workedless=0,partial=0,talk=0,count=0;
+  const fms=new Set(plans.map(p=>p.fm));
+  // include FMs who have activity but maybe no plan (from ALLREPORT assignee)
+  for(const key in activity){if(key.startsWith('__'))continue;const a=activity[key];if(a&&a.fmName)fms.add(a.fmName);}
+  // also include FM owners from the day's bucket (covers stale activity w/o fmName)
+  const bk=STATE.buckets[STATE.sel.date];
+  if(bk&&bk.leads)for(const l of bk.leads){const o=l.fm||l.assignee;if(o)fms.add(o);}
+  for(const fm of fms){
+    const plan=plans.find(p=>p.fm===fm);
+    const u=unplannedFor(fm,activity,plan);
+    worked+=u.worked;workedless+=u.workedless;partial+=u.partial;talk+=u.talk;count+=u.rows.length;
+  }
+  return {count,worked,workedless,partial,talk};
 }
 
 /* ============================================================
@@ -3965,14 +4167,19 @@ function renderCoverage(phase){
       html+=`<div class="cov-empty">No days loaded yet. Upload a Master report for a date and it'll appear here.</div>`;
     }else{
       html+=`<div class="cov-scroll"><table class="cov-table">
-        <thead><tr><th class="cov-datecol">Date</th>${COV_COLS.map(c=>`<th>${c.lbl}</th>`).join('')}</tr></thead>
+        <thead><tr><th class="cov-datecol">Date</th><th>Morning</th><th>Midday</th><th>EOD</th>${COV_COLS.map(c=>`<th>${c.lbl}</th>`).join('')}</tr></thead>
         <tbody>`;
       for(const d of dates){
         const cov=STATE.coverage[d]||{};
         const bk=STATE.buckets[d];
         const isSel=d===STATE.sel.date;
+        // phase status: morning = any plan submitted that date; mid/eod = scored markers
+        const pd=STATE.phaseDone[d]||{};
+        const morningDone=Object.values(STATE.plans).some(p=>p.date===d&&p.submittedAt);
+        const phaseCell=(done)=>done?'<td class="cov-yes">✓</td>':'<td class="cov-no">—</td>';
         html+=`<tr class="${isSel?'cov-selrow':''}" data-covgoto="${d}">
-          <td class="cov-datecol">${covDateLabel(d)}${isSel?' <span class="cov-now">viewing</span>':''}</td>`;
+          <td class="cov-datecol">${covDateLabel(d)}${isSel?' <span class="cov-now">viewing</span>':''}</td>
+          ${phaseCell(morningDone)}${phaseCell(pd.mid)}${phaseCell(pd.eod)}`;
         for(const c of COV_COLS){
           let n = cov[c.id];
           if(c.id==='all' && bk) n = bk.leads.length; // master count = bucket leads
@@ -4120,11 +4327,14 @@ async function boot(){
   UP_MORNING=buildUploader({mount:'#upMorning',phase:'plan',requireAll:false,btnLabel:'Load bucket'});
   UP_MID=buildUploader({mount:'#upMid',phase:'mid',requireAll:false,btnLabel:'Check planned leads',
     onRun:store=>{if(!confirmDateOrAbort(store))return;STATE.midActivity=buildActivity(store.files,store.date);STATE.sel.date=store.date;$('#planDate').value=store.date;
-      STATE.dayActivity[store.date]=STATE.midActivity; persist();
+      STATE.dayActivity[store.date]=STATE.midActivity;
+      (STATE.phaseDone[store.date]=STATE.phaseDone[store.date]||{}).mid=Date.now();
+      persist();
       toast('Midday check ready','ok');updateFooter();renderReview('mid');}});
   UP_EOD=buildUploader({mount:'#upEod',phase:'eod',requireAll:false,btnLabel:'Score the day',
     onRun:async store=>{if(!confirmDateOrAbort(store))return;STATE.eodActivity=buildActivity(store.files,store.date);STATE.sel.date=store.date;$('#planDate').value=store.date;
       STATE.dayActivity[store.date]=STATE.eodActivity;
+      (STATE.phaseDone[store.date]=STATE.phaseDone[store.date]||{}).eod=Date.now();
       recordPipDay(store.date,STATE.eodActivity); await persist();
       toast('Day scored & saved to history','ok');updateFooter();renderReview('eod');}});
 
